@@ -1,0 +1,47 @@
+[
+  {
+    "pass": true,
+    "logs": [
+      "",
+      "",
+      ""
+    ],
+    "program": "scene.frag"
+  },
+  {
+    "pass": true,
+    "logs": [
+      "",
+      "",
+      ""
+    ],
+    "program": "screen.frag"
+  },
+  {
+    "pass": true,
+    "logs": [
+      "",
+      "",
+      ""
+    ],
+    "program": "finish.frag"
+  },
+  {
+    "pass": true,
+    "logs": [
+      "",
+      "",
+      ""
+    ],
+    "program": "progressive.frag"
+  },
+  {
+    "pass": true,
+    "logs": [
+      "",
+      "",
+      ""
+    ],
+    "program": "denoise.frag"
+  }
+]

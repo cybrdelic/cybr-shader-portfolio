@@ -1,0 +1,378 @@
+{
+  "htmlSHA256": "37f20b688c623cd2757066230f5a231e78a7e64c3f2a4088be7e049b9e5108d8",
+  "views": [
+    {
+      "chapter": 0,
+      "report": {
+        "build": "cybr-precision-lab-2026-10-22",
+        "reportCapturedAt": "2026-10-22T11:30:49.246Z",
+        "reportPurpose": "Native-resolution Live renderer and progressive Studio surface path tracer. Studio samples/s is not an animation frame-rate claim. Physical Android has not been measured.",
+        "api": "webgl2",
+        "ready": true,
+        "lost": false,
+        "contextLosses": 0,
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+        "protocol": "about:",
+        "embedded": false,
+        "viewport": [
+          1280,
+          800
+        ],
+        "cssResolution": [
+          1280,
+          800
+        ],
+        "devicePixelRatio": 1,
+        "resolution": [
+          1280,
+          800
+        ],
+        "nativeResolution": [
+          1280,
+          800
+        ],
+        "resolutionReason": "native",
+        "renderScale": 1,
+        "adaptiveResolution": false,
+        "softwareRenderer": true,
+        "gpu": {
+          "vendor": "Google Inc. (Mesa)",
+          "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+        },
+        "renderer": "Progressive ten-bounce triangle path tracer; finite area lights, MIS, anisotropic GGX surfaces, solid analytic optics, progressive native-pixel accumulation",
+        "antialiasing": {
+          "type": "native MSAA",
+          "samples": 4
+        },
+        "linearHDR": true,
+        "lighting": {
+          "keyVisibilitySamples": 56,
+          "fillVisibilitySamples": 24,
+          "ambientVisibilitySamples": 40,
+          "pose": "static source pose"
+        },
+        "environment": {
+          "source": "Procedural linear-radiance studio",
+          "mipLevels": 10
+        },
+        "localReflectionProbes": {
+          "count": 7,
+          "faceSize": 256,
+          "filteredMipLevels": 9,
+          "pose": "static; nonrecursive"
+        },
+        "indirectLighting": {
+          "vertices": 969041,
+          "channels": 3,
+          "type": "FLOAT16",
+          "bytes": 5814246,
+          "compressedBytes": 4894981,
+          "min": 0.0002033982309512794,
+          "max": 4.337685575449943,
+          "mean": [
+            0.19737886656107953,
+            0.18387440399885724,
+            0.18152290842070554
+          ],
+          "geometrySHA256": "defe5b56de035078a32bf9aa6bde9670e72031a5aff1eeea03da1807b97290aa",
+          "description": "80 cosine-weighted rays per vertex, one explicit colored surface bounce; terminal surface radiance uses precomputed direct-light visibility and ambient approximation. Static rest-pose cache. Four normal-aware smoothing iterations. Not an unbiased full path-tracing solution."
+        },
+        "singleFragmentShader": false,
+        "fullScreenSceneRayMarching": false,
+        "surfaceMaps": {
+          "size": 1024,
+          "layers": 8,
+          "names": [
+            "satin-metal",
+            "porcelain-enamel",
+            "cut-walnut",
+            "layered-stone",
+            "old-bark",
+            "mineral-marble",
+            "cooled-basalt",
+            "studio-sweep"
+          ],
+          "format": "RGBA8",
+          "colorSpace": "linear albedo; roughness in alpha",
+          "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+          "source": "Deterministic procedural surface processes; not photographed or scanned."
+        },
+        "progressiveStudio": {
+          "enabled": true,
+          "reconstruction": "Three edge-aware a-trous passes; native-pixel depth/normal/variance guidance; biased",
+          "samples": 128,
+          "sampleTarget": 256,
+          "maxBounces": 10,
+          "lightSampling": "Three finite studio emitters plus the emissive crucible disk, BSDF/light MIS, Russian roulette",
+          "optics": "Analytic solid lens and cut crystal, Fresnel sampling and Beer-Lambert absorption",
+          "limitations": "Clamped sample radiance; straight-through next-event visibility across glass; composited flame; not an unbiased reference or 60-fps claim"
+        },
+        "secondaryRays": {
+          "enabled": true,
+          "geometry": "Full triangle geometry with four independently transformed roots",
+          "hierarchy": {
+            "nodes": 847030,
+            "triangles": 1765723,
+            "vertices": 969041,
+            "maxDepth": 34,
+            "roots": [
+              0,
+              794007,
+              797504,
+              802375
+            ]
+          },
+          "terminalShading": "Cached diffuse irradiance plus environment specular; not full path tracing"
+        },
+        "geometrySource": "Parametric machined profiles, beveled surfaces, individual rotor blades, seeded branching foliage and stratified terrain. No sampled SDF normals.",
+        "triangles": 1765775,
+        "vertices": 969041,
+        "geometrySHA256": "defe5b56de035078a32bf9aa6bde9670e72031a5aff1eeea03da1807b97290aa",
+        "geometryBytes": 48322464,
+        "photographicFocus": {
+          "enabled": true,
+          "nativePixels": true,
+          "model": "Stochastically sampled thin lens, 0.023 scene-unit aperture radius"
+        },
+        "passes": {
+          "opaque": 1,
+          "composite": 1,
+          "finish": 1,
+          "shadow": "offline static area-light visibility; no live shadow-map pass",
+          "unusedShadowAllocation": [
+            1,
+            1
+          ]
+        },
+        "bufferLimits": {
+          "width": 16384,
+          "height": 16384
+        },
+        "targetFPS": null,
+        "targetFrameMs": null,
+        "frame": 5,
+        "submittedFrames": 5,
+        "completedFrames": 3,
+        "drawFPS": null,
+        "completedFPS": null,
+        "frameIntervalP50Ms": 6849.699999999997,
+        "frameIntervalP95Ms": 13682.8,
+        "frameIntervalP99Ms": 13682.8,
+        "cpuSubmitMeanMs": 2738.160000000056,
+        "gpuTimerAvailable": true,
+        "gpuFrameMs": 13590.638386,
+        "gpuSamples": 1,
+        "pendingTimingQueries": 0,
+        "timerQueriesGateRendering": false,
+        "fencesGateRendering": true,
+        "pendingCompletionFences": 2,
+        "fenceCompletionWallMs": 10701.5,
+        "peakFenceCompletionWallMs": 20527,
+        "inputEvents": 0,
+        "inputToSubmitMs": null,
+        "chapter": 0,
+        "playing": false,
+        "diagnosticsVisible": false,
+        "shadowPasses": 0,
+        "limitations": [
+          "Mobile path is not a single full-screen fragment shader.",
+          "Meshes are parametrically rebuilt; this is not the original single-fragment scene.",
+          "Studio is progressive, not a guaranteed real-time renderer. The natural exhibits are still procedurally authored, not scans.",
+          "Live fallback probes are static. Geometry-traced optics use actual geometry, but their terminal lighting is approximate.",
+          "Live diffuse lighting is baked at rest. Studio recomputes light transport; its fire volume is composited, not a fluid simulation. Samples are clamped and direct glass-caustic connections are not solved."
+        ],
+        "error": ""
+      },
+      "glError": 0
+    },
+    {
+      "chapter": 2,
+      "report": {
+        "build": "cybr-precision-lab-2026-10-22",
+        "reportCapturedAt": "2026-10-22T11:40:52.779Z",
+        "reportPurpose": "Native-resolution Live renderer and progressive Studio surface path tracer. Studio samples/s is not an animation frame-rate claim. Physical Android has not been measured.",
+        "api": "webgl2",
+        "ready": true,
+        "lost": false,
+        "contextLosses": 0,
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+        "protocol": "about:",
+        "embedded": false,
+        "viewport": [
+          1280,
+          800
+        ],
+        "cssResolution": [
+          1280,
+          800
+        ],
+        "devicePixelRatio": 1,
+        "resolution": [
+          1280,
+          800
+        ],
+        "nativeResolution": [
+          1280,
+          800
+        ],
+        "resolutionReason": "native",
+        "renderScale": 1,
+        "adaptiveResolution": false,
+        "softwareRenderer": true,
+        "gpu": {
+          "vendor": "Google Inc. (Mesa)",
+          "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+        },
+        "renderer": "Progressive ten-bounce triangle path tracer; finite area lights, MIS, anisotropic GGX surfaces, solid analytic optics, progressive native-pixel accumulation",
+        "antialiasing": {
+          "type": "native MSAA",
+          "samples": 4
+        },
+        "linearHDR": true,
+        "lighting": {
+          "keyVisibilitySamples": 56,
+          "fillVisibilitySamples": 24,
+          "ambientVisibilitySamples": 40,
+          "pose": "static source pose"
+        },
+        "environment": {
+          "source": "Procedural linear-radiance studio",
+          "mipLevels": 10
+        },
+        "localReflectionProbes": {
+          "count": 7,
+          "faceSize": 256,
+          "filteredMipLevels": 9,
+          "pose": "static; nonrecursive"
+        },
+        "indirectLighting": {
+          "vertices": 969041,
+          "channels": 3,
+          "type": "FLOAT16",
+          "bytes": 5814246,
+          "compressedBytes": 4894981,
+          "min": 0.0002033982309512794,
+          "max": 4.337685575449943,
+          "mean": [
+            0.19737886656107953,
+            0.18387440399885724,
+            0.18152290842070554
+          ],
+          "geometrySHA256": "defe5b56de035078a32bf9aa6bde9670e72031a5aff1eeea03da1807b97290aa",
+          "description": "80 cosine-weighted rays per vertex, one explicit colored surface bounce; terminal surface radiance uses precomputed direct-light visibility and ambient approximation. Static rest-pose cache. Four normal-aware smoothing iterations. Not an unbiased full path-tracing solution."
+        },
+        "singleFragmentShader": false,
+        "fullScreenSceneRayMarching": false,
+        "surfaceMaps": {
+          "size": 1024,
+          "layers": 8,
+          "names": [
+            "satin-metal",
+            "porcelain-enamel",
+            "cut-walnut",
+            "layered-stone",
+            "old-bark",
+            "mineral-marble",
+            "cooled-basalt",
+            "studio-sweep"
+          ],
+          "format": "RGBA8",
+          "colorSpace": "linear albedo; roughness in alpha",
+          "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+          "source": "Deterministic procedural surface processes; not photographed or scanned."
+        },
+        "progressiveStudio": {
+          "enabled": true,
+          "reconstruction": "Three edge-aware a-trous passes; native-pixel depth/normal/variance guidance; biased",
+          "samples": 64,
+          "sampleTarget": 256,
+          "maxBounces": 10,
+          "lightSampling": "Three finite studio emitters plus the emissive crucible disk, BSDF/light MIS, Russian roulette",
+          "optics": "Analytic solid lens and cut crystal, Fresnel sampling and Beer-Lambert absorption",
+          "limitations": "Clamped sample radiance; straight-through next-event visibility across glass; composited flame; not an unbiased reference or 60-fps claim"
+        },
+        "secondaryRays": {
+          "enabled": true,
+          "geometry": "Full triangle geometry with four independently transformed roots",
+          "hierarchy": {
+            "nodes": 847030,
+            "triangles": 1765723,
+            "vertices": 969041,
+            "maxDepth": 34,
+            "roots": [
+              0,
+              794007,
+              797504,
+              802375
+            ]
+          },
+          "terminalShading": "Cached diffuse irradiance plus environment specular; not full path tracing"
+        },
+        "geometrySource": "Parametric machined profiles, beveled surfaces, individual rotor blades, seeded branching foliage and stratified terrain. No sampled SDF normals.",
+        "triangles": 1765775,
+        "vertices": 969041,
+        "geometrySHA256": "defe5b56de035078a32bf9aa6bde9670e72031a5aff1eeea03da1807b97290aa",
+        "geometryBytes": 48322464,
+        "photographicFocus": {
+          "enabled": true,
+          "nativePixels": true,
+          "model": "Stochastically sampled thin lens, 0.023 scene-unit aperture radius"
+        },
+        "passes": {
+          "opaque": 1,
+          "composite": 1,
+          "finish": 1,
+          "shadow": "offline static area-light visibility; no live shadow-map pass",
+          "unusedShadowAllocation": [
+            1,
+            1
+          ]
+        },
+        "bufferLimits": {
+          "width": 16384,
+          "height": 16384
+        },
+        "targetFPS": null,
+        "targetFrameMs": null,
+        "frame": 5,
+        "submittedFrames": 5,
+        "completedFrames": 3,
+        "drawFPS": null,
+        "completedFPS": null,
+        "frameIntervalP50Ms": 7416.300000000003,
+        "frameIntervalP95Ms": 13066.199999999999,
+        "frameIntervalP99Ms": 13066.199999999999,
+        "cpuSubmitMeanMs": 2610.9000000000933,
+        "gpuTimerAvailable": true,
+        "gpuFrameMs": 12964.848532,
+        "gpuSamples": 1,
+        "pendingTimingQueries": 0,
+        "timerQueriesGateRendering": false,
+        "fencesGateRendering": true,
+        "pendingCompletionFences": 2,
+        "fenceCompletionWallMs": 11852,
+        "peakFenceCompletionWallMs": 20480.299999999814,
+        "inputEvents": 0,
+        "inputToSubmitMs": null,
+        "chapter": 2,
+        "playing": false,
+        "diagnosticsVisible": false,
+        "shadowPasses": 0,
+        "limitations": [
+          "Mobile path is not a single full-screen fragment shader.",
+          "Meshes are parametrically rebuilt; this is not the original single-fragment scene.",
+          "Studio is progressive, not a guaranteed real-time renderer. The natural exhibits are still procedurally authored, not scans.",
+          "Live fallback probes are static. Geometry-traced optics use actual geometry, but their terminal lighting is approximate.",
+          "Live diffuse lighting is baked at rest. Studio recomputes light transport; its fire volume is composited, not a fluid simulation. Samples are clamped and direct glass-caustic connections are not solved."
+        ],
+        "error": ""
+      },
+      "glError": 0
+    }
+  ],
+  "errors": []
+}

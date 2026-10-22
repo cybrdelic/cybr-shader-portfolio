@@ -1,0 +1,11 @@
+{
+  "size": 256,
+  "levels": 9,
+  "layers": 42,
+  "probes": 7,
+  "type": "RGB9_E5",
+  "bytes": 14680008,
+  "source": "Actual geometry renders, each excluding its own exhibit. Static local image-based lighting; 160 GGX samples per filtered texel.",
+  "encoding": "Shared exponent RGB, no alpha needed; original cubemap resolution and mip chain retained",
+  "compressedBytes": 7638403
+}

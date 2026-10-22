@@ -1,0 +1,170 @@
+{
+  "build": "cybr-procedural-workshop-2026-10-22",
+  "reportCapturedAt": "2026-10-22T14:46:46.272Z",
+  "reportPurpose": "Fully procedural asset and appearance revision, with fractured slate, asymmetric foliage, closed impeller blades, dimensioned optics and restrained material finishes. No scans, photos, image-generated textures or downloaded models. Physical Adreno performance is not verified.",
+  "api": "webgl2",
+  "ready": true,
+  "lost": false,
+  "contextLosses": 0,
+  "lastContextLoss": null,
+  "allocationStage": "ready",
+  "startupMs": 3518.1999999997206,
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+  "protocol": "about:",
+  "embedded": false,
+  "viewport": [
+    960,
+    600
+  ],
+  "cssResolution": [
+    960,
+    600
+  ],
+  "devicePixelRatio": 1,
+  "resolution": [
+    960,
+    600
+  ],
+  "nativeResolution": [
+    960,
+    600
+  ],
+  "resolutionReason": "native",
+  "renderScale": 1,
+  "adaptiveResolution": false,
+  "softwareRenderer": true,
+  "gpu": {
+    "vendor": "Google Inc. (Mesa)",
+    "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+  },
+  "renderer": "Two-pass raster: finite position-aware reflection panels, freshly baked illumination, procedural material processes, solid cached optics; optional memory-bounded coverage resolve",
+  "singleFragmentShader": false,
+  "pathTracerCompiled": false,
+  "bvhUploaded": false,
+  "progressiveStudio": {
+    "enabled": false,
+    "allocatedBytes": 0
+  },
+  "secondaryRays": {
+    "enabled": false,
+    "hierarchy": null
+  },
+  "reconstruction": false,
+  "photographicFocus": false,
+  "antialiasing": {
+    "type": "Native MSAA coverage plus spatial edge resolve; no temporal history",
+    "samples": 4,
+    "supported": [
+      4
+    ],
+    "coverageBudgetBytes": 268435456,
+    "allocationPolicy": "Extra coverage only below 1.8M pixels and within 256 MiB estimated application resources. Dense native phone buffers keep their original two attachments."
+  },
+  "linearHDR": true,
+  "memory": {
+    "applicationGpuBytes": 213803076,
+    "parts": {
+      "mesh": 33088344,
+      "vertexIrradiance": 3985452,
+      "environment": 16777200,
+      "reflectionCaptures": 29360016,
+      "surfaceArrays": 89478464,
+      "noiseLattice": 262144,
+      "flameVolumes": 6291456,
+      "sceneColor": 4608000,
+      "sceneDepth": 2304000,
+      "coverageColor": 18432000,
+      "coverageDepth": 9216000
+    },
+    "budgetBytes": 335544320,
+    "renderTargetCount": 2,
+    "coverageRenderbuffers": 2,
+    "coverageSamples": 4,
+    "decodedCpuCachesRetained": false,
+    "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+  },
+  "surfaceMaps": {
+    "size": 1024,
+    "layers": 8,
+    "names": [
+      "abrasive-machining",
+      "micro-enamel",
+      "growth-ring-walnut",
+      "cleavage-mica-quartz",
+      "cellular-bark",
+      "veined-marble",
+      "porous-basalt",
+      "veined-leaf-variants"
+    ],
+    "format": "RGBA8",
+    "colorSpace": "linear albedo; roughness in alpha",
+    "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+    "source": "Deterministic process-based surface fields; linear albedo, roughness, height-derived normals. No scans or photographs."
+  },
+  "flameVolume": {
+    "width": 256,
+    "height": 256,
+    "frames": 48,
+    "grid": [
+      32,
+      64,
+      32
+    ],
+    "format": "RG8",
+    "bytes": 6291456,
+    "seconds": 7.92,
+    "simulationSteps": 326,
+    "timeStep": 0.055,
+    "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+    "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+  },
+  "freshLightingBake": true,
+  "geometrySource": "Entirely procedural: cleavage-plane schist, rooted asymmetric broadleaf tree, closed airfoil impeller, spherical bearing balls, dimensioned mechanical housings. No scans, photographs, generated imagery, or imported models.",
+  "triangles": 1207464,
+  "vertices": 664242,
+  "geometrySHA256": "086cb5ef44f955b5f68b49825a4130fe518465cfd0f4c6b48613f55fe1016470",
+  "geometryBytes": 33088360,
+  "passes": {
+    "opaque": 1,
+    "compositeAndUI": 1
+  },
+  "bufferLimits": {
+    "width": 16384,
+    "height": 16384
+  },
+  "targetFPS": 60,
+  "targetFrameMs": 16.666666666666668,
+  "frame": 12,
+  "submittedFrames": 12,
+  "completedFrames": 10,
+  "drawFPS": 1.6731734523149029,
+  "completedFPS": 1.1009578333149277,
+  "frameIntervalP50Ms": 1485,
+  "frameIntervalP95Ms": 4816.1,
+  "frameIntervalP99Ms": 4816.1,
+  "cpuSubmitMeanMs": 0.8333333332557231,
+  "gpuTimerAvailable": true,
+  "gpuFrameMs": 4747.460566,
+  "gpuSamples": 1,
+  "pendingTimingQueries": 0,
+  "timerQueriesGateRendering": false,
+  "maxFramesInFlight": 2,
+  "pendingCompletionFences": 2,
+  "fenceCompletionWallMs": 831.6000000000931,
+  "peakFenceCompletionWallMs": 4777.299999999814,
+  "inputEvents": 5,
+  "inputToSubmitMs": 699,
+  "chapter": 1,
+  "playing": false,
+  "diagnosticsVisible": false,
+  "error": "",
+  "limitations": [
+    "Assets have been reconstructed, but remain authored procedural assets, not photographs or scans.",
+    "Static illumination and reflection captures; cached glass cannot track moving occluded geometry.",
+    "No depth-of-field or path-traced refinement. Coverage MSAA is memory-bounded and not enabled on dense phone buffers.",
+    "GPU memory figures are format-sized estimates, not driver memory measurements.",
+    "Physical Adreno performance and stability have not been verified by the build environment."
+  ]
+}

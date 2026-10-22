@@ -1,0 +1,16 @@
+{
+  "vertices": 664242,
+  "channels": 3,
+  "type": "FLOAT16",
+  "bytes": 3985452,
+  "compressedBytes": 3327853,
+  "min": 0.00027761684032157063,
+  "max": 4.384675426314772,
+  "mean": [
+    0.18997475528170865,
+    0.1778071133899445,
+    0.17528552580402573
+  ],
+  "geometrySHA256": "086cb5ef44f955b5f68b49825a4130fe518465cfd0f4c6b48613f55fe1016470",
+  "description": "80 cosine-weighted rays per vertex, one explicit colored surface bounce; terminal surface radiance uses precomputed direct-light visibility and ambient approximation. Static rest-pose cache. Four normal-aware smoothing iterations. Not an unbiased full path-tracing solution."
+}

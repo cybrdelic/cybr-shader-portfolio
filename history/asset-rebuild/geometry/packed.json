@@ -1,0 +1,145 @@
+{
+  "format": "CYB2",
+  "vertices": 578930,
+  "triangles": 1053109,
+  "stride": 28,
+  "uncompressedBytes": 28847364,
+  "compressedBytes": 12422684,
+  "sha256": "a444b771a77f89dd347515513b806d4c659dfb4b7bcb64501c4ac94084fd5467",
+  "groups": [
+    {
+      "name": "atelier-chassis",
+      "object": 0,
+      "part": 0,
+      "indexStart": 0,
+      "indexCount": 501600,
+      "vertices": 84816,
+      "triangles": 167200
+    },
+    {
+      "name": "light-optomechanics",
+      "object": 1,
+      "part": 0,
+      "indexStart": 501600,
+      "indexCount": 352824,
+      "vertices": 60715,
+      "triangles": 117608
+    },
+    {
+      "name": "geometry-axial-machine",
+      "object": 2,
+      "part": 0,
+      "indexStart": 854424,
+      "indexCount": 253824,
+      "vertices": 44538,
+      "triangles": 84608
+    },
+    {
+      "name": "precision-rotor-bearing",
+      "object": 2,
+      "part": 0,
+      "indexStart": 1108248,
+      "indexCount": 40104,
+      "vertices": 6938,
+      "triangles": 13368
+    },
+    {
+      "name": "geological-specimen-eroded-fractures",
+      "object": 3,
+      "part": 0,
+      "indexStart": 1148352,
+      "indexCount": 390999,
+      "vertices": 65721,
+      "triangles": 130333
+    },
+    {
+      "name": "elements-crucible",
+      "object": 4,
+      "part": 0,
+      "indexStart": 1539351,
+      "indexCount": 174294,
+      "vertices": 31979,
+      "triangles": 58098
+    },
+    {
+      "name": "thermal-physical-hardware",
+      "object": 4,
+      "part": 0,
+      "indexStart": 1713645,
+      "indexCount": 50940,
+      "vertices": 8586,
+      "triangles": 16980
+    },
+    {
+      "name": "materials-study-rack",
+      "object": 5,
+      "part": 0,
+      "indexStart": 1764585,
+      "indexCount": 126384,
+      "vertices": 21574,
+      "triangles": 42128
+    },
+    {
+      "name": "grown-bonsai-root-collar-and-branches",
+      "object": 6,
+      "part": 0,
+      "indexStart": 1890969,
+      "indexCount": 254952,
+      "vertices": 45083,
+      "triangles": 84984
+    },
+    {
+      "name": "elliptic-serrated-veined-leaves",
+      "object": 6,
+      "part": 0,
+      "indexStart": 2145921,
+      "indexCount": 315000,
+      "vertices": 87500,
+      "triangles": 105000
+    },
+    {
+      "name": "forest-mineral-substrate-and-litter",
+      "object": 6,
+      "part": 0,
+      "indexStart": 2460921,
+      "indexCount": 15120,
+      "vertices": 3600,
+      "triangles": 5040
+    },
+    {
+      "name": "central-metrology-instrument",
+      "object": 7,
+      "part": 0,
+      "indexStart": 2476041,
+      "indexCount": 408048,
+      "vertices": 69490,
+      "triangles": 136016
+    },
+    {
+      "name": "central-calibration-hardware",
+      "object": 7,
+      "part": 0,
+      "indexStart": 2884089,
+      "indexCount": 69888,
+      "vertices": 12044,
+      "triangles": 23296
+    },
+    {
+      "name": "area-lit-studio-sweep",
+      "object": 0,
+      "part": 0,
+      "indexStart": 2953977,
+      "indexCount": 205350,
+      "vertices": 34596,
+      "triangles": 68450
+    }
+  ],
+  "source": "Rebuilt grown tree with fused roots/branch joints and individual veined leaves; non-convex mineral specimen; supported stator/rotor construction and simplified enamel housings. Organic meshes are extracted offline from authored implicit volumes, not photographs or scans.",
+  "ambientOcclusion": {
+    "samples": 40,
+    "range": 1.2,
+    "decayLength": 0.3,
+    "normalAwareSmoothingPasses": 3,
+    "type": "offline cosine-weighted visibility and 56/24 sample rectangular area-light visibility, static rest pose"
+  }
+}

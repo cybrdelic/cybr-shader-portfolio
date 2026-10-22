@@ -1,0 +1,70 @@
+{
+  "README.md": {
+    "bytes": 8131,
+    "sha256": "7c0c58aa73c8e825af9edb4144614683b3aebedda613ca29a90e7d8426c10a38"
+  },
+  "build.py": {
+    "bytes": 2143,
+    "sha256": "ef583a66a2f2aa47d15b053b5fc46d1144a6a79ef93c9672d6e7e673a9d12d77"
+  },
+  "host.html": {
+    "bytes": 30677,
+    "sha256": "0c1cd70b9babdec0a3fa9fe7b19bc8e17cd995a2ecd5eed31fd045a4328e0306"
+  },
+  "src/header.glsl": {
+    "bytes": 1300,
+    "sha256": "673287bfdd7728f0bca4e03ff34074b309c2f9dabcdeb15b721f49a4817dae76"
+  },
+  "src/scene.glsl": {
+    "bytes": 27388,
+    "sha256": "df19debe3c428488311276e75e38e7a2491c6ba7a683ff4ab6c3cb1ae098f8f1"
+  },
+  "src/transport.glsl": {
+    "bytes": 18154,
+    "sha256": "6903f5252fd0c1c4ba7c1b54f67e8923f42632fbf9cfcdafd4663102509249f0"
+  },
+  "src/interface.glsl": {
+    "bytes": 28385,
+    "sha256": "1d37313f65b90ec81624b066dbdc6207941f1d6013d9783b42f65eb5e26a5273"
+  },
+  "src/main.glsl": {
+    "bytes": 1116,
+    "sha256": "48fa2a70eb161a22cd2b0068657066b6438b5ce3656f691725369e0c3b53396c"
+  },
+  "tools/native_render.py": {
+    "bytes": 17094,
+    "sha256": "f371d830341d47ae616a3b1a06be4b564583d2fdb9c52224aeafe99fc3f1a74d"
+  },
+  "tools/render_movie.py": {
+    "bytes": 12178,
+    "sha256": "2857178ad343d0525d173c96f420d07c45f92e7b2dbe050ccf779cd4ead6245f"
+  },
+  "tools/render_suite.py": {
+    "bytes": 2548,
+    "sha256": "ef0020692b640f902cccfb09332694564051dab110ce191f31943511b2cb60b9"
+  },
+  "tools/final_review.py": {
+    "bytes": 9101,
+    "sha256": "d446745e418c6b26f1dfd27ce6774b34de0e3cd1a2a6edd008b5f3ba50e9d8b6"
+  },
+  "tools/verify_host.mjs": {
+    "bytes": 12809,
+    "sha256": "f04820cb24056559f40e3762684ff2a401ee83fd6ddc874405ba387c836083b3"
+  },
+  "tools/package_source.py": {
+    "bytes": 3593,
+    "sha256": "337e6228267dbc241f535fd2a2eaea0a977372a8aca38dc3537beb6a3f620756"
+  },
+  "dist/index.html": {
+    "bytes": 107256,
+    "sha256": "9e34ae9fa281b88b1dfcca20b53c5602e09f614910053c7fe4657fc5f47fc331"
+  },
+  "dist/cybr-computational-instrument.frag": {
+    "bytes": 76598,
+    "sha256": "e9a9601f50dd737249085c0374da772289cbb2a82cb31b16f0693e005f305c9f"
+  },
+  "dist/build-info.json": {
+    "bytes": 536,
+    "sha256": "0f8203167221346a44590e5bc88035d425c7d412d251115149a89408da7753d6"
+  }
+}

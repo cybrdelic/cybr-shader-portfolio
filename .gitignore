@@ -1,0 +1,37 @@
+__pycache__/
+*.pyc
+.venv/
+history/asset-rebuild/dist/
+history/mobile-recovery/dist/
+history/precision-lab/dist/
+*.o
+*.f32
+history/asset-rebuild/studio/bake_lighting
+history/asset-rebuild/studio/bake_irradiance
+history/precision-lab/studio/bake_lighting
+history/precision-lab/studio/bake_irradiance
+history/precision-lab/studio/build_optical_bvh
+
+history/procedural-workshop/dist/
+history/procedural-workshop/studio/bake_lighting
+history/procedural-workshop/studio/bake_irradiance
+
+# Canonical caches restored from verified transport parts.
+/history/asset-rebuild/studio/probes.bin.gz
+/history/mobile-recovery/geometry/mesh.bin.gz
+/history/precision-lab/geometry/mesh.bin.gz
+/history/precision-lab/geometry/optical-bvh.bin.gz
+/history/precision-lab/studio/probes.bin.gz
+
+/history/procedural-workshop/geometry/mesh.bin.gz
+/history/procedural-workshop/studio/probes.bin.gz
+
+instrument-rebuild/dist/
+instrument-rebuild/studio/bake_lighting
+instrument-rebuild/studio/bake_irradiance
+/instrument-rebuild/geometry/mesh.bin.gz
+/instrument-rebuild/studio/probes.bin.gz
+
+# Reference material retained locally, not in this publication allowlist.
+/instrument-rebuild/reference/ARX-6.glsl
+/instrument-rebuild/reference/ARX-6-reference.webp

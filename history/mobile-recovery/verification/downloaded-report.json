@@ -1,0 +1,246 @@
+{
+  "build": "cybr-mobile-recovery-2026-10-22-r1",
+  "reportCapturedAt": "2026-10-22T13:06:58.279Z",
+  "reportPurpose": "Native raster recovery telemetry. Submission/completion rates are not guarantees of display FPS. No progressive path tracer is present.",
+  "api": "webgl2",
+  "ready": true,
+  "lost": false,
+  "contextLosses": 0,
+  "manualRestarts": 0,
+  "restorations": 0,
+  "lastFailure": null,
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+  "protocol": "about:",
+  "embedded": false,
+  "viewport": [
+    960,
+    600
+  ],
+  "cssResolution": [
+    960,
+    600
+  ],
+  "devicePixelRatio": 1,
+  "resolution": [
+    960,
+    600
+  ],
+  "nativeResolution": [
+    960,
+    600
+  ],
+  "resolutionReason": "native",
+  "renderScale": 1,
+  "adaptiveResolution": false,
+  "softwareRenderer": true,
+  "gpu": {
+    "vendor": "Google Inc. (Mesa)",
+    "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+  },
+  "renderer": "Two-pass raster; analytic glass boundaries; static scene-local optical caches; native pixel edge AA; no scene BVH",
+  "singleFragmentShader": false,
+  "fullScreenSceneRayMarching": false,
+  "progressiveStudio": {
+    "available": false,
+    "enabled": false,
+    "reason": "Removed from this mobile build; no accumulation textures or path-tracing program."
+  },
+  "secondaryRays": {
+    "enabled": false,
+    "hierarchyAllocated": false
+  },
+  "antialiasing": {
+    "type": "native edge-aware filtering",
+    "samples": 1
+  },
+  "renderTarget": {
+    "format": "R11F_G11F_B10F",
+    "colorBytesPerPixel": 4,
+    "depthBytesPerPixel": 4,
+    "offscreenTargets": 1
+  },
+  "memory": {
+    "knownPayloadBytes": 171291766,
+    "knownPayloadMiB": 163.36,
+    "objectCount": 14,
+    "objects": [
+      {
+        "kind": "program",
+        "label": "opaque raster program",
+        "bytes": 0
+      },
+      {
+        "kind": "program",
+        "label": "optics + display + text",
+        "bytes": 0
+      },
+      {
+        "kind": "vao",
+        "label": "geometry layout",
+        "bytes": 0
+      },
+      {
+        "kind": "buffer",
+        "label": "original vertex buffer",
+        "bytes": 27133148
+      },
+      {
+        "kind": "buffer",
+        "label": "original triangle indices",
+        "bytes": 21189300
+      },
+      {
+        "kind": "vao",
+        "label": "fullscreen triangle",
+        "bytes": 0
+      },
+      {
+        "kind": "buffer",
+        "label": "original per-vertex indirect lighting",
+        "bytes": 5814246
+      },
+      {
+        "kind": "texture",
+        "label": "512px HDR environment / full mip chain",
+        "bytes": 8388600
+      },
+      {
+        "kind": "texture",
+        "label": "7 scene-local HDR probes / full mip chains",
+        "bytes": 14680008
+      },
+      {
+        "kind": "texture",
+        "label": "8 × 1024px albedo + roughness maps",
+        "bytes": 44739232
+      },
+      {
+        "kind": "texture",
+        "label": "8 × 1024px normal + occlusion maps",
+        "bytes": 44739232
+      },
+      {
+        "kind": "texture",
+        "label": "native opaque HDR color",
+        "bytes": 2304000
+      },
+      {
+        "kind": "texture",
+        "label": "native depth",
+        "bytes": 2304000
+      },
+      {
+        "kind": "framebuffer",
+        "label": "native opaque framebuffer",
+        "bytes": 0
+      }
+    ],
+    "scope": "Application texture and buffer payloads only. Excludes driver padding, shader storage, browser/compositor buffers and CPU memory. Not a VRAM measurement."
+  },
+  "lastKnownPayloadMiB": 163.36,
+  "peakCPUUploadPolicy": "Sequential decompression/upload; CPU asset arrays released after upload.",
+  "sourceGeometry": {
+    "sha256": "defe5b56de035078a32bf9aa6bde9670e72031a5aff1eeea03da1807b97290aa",
+    "triangles": 1765775,
+    "vertices": 969041,
+    "unchangedFromPrecisionLab": true
+  },
+  "geometryBytes": 48322464,
+  "triangles": 1765775,
+  "trianglesDrawn": 1765775,
+  "groupsDrawn": 14,
+  "groupsCulled": 0,
+  "surfaceMaps": {
+    "size": 1024,
+    "layers": 8,
+    "mips": true,
+    "source": "Original unmodified Precision Lab material maps; no photos/scans claimed"
+  },
+  "environment": {
+    "format": "RGB9_E5",
+    "size": 512,
+    "levels": 10
+  },
+  "localReflectionProbes": {
+    "count": 7,
+    "format": "RGB9_E5",
+    "faceSize": 256,
+    "levels": 9,
+    "static": true
+  },
+  "passes": {
+    "opaque": 1,
+    "compositeDisplayAndUI": 1,
+    "pathTrace": 0,
+    "reconstruction": 0,
+    "depthOfField": 0,
+    "multisampleResolve": 0
+  },
+  "bufferLimits": {
+    "width": 16384,
+    "height": 16384
+  },
+  "targetFPS": 60,
+  "targetFrameMs": 16.666666666666668,
+  "sixtyFPSVerified": false,
+  "frame": 3,
+  "submittedFrames": 3,
+  "completedFrames": 3,
+  "drawFPS": null,
+  "completedFPS": 1.3809293654629122,
+  "timingObservationCount": 2,
+  "sufficientTimingObservations": false,
+  "frameIntervalP50Ms": null,
+  "frameIntervalP95Ms": null,
+  "frameIntervalP99Ms": null,
+  "cpuSubmitMeanMs": 0.9333333332712451,
+  "gpuTimerAvailable": true,
+  "gpuFrameMs": 8458.79868,
+  "gpuSamples": 1,
+  "gpuDisjointEvents": 0,
+  "pendingTimingQueries": 0,
+  "timerFailures": 0,
+  "timerQueriesGateRendering": false,
+  "fencesGateRendering": true,
+  "pendingCompletionFences": 0,
+  "maxFramesInFlight": 2,
+  "fenceCompletionWallMs": 657.3000000000466,
+  "peakFenceCompletionWallMs": 16300.399999999907,
+  "inputEvents": 5,
+  "inputToSubmitMs": 341.30000000004657,
+  "chapter": 1,
+  "playing": false,
+  "diagnosticsVisible": true,
+  "renderOnDemand": true,
+  "resizePending": false,
+  "resizeCount": 1,
+  "nativeAllocationFailures": 0,
+  "events": [
+    {
+      "at": "2026-10-22T13:06:39.823Z",
+      "type": "resize",
+      "width": 960,
+      "height": 600,
+      "knownMiB": 163.36
+    },
+    {
+      "at": "2026-10-22T13:06:39.823Z",
+      "type": "ready",
+      "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+      "resolution": [
+        960,
+        600
+      ],
+      "knownMiB": 163.36
+    }
+  ],
+  "limitations": [
+    "This repairs the allocation/workload architecture. It does not establish photorealism or mobile 60 fps.",
+    "The authored geometry and procedural materials remain unchanged. No scanned assets have been substituted.",
+    "Optical caches and baked indirect lighting are static. Glass transmission is approximate and animation lighting is not recomputed.",
+    "No native-resolution reduction is automatic. Known memory payloads exclude driver/browser overhead."
+  ],
+  "error": ""
+}

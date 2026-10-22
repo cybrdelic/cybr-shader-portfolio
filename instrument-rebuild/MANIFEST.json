@@ -1,0 +1,317 @@
+{
+  "build": "cybr-instrument-rebuild-2026-10-22",
+  "htmlSHA256": "516cfe66d3ed13d5d7de916afe273007ccbaa3b3417ffad3a901ff86f8421ba2",
+  "noScans": true,
+  "noGeneratedImages": true,
+  "noPhotographicSourceAssets": true,
+  "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+  "reference": "User-supplied ARX-6 GLSL and its prior renderer poster; reference images are not part of the runtime scene.",
+  "canonicalEntry": "python build.py -> dist/index.html",
+  "sourceFiles": [
+    {
+      "path": "README.md",
+      "bytes": 10370,
+      "sha256": "431577880a36057a4e6010e2e6033d0b675af6df025affc62d88dd136e5a5957"
+    },
+    {
+      "path": "build-info.json",
+      "bytes": 103,
+      "sha256": "e2a05cfa2073dbbdf052ee65484ba958b728cc9d7205fb79f354facf58d2b436"
+    },
+    {
+      "path": "build.py",
+      "bytes": 1737,
+      "sha256": "6d9ce697408ea8f3083bbd908909c2f4517abf256df8d39b6de3efa37512447f"
+    },
+    {
+      "path": "geometry/mesh.bin.gz",
+      "bytes": 13506574,
+      "sha256": "f26a08737e8cc0923ba97b109075f87da4c76265acea34d9714cb674e01ab8ab"
+    },
+    {
+      "path": "geometry/packed.json",
+      "bytes": 4448,
+      "sha256": "a300d217a41edd96d41d560b633cacc85e9f53072c288d41d86772929981b11e"
+    },
+    {
+      "path": "host.html",
+      "bytes": 58394,
+      "sha256": "980ddbd6e27a05bbc5741ef0785e76a0ead313d812f067ba7f9d15ce89afde46"
+    },
+    {
+      "path": "materials/area-lights.json",
+      "bytes": 451,
+      "sha256": "1d32c789c2cb0ac4487f5dfd0db0b2bcad784d1abd0c93d9f8ce0a0e034d199b"
+    },
+    {
+      "path": "materials/area-lights.rgba16f.gz",
+      "bytes": 12996,
+      "sha256": "1f559713dcff71e5ea89096d60b59f5a9b860abf02c725e6fdea88c1775f7495"
+    },
+    {
+      "path": "materials/color.rgba.gz",
+      "bytes": 5032266,
+      "sha256": "0eedfa0c336f490978568230d624d75c728e3fc9d0cb94ed628022b6cecb0e62"
+    },
+    {
+      "path": "materials/flame.json",
+      "bytes": 543,
+      "sha256": "502a9497852aca0fc670c154c20685645ef7a1948a540d105cb87d1753f32e9b"
+    },
+    {
+      "path": "materials/flame.rg8.gz",
+      "bytes": 278613,
+      "sha256": "8e0e6357d44fbf6cea456a32da2bf51db822a9af4a4872c2a8133be9de215107"
+    },
+    {
+      "path": "materials/maps.json",
+      "bytes": 510,
+      "sha256": "b00acf6dce0dbc83af120e19efd8278a23f4c35c7425e4becc5e291360784907"
+    },
+    {
+      "path": "materials/noise.r8.gz",
+      "bytes": 262242,
+      "sha256": "65ac386600b06085f8378af79ccfbd3ea2addf54a0200f2df9ceb9d546a7f989"
+    },
+    {
+      "path": "materials/normal.rgba.gz",
+      "bytes": 12062494,
+      "sha256": "59addf456cf5b86148b7fe3fb22f651a079c6fa49b01cf99b80412e467331220"
+    },
+    {
+      "path": "reference/ARX-6-reference.webp",
+      "bytes": 42676,
+      "sha256": "80d983a2d40d44734cd838adbce0642a0a2d644facbd3b6caec7188c656759bd"
+    },
+    {
+      "path": "reference/ARX-6.glsl",
+      "bytes": 42238,
+      "sha256": "a169d5ac32b2507f7875ca44eaa47265fdb1cab730376d1a447d39a918c351a8"
+    },
+    {
+      "path": "reference/original-ray-traced.html",
+      "bytes": 166793,
+      "sha256": "e2a9734fa62d9edadf137d724c52d94e7ea0b6f3b0482e2381a0bc254e068aa4"
+    },
+    {
+      "path": "shaders/scene.frag",
+      "bytes": 31663,
+      "sha256": "15dac8c0df9b7e4d867103e9452fece4adde687bbdf2bcbfd8f13a11a60fc6c3"
+    },
+    {
+      "path": "shaders/scene.vert",
+      "bytes": 3878,
+      "sha256": "6a69a698fb4452aa65efd9efd67691ba363809ad4d580c540790eed614d074fd"
+    },
+    {
+      "path": "shaders/screen.frag",
+      "bytes": 44811,
+      "sha256": "24a62069ef63d0a8ae868f95d73bc4d450d56c340597905395fbcfad2601f562"
+    },
+    {
+      "path": "shaders/screen.vert",
+      "bytes": 142,
+      "sha256": "858964c9fc9c79e65c08a86be2bd87916d143db0868af190f60d8bfaf404719b"
+    },
+    {
+      "path": "studio/area_lighting.glsl",
+      "bytes": 2288,
+      "sha256": "9786977c9b4fc8b6759233b455bf997583d467037e7f6794b2f194460553e64d"
+    },
+    {
+      "path": "studio/audit_geometry.py",
+      "bytes": 2359,
+      "sha256": "8509b34e66e8fe20696d1f9f7c813a8f9f6e9b8e55a2294185ab70313f112c55"
+    },
+    {
+      "path": "studio/bake_flame.py",
+      "bytes": 4134,
+      "sha256": "6634ffc9fb22b5550cc03b6502f563a8aa817b0f16e18306b1862a9d49abc6e6"
+    },
+    {
+      "path": "studio/bake_irradiance.cpp",
+      "bytes": 8760,
+      "sha256": "053b8a79adb1e799faa0850e4bb0dee2118917431085e0174fbd9020a7eb7133"
+    },
+    {
+      "path": "studio/bake_lighting.cpp",
+      "bytes": 5837,
+      "sha256": "062ad980b1216a7c957b8bc0a207e427180db7648b1df18c1f068b11fcd0c64b"
+    },
+    {
+      "path": "studio/bake_optical_probes.py",
+      "bytes": 2775,
+      "sha256": "3647a6546d64d2d599fe9bf876f6a8c4fc968c6d4e52435a51d63c0bc749d14d"
+    },
+    {
+      "path": "studio/bake_probes.py",
+      "bytes": 4891,
+      "sha256": "23e3bd9a4f043131bebfcd33b7aeb911dc2731d8054b6393b88c8256583da61d"
+    },
+    {
+      "path": "studio/browser_loading.py",
+      "bytes": 615,
+      "sha256": "94c5eb46aa7da4ccb7f64333e179c3499f052ff7bd1f6a0fca62d6f45ae44388"
+    },
+    {
+      "path": "studio/capture_review.py",
+      "bytes": 2233,
+      "sha256": "ea1681a8163ae880e05cf9985a112a7fd18cc2c037332b7b2f53aa0b5efbba79"
+    },
+    {
+      "path": "studio/environment.bin.gz",
+      "bytes": 3447733,
+      "sha256": "a66d47c33b37ce924b978559365b071a1501cecebb83e6b7eba48c64d28bb15a"
+    },
+    {
+      "path": "studio/environment.json",
+      "bytes": 1171,
+      "sha256": "62514d4031357d57e6c4c6e98508051235e6fc9aadbc19f23b3e70e857466c96"
+    },
+    {
+      "path": "studio/fit_area_lights.py",
+      "bytes": 3799,
+      "sha256": "1e16bfe9958ea8b899c9bd8bc6867f951aad6481f4e24fc7bd5d18a7c3bd7667"
+    },
+    {
+      "path": "studio/geometry.py",
+      "bytes": 9562,
+      "sha256": "be2072e7d4da24253999a7152760bde637c6061a38e1e2a4a3e91abc42b8fe55"
+    },
+    {
+      "path": "studio/irradiance.bin.gz",
+      "bytes": 2922983,
+      "sha256": "f2b5ae18aa0f26378ffd9a582bedd52c125031ce6a633a8e798c7c324ce0a712"
+    },
+    {
+      "path": "studio/irradiance.json",
+      "bytes": 646,
+      "sha256": "573c84c08f23a010d182023b07bdba2676f61595fb47bea6b8314614c6beaeda"
+    },
+    {
+      "path": "studio/natural_assets.py",
+      "bytes": 10627,
+      "sha256": "d6069494b99f18720fad5d88e051b3782b7206e89316deac5f1ff0d36d9b3e69"
+    },
+    {
+      "path": "studio/optical-probes.bin.gz",
+      "bytes": 4550575,
+      "sha256": "5bde9f87f4ba0e1c44c52adae92e156318adf9c676515fcbf213702317f55ad0"
+    },
+    {
+      "path": "studio/optical-probes.json",
+      "bytes": 531,
+      "sha256": "b3d5d8b3f05bcde0c975dfa91b8de7123e508058e879616c0c33fd9bf9c1ad40"
+    },
+    {
+      "path": "studio/optical_environment.py",
+      "bytes": 5173,
+      "sha256": "26d69a24f3be042e4322c2e34db1d9d0a42123d74176b886483864d6a22053db"
+    },
+    {
+      "path": "studio/pack_irradiance.py",
+      "bytes": 1735,
+      "sha256": "7656f211b8726057675c931b5fecb055644f6f15a6a06154cf8167b55c5f5f37"
+    },
+    {
+      "path": "studio/pack_lighting.py",
+      "bytes": 1789,
+      "sha256": "01c6db8db78d4aa9c2721524379e244da2ba91dab199da5907ade7c9fa198896"
+    },
+    {
+      "path": "studio/preview.py",
+      "bytes": 1672,
+      "sha256": "ea20b9bcdec2bdbdfabb303571019b410166eb21a07fba11846ccc55566358be"
+    },
+    {
+      "path": "studio/probes.bin.gz",
+      "bytes": 14215070,
+      "sha256": "b5931bfab739bd067e632a40032b9e4201efc6d30989f65d22ddf608176b2660"
+    },
+    {
+      "path": "studio/probes.json",
+      "bytes": 450,
+      "sha256": "dc2939fb4ac4b52ecced165aba934b800138155d8a006045aab5c2889f984393"
+    },
+    {
+      "path": "studio/rebuild_instruments.py",
+      "bytes": 17324,
+      "sha256": "0de0455ef7f73fb45f594f2ad9fda9fa2b661d1c0868409c59d148f80825e8d8"
+    },
+    {
+      "path": "studio/rebuild_surface_maps.py",
+      "bytes": 7189,
+      "sha256": "8da4767aac82327f8a7cefbcc7b5e608cc3f61a0039aef2bf671435881f4880b"
+    },
+    {
+      "path": "studio/verify_instruments.py",
+      "bytes": 13269,
+      "sha256": "f2d44a39531b856996eb4897d7e6d9f490f6a72ab5610a3b9334ccd9cb7381b2"
+    },
+    {
+      "path": "verification/full-resolution/capture-record.json",
+      "bytes": 9359,
+      "sha256": "4ac15aba556af0941ddd704dfb83feedc05cd417c3caf164c9daac37c1f9f061"
+    },
+    {
+      "path": "verification/full-resolution/chapter-0.png",
+      "bytes": 3374363,
+      "sha256": "b61ea63f3609e3c8793ed0284adba8535812bc1a277a33a494afd99303f39c37"
+    },
+    {
+      "path": "verification/full-resolution/chapter-1.png",
+      "bytes": 4165875,
+      "sha256": "af1da739f25c9d65629a440f6ed81669665565e94fc6dfe911af52da83d162d6"
+    },
+    {
+      "path": "verification/full-resolution/chapter-2.png",
+      "bytes": 4129843,
+      "sha256": "465caccf5d430bf15191b178e7ddc7dde365c2dc8de26cf223556f46394da101"
+    },
+    {
+      "path": "verification/full-resolution/chapter-3.png",
+      "bytes": 4312851,
+      "sha256": "80364339898b83e422547ae4fa0fa19749b0deffdb280f927f378c444a085906"
+    },
+    {
+      "path": "verification/full-resolution/chapter-4.png",
+      "bytes": 4214848,
+      "sha256": "7a57ee2e0586eebffec1a8c61dbbcf7ff015b67e0e585447e37eb6fbe9af4e98"
+    },
+    {
+      "path": "verification/full-resolution/chapter-5.png",
+      "bytes": 4127045,
+      "sha256": "f12fd8048e235c6d4aa5e9d9389e8540368364091cb253602456acb07112c498"
+    },
+    {
+      "path": "verification/full-resolution/chapter-6.png",
+      "bytes": 4392919,
+      "sha256": "2a2f178aac8f89adbeb6794fd22618fb260db12877965b17b9f6448030c4feec"
+    },
+    {
+      "path": "verification/full-resolution/chapter-7.png",
+      "bytes": 3352004,
+      "sha256": "90e4ed1ba633af7819888148c9746b53457146b15a744aa8ea8adad643d14d7d"
+    },
+    {
+      "path": "verification/geometry-audit.json",
+      "bytes": 1823,
+      "sha256": "f6b48d03c27ac3f20f42ab673f4dd9f57c1db9b2fa6003be524c79b41c4a3189"
+    },
+    {
+      "path": "verification/portrait-diagnostics.png",
+      "bytes": 658050,
+      "sha256": "71a438746a7d8f9ff738aa11a24cd7a134963cc098e1f9971673fab01b0d9d18"
+    },
+    {
+      "path": "verification/portrait-native.png",
+      "bytes": 2517931,
+      "sha256": "d4ad3660c473cad121f5cfe29396e45e472999946bd5cfdbaa85295843e9ecd7"
+    },
+    {
+      "path": "verification/test-report.json",
+      "bytes": 33503,
+      "sha256": "d7062ff41bfbdca5292840e0630091b63a809369b7e82d21cac3fdfb9809de4d"
+    }
+  ]
+}

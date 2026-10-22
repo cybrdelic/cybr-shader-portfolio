@@ -1,0 +1,10 @@
+{
+  "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+  "size": 256,
+  "levels": 9,
+  "layers": 42,
+  "probes": 7,
+  "type": "RGBA16F",
+  "bytes": 29360016,
+  "source": "Actual geometry renders, each excluding its own exhibit. Static local image-based lighting; 160 GGX samples per filtered texel. Alpha preserves filtered geometry occupancy, separating local-object reflection from explicit direct area lights."
+}

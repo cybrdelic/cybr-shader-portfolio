@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#131b20">
+<meta name="cybr-build" content="cybr-mobile-recovery-2026-10-22-r1">
+<title>CYBR / Mobile Recovery</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;color:#ece9de;background:#131b20}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+button,a,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid #d7af77;outline-offset:3px}
+[hidden]{display:none!important}#portfolio{display:block;width:100%;height:100%;height:100dvh;touch-action:none;cursor:grab;outline:none}#portfolio:active{cursor:grabbing}
+#status{position:fixed;inset:0;background:radial-gradient(ellipse at 70% 30%,#263237,#0c1215 70%);z-index:10;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(28px,7vw,90px)}
+#status h1{font-weight:400;letter-spacing:.15em;font-size:15px;color:#d7af77}#status h2{font-size:clamp(24px,5vw,40px);font-weight:400;max-width:720px;margin:18px 0}#status p{max-width:620px;font-size:14px;line-height:1.65;color:#b7c1c0}#status pre{white-space:pre-wrap;overflow:auto;max-height:30vh;max-width:85vw;font-size:12px}
+#progress{height:2px;width:min(420px,75vw);background:#374245;margin:16px 0}#progress span{display:block;height:100%;width:1%;background:#d7af77;transition:width .2s}
+#visible-diagnostics,#play-button{position:fixed;z-index:15;bottom:calc(84px + env(safe-area-inset-bottom,0px));min-height:44px;padding:9px 13px;color:#ece9de;border:1px solid #807d6a;border-radius:3px;background:#10191feb;font-size:12px;touch-action:manipulation}#visible-diagnostics{right:12px}#play-button{left:12px}
+#live-status{position:fixed;left:14px;bottom:calc(134px + env(safe-area-inset-bottom,0px));font:10px/1.4 system-ui;color:#bdc8c7;background:#11191dcc;padding:3px 5px;z-index:16;pointer-events:none;max-width:60vw}
+#performance-panel{position:fixed;z-index:30;inset:12px 12px auto auto;width:min(490px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;padding:18px;background:#0d151afc;border:1px solid #65716a;box-shadow:0 12px 50px #0008;touch-action:pan-y}#performance-panel h2{font-size:18px;font-weight:500;margin:0 0 10px}#performance-panel p{font-size:12px;line-height:1.55;color:#b9c7c7}
+.actions{position:sticky;top:-18px;background:#0d151a;display:flex;flex-wrap:wrap;gap:7px;padding:10px 0}.actions button,.modes button,#status button{min-height:44px;background:#101f27;color:#eee9de;border:1px solid #68787c;padding:9px 12px;font-size:12px}.modes{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.modes button[aria-pressed=true]{border-color:#dcb57a;color:#dcb57a}
+#performance-report{width:100%;height:260px;resize:vertical;background:#090f13;color:#dbe1df;font:11px/1.5 ui-monospace,monospace;border:1px solid #53656c;padding:10px;user-select:text;-webkit-user-select:text}#performance-text{white-space:pre-wrap;font:12px/1.6 ui-monospace,monospace;color:#e1ddd0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+<canvas id="portfolio" tabindex="0" aria-label="Interactive CYBR portfolio. Swipe or scroll through eight chapters. Drag horizontally to orbit. Arrow keys select chapters."></canvas>
+<section id="status" aria-live="polite">
+ <h1>CYBR / MOBILE RECOVERY</h1><h2 id="status-message">Preparing the instrument.</h2>
+ <p id="status-note">Native-resolution raster rendering. No progressive path tracer or triangle-ray hierarchy is loaded. Drag or scroll to navigate; animation is optional.</p>
+ <div id="progress"><span></span></div><pre id="status-detail" hidden></pre>
+ <button id="retry" hidden>Restart renderer</button>
+</section>
+<button id="visible-diagnostics" aria-controls="performance-panel" aria-expanded="false">Diagnostics</button>
+<button id="play-button" aria-pressed="false">Play animation</button>
+<output id="live-status" aria-live="polite">Loading native renderer</output>
+<section id="performance-panel" role="dialog" aria-modal="true" aria-labelledby="performance-heading" hidden>
+ <h2 id="performance-heading">Renderer diagnostics</h2>
+ <div class="actions"><button id="performance-copy">Copy report</button><button id="performance-download">Download JSON</button><button id="performance-close">Close</button></div>
+ <div id="performance-text"></div>
+ <p>Rendering pauses while this panel is open. Submission rate and observed fence completions are not GPU execution time. Driver and browser memory overhead is not included in the allocation estimate.</p>
+ <div class="modes"><button data-scale="1">Native</button><button data-scale="0.75">75%</button><button data-scale="0.5">50%</button><button id="edge-aa" aria-pressed="true">Edge AA on</button></div>
+ <div class="modes"><button id="panel-play">Play animation</button><button id="panel-restart">Restart renderer</button><button id="source-save">Save shaders</button><button id="original-save">Save original shader build</button></div>
+ <p>Stability repair, not a new photorealism claim. The original Precision Lab mesh, material maps and baked lighting remain. Glass uses analytic entry/exit surfaces with static scene-local reflection/transmission captures. No full-scene ray traversal, progressive accumulation, depth-of-field pass or multisample attachments. Native resolution remains selected unless you explicitly change it. The 60-fps target is not verified on a physical Adreno device.</p>
+ <label for="performance-report">Selectable report</label><textarea id="performance-report" readonly spellcheck="false"></textarea><p id="copy-result" role="status"></p>
+</section>
+<nav class="sr-only" aria-label="Portfolio chapters">__ACCESSIBLE_NAV__</nav><div id="announcement" class="sr-only" aria-live="polite"></div>
+<script>
+'use strict';
+const SHADERS=__SHADERS__;
+const GEOMETRY_INFO=__GEOMETRY_INFO__;
+const GEOMETRY_GZIP='__GEOMETRY_GZIP__';
+const ENV_INFO=__ENV_INFO__,ENV_GZIP='__ENV_GZIP__';
+const PROBE_INFO=__PROBE_INFO__,PROBE_GZIP='__PROBE_GZIP__';
+const IRR_INFO=__IRR_INFO__,IRR_GZIP='__IRR_GZIP__';
+const SURFACE_INFO=__SURFACE_INFO__,SURFACE_COLOR='__SURFACE_COLOR__',SURFACE_NORMAL='__SURFACE_NORMAL__';
+const ORIGINAL_GZIP='__ORIGINAL_GZIP__';
+(()=>{
+ const BUILD='cybr-mobile-recovery-2026-10-22-r1';
+ let canvas=document.getElementById('portfolio');
+ const panel=document.getElementById('performance-panel'),status=document.getElementById('status');
+ const message=document.getElementById('status-message'),detail=document.getElementById('status-detail');
+ const progress=document.querySelector('#progress span'),reportBox=document.getElementById('performance-report');
+ const q=new URLSearchParams(location.search);
+ const names=['Assembly','Light','Geometry','Scenes','Elements','Materials','Forest','About'];
+ const slugs=names.map(n=>n.toLowerCase());
+ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+ const number=(v,d=0)=>v!==null&&Number.isFinite(Number(v))?Number(v):d;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const initial=clamp(q.has('chapter')?number(q.get('chapter')):Math.max(0,slugs.indexOf(location.hash.slice(1))),0,7);
+ const state={
+  ready:false,lost:false,contextLosses:0,manualRestarts:0,restorations:0,error:'',stage:'startup',lastFailure:null,
+  chapter:initial,target:initial,time:number(q.get('time')),playing:q.get('play')==='1'&&!reduced.matches,
+  tour:false,tourStart:0,drag:[0,0],pointer:[.5,.5],pressed:false,edgeAA:q.get('aa')!=='0',
+  width:0,height:0,cssWidth:0,cssHeight:0,dpr:1,nativeWidth:0,nativeHeight:0,
+  scale:clamp(number(q.get('scale'),1),.25,1),resolutionReason:'native',
+  frame:0,lastTime:0,lastSubmit:0,raf:0,dirty:true,transitionStart:0,transitionDuration:0,transitionFrom:initial,
+  submittedFrames:0,completedFrames:0,drawFPS:null,completedFPS:null,gpuFrameMs:null,
+  gpuSamples:0,gpuDisjointEvents:0,timerFailures:0,fenceWallMs:null,peakFenceWallMs:0,
+  lastInputAt:0,inputSequence:0,submittedInputSequence:0,inputToSubmitMs:null,
+  telemetryAt:0,trianglesDrawn:0,groupsDrawn:0,groupsCulled:0,
+  nativeAllocationFailures:0,resizeCount:0,lastResizeAt:0
+ };
+ let gl=null,programs={},mesh=null,emptyVAO=null,target=null;
+ let environment=null,probes=null,surfaceColor=null,surfaceNormal=null;
+ let limits={width:8192,height:8192},gpu={},floatColor=false,timerExt=null;
+ let initGeneration=0,initializing=false,observer=null,resizeTimer=0,recoveryTimer=0;
+ let timerQueries=[],fences=[],submittedStamps=[],completedStamps=[],cpuSamples=[],gpuSamples=[],frameIntervals=[];
+ let gesture=null,wheelTimer=0,wheelDirection=0,lastWheelAt=0,wheelStart=0,wheelTotal=0;
+ let lastCamera=null,previousUIKey='',lastKnownAllocation=0,pendingResize=false;
+ const resources=new Map();const events=[];
+ const add3=(a,b)=>a.map((v,i)=>v+b[i]),sub3=(a,b)=>a.map((v,i)=>v-b[i]);
+ const mul3=(a,s)=>a.map(v=>v*s),dot3=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0);
+ const normalize3=a=>mul3(a,1/Math.max(1e-12,Math.hypot(...a)));
+ const cross3=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+ const axes=[[1,0],[-.5,Math.sqrt(3)/2],[.5,Math.sqrt(3)/2],[1,0],[.5,-Math.sqrt(3)/2],[-.5,-Math.sqrt(3)/2],[-1,0]];
+ const bytesMiB=n=>Number((n/1048576).toFixed(2));
+ function event(type,data={}){events.push({at:new Date().toISOString(),type,...data});if(events.length>32)events.shift();}
+ function announce(text){document.getElementById('announcement').textContent=text;}
+ function alive(generation){return generation===initGeneration&&!state.lost&&gl&&!gl.isContextLost();}
+ function yieldUI(){return new Promise(resolve=>setTimeout(resolve,0));}
+ function center(id){return id>=1&&id<=6?[axes[id][0]*3.15,0,axes[id][1]*3.15]:[0,0,0];}
+ function cameraTarget(ch){ch=clamp(ch,0,7);return ch===0?[0,1.06,0]:ch===7?[0,1.05,0]:add3(center(ch),[0,[0,1.55,1.03,1.25,1.07,1.20,1.62][ch],0]);}
+ function cameraEye(ch){
+  ch=clamp(ch,0,7);if(ch===0)return [.9,6.8,13.2];if(ch===7)return [-7.7,5.8,10.1];
+  const c=center(ch),r=normalize3(c),t=[-r[2],0,r[0]];
+  return add3(add3(add3(c,mul3(r,ch===3||ch===6?4.3:4)),mul3(t,ch===1?.8:ch===3?1.55:ch===5?1.05:.7)),[0,ch===3?3.7:ch===2?3.6:ch===4?3.65:2.95,0]);
+ }
+ function spline(a,b,c,d,t){return a.map((_,i)=>.5*(2*b[i]+(-a[i]+c[i])*t+(2*a[i]-5*b[i]+4*c[i]-d[i])*t*t+(-a[i]+3*b[i]-3*c[i]+d[i])*t*t*t));}
+ function camera(){
+  const pos=clamp(state.chapter,0,7),section=Math.floor(pos),f=pos-section;
+  const at=fn=>spline(fn(section-1),fn(section),fn(section+1),fn(section+2),f),target=at(cameraTarget);
+  let offset=sub3(at(cameraEye),target);
+  const angle=clamp(state.drag[0],-.9,.9)*1.65,c=Math.cos(angle),s=Math.sin(angle),x=offset[0],z=offset[2];
+  offset[0]=c*x+s*z;offset[2]=-s*x+c*z;offset[1]+=clamp(state.drag[1],-.9,.9)*3;
+  const a=state.width/Math.max(1,state.height),portrait=a<.85;
+  const f0=clamp(Math.min(pos,7-pos)/.8,0,1),wide=1-f0*f0*(3-2*f0);
+  if(portrait)offset=mul3(offset,1.48+.37*wide);
+  const origin=add3(target,offset),forward=normalize3(sub3(target,origin));
+  const right=normalize3(cross3(forward,[0,1,0])),up=cross3(right,forward);
+  return {origin,forward,right,up,lens:[portrait?0:(.02+.045*(1-wide))*a,portrait?.085:.105,portrait?1.43:1.82-.10*wide]};
+ }
+ function allocation(){
+  const objects=[...resources.values()].map(({kind,label,bytes})=>({kind,label,bytes}));
+  const total=objects.reduce((sum,r)=>sum+r.bytes,0);lastKnownAllocation=total||lastKnownAllocation;
+  return {knownPayloadBytes:total,knownPayloadMiB:bytesMiB(total),objectCount:objects.length,objects,
+   scope:'Application texture and buffer payloads only. Excludes driver padding, shader storage, browser/compositor buffers and CPU memory. Not a VRAM measurement.'};
+ }
+ function own(object,kind,label,bytes=0){if(!object)throw new Error('GPU object creation failed: '+label);resources.set(object,{kind,label,bytes});return object;}
+ function setBytes(object,bytes){const r=resources.get(object);if(r)r.bytes=bytes;}
+ function drop(object){
+  if(!object)return;const r=resources.get(object);if(!r)return;
+  if(gl&&!state.lost&&!gl.isContextLost()){
+   const deletes={texture:'deleteTexture',buffer:'deleteBuffer',framebuffer:'deleteFramebuffer',vao:'deleteVertexArray',program:'deleteProgram'};
+   try{gl[deletes[r.kind]](object);}catch(_){/* A real context loss can invalidate a deletion in flight. */}
+  }
+  resources.delete(object);
+ }
+ function disposeTarget(){if(!target)return;drop(target.fbo);drop(target.color);drop(target.depth);target=null;}
+ function releaseResources(){for(const object of [...resources.keys()])drop(object);programs={};mesh=null;target=null;environment=null;probes=null;surfaceColor=null;surfaceNormal=null;emptyVAO=null;}
+ function resetTelemetry(){
+  if(gl&&!gl.isContextLost()){
+   for(const f of fences)gl.deleteSync(f.sync);for(const t of timerQueries)gl.deleteQuery(t.query);
+  }
+  fences=[];timerQueries=[];submittedStamps=[];completedStamps=[];cpuSamples=[];gpuSamples=[];frameIntervals=[];
+  state.submittedFrames=0;state.completedFrames=0;state.drawFPS=null;state.completedFPS=null;state.gpuFrameMs=null;
+  state.gpuSamples=0;state.frame=0;state.lastSubmit=0;state.lastTime=0;
+ }
+ async function decompress(encoded){
+  if(typeof DecompressionStream==='undefined')throw new Error('This browser does not provide gzip decompression for the embedded assets.');
+  const s=atob(encoded),bytes=new Uint8Array(s.length);
+  for(let i=0;i<s.length;i++)bytes[i]=s.charCodeAt(i);
+  return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+ }
+ async function uploadAsset(encoded,callback,stage,percent,generation){
+  state.stage=stage;message.textContent=stage;progress.style.width=percent+'%';await yieldUI();
+  let bytes=await decompress(encoded);if(!alive(generation))throw new Error('Startup was cancelled.');
+  callback(bytes);bytes=null;await yieldUI();
+  if(!alive(generation))throw new Error('Graphics context was lost during '+stage+'.');
+ }
+ async function makeProgram(vs,fs,label,generation){
+  const api=gl;const shaders=[];let p=null;
+  try{
+   for(const [type,source] of [[api.VERTEX_SHADER,vs],[api.FRAGMENT_SHADER,fs]]){
+    const sh=api.createShader(type);if(!sh)throw new Error('Shader allocation failed.');shaders.push(sh);api.shaderSource(sh,source);api.compileShader(sh);
+   }
+   p=api.createProgram();if(!p)throw new Error('Program allocation failed.');for(const sh of shaders)api.attachShader(p,sh);api.linkProgram(p);
+   const ext=api.getExtension('KHR_parallel_shader_compile'),started=performance.now();
+   if(ext)while(!api.getProgramParameter(p,ext.COMPLETION_STATUS_KHR)){
+    if(!alive(generation))throw new Error('Compilation cancelled by graphics-context loss.');
+    if(performance.now()-started>90000)throw new Error('Shader compilation timed out.');await new Promise(r=>setTimeout(r,16));
+   }
+   if(!api.getProgramParameter(p,api.LINK_STATUS))throw new Error(shaders.map(sh=>api.getShaderInfoLog(sh)).concat(api.getProgramInfoLog(p)).filter(Boolean).join('\n')||'Shader linking failed.');
+   if(!alive(generation))throw new Error('Program initialization was cancelled.');
+   own(p,'program',label);return {p,u:{}};
+  }catch(e){if(p&&!api.isContextLost())api.deleteProgram(p);throw e;}
+  finally{if(api&&!api.isContextLost())for(const sh of shaders)api.deleteShader(sh);}
+ }
+ function loc(pr,name){return name in pr.u?pr.u[name]:(pr.u[name]=gl.getUniformLocation(pr.p,name));}
+ function one(pr,name,value){gl.uniform1f(loc(pr,name),value);}
+ function integer(pr,name,value){gl.uniform1i(loc(pr,name),value);}
+ function common(pr,c){
+  gl.useProgram(pr.p);gl.uniform2f(loc(pr,'u_resolution'),state.width,state.height);
+  one(pr,'u_time',state.time);one(pr,'u_chapter',state.chapter);one(pr,'u_exposure',1);
+  integer(pr,'u_linear_hdr',target.linear?1:0);
+  for(const name of ['origin','forward','right','up','lens'])gl.uniform3fv(loc(pr,'u_camera_'+name),c[name]);
+  gl.activeTexture(gl.TEXTURE3);gl.bindTexture(gl.TEXTURE_CUBE_MAP,environment);integer(pr,'u_environment',3);
+  gl.uniform3fv(loc(pr,'u_irradiance[0]'),ENV_INFO.irradianceSH.flat());
+  gl.activeTexture(gl.TEXTURE5);gl.bindTexture(gl.TEXTURE_2D_ARRAY,probes);integer(pr,'u_probe_cache',5);integer(pr,'u_have_probes',1);
+  gl.activeTexture(gl.TEXTURE6);gl.bindTexture(gl.TEXTURE_2D_ARRAY,surfaceColor);integer(pr,'u_surface_color',6);
+  gl.activeTexture(gl.TEXTURE7);gl.bindTexture(gl.TEXTURE_2D_ARRAY,surfaceNormal);integer(pr,'u_surface_normal',7);
+ }
+ function uploadEnvironment(bytes){
+  if(bytes.byteLength!==ENV_INFO.bytes)throw new Error('Environment byte length mismatch.');
+  environment=own(gl.createTexture(),'texture','512px HDR environment / full mip chain',bytes.byteLength);
+  gl.activeTexture(gl.TEXTURE3);gl.bindTexture(gl.TEXTURE_CUBE_MAP,environment);
+  gl.texStorage2D(gl.TEXTURE_CUBE_MAP,ENV_INFO.levels,gl.RGB9_E5,ENV_INFO.size,ENV_INFO.size);
+  const data=new Uint32Array(bytes);let offset=0;
+  for(let level=0;level<ENV_INFO.levels;level++){
+   const size=Math.max(1,ENV_INFO.size>>level),len=size*size;
+   for(let face=0;face<6;face++){
+    gl.texSubImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X+face,level,0,0,size,size,gl.RGB,gl.UNSIGNED_INT_5_9_9_9_REV,data.subarray(offset,offset+len));offset+=len;
+   }
+  }
+  gl.texParameteri(gl.TEXTURE_CUBE_MAP,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_CUBE_MAP,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  for(const axis of [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T,gl.TEXTURE_WRAP_R])gl.texParameteri(gl.TEXTURE_CUBE_MAP,axis,gl.CLAMP_TO_EDGE);
+ }
+ function uploadProbes(bytes){
+  if(bytes.byteLength!==PROBE_INFO.bytes)throw new Error('Reflection byte length mismatch.');
+  probes=own(gl.createTexture(),'texture','7 scene-local HDR probes / full mip chains',bytes.byteLength);
+  gl.activeTexture(gl.TEXTURE5);gl.bindTexture(gl.TEXTURE_2D_ARRAY,probes);
+  gl.texStorage3D(gl.TEXTURE_2D_ARRAY,PROBE_INFO.levels,gl.RGB9_E5,PROBE_INFO.size,PROBE_INFO.size,PROBE_INFO.layers);
+  const data=new Uint32Array(bytes);let offset=0;
+  for(let level=0;level<PROBE_INFO.levels;level++){
+   const size=Math.max(1,PROBE_INFO.size>>level),len=size*size*PROBE_INFO.layers;
+   gl.texSubImage3D(gl.TEXTURE_2D_ARRAY,level,0,0,0,size,size,PROBE_INFO.layers,gl.RGB,gl.UNSIGNED_INT_5_9_9_9_REV,data.subarray(offset,offset+len));offset+=len;
+  }
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+ }
+ function uploadSurface(bytes,unit,label){
+  const size=SURFACE_INFO.size,layers=SURFACE_INFO.layers,levels=Math.log2(size)+1;
+  if(bytes.byteLength!==size*size*layers*4)throw new Error('Material map byte length mismatch.');
+  let payload=0;for(let l=0;l<levels;l++)payload+=(size>>l)**2*layers*4;
+  const t=own(gl.createTexture(),'texture',label,payload);gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D_ARRAY,t);
+  gl.texStorage3D(gl.TEXTURE_2D_ARRAY,levels,gl.RGBA8,size,size,layers);
+  gl.texSubImage3D(gl.TEXTURE_2D_ARRAY,0,0,0,0,size,size,layers,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array(bytes));gl.generateMipmap(gl.TEXTURE_2D_ARRAY);
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.REPEAT);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.REPEAT);
+  const ext=gl.getExtension('EXT_texture_filter_anisotropic');if(ext)gl.texParameterf(gl.TEXTURE_2D_ARRAY,ext.TEXTURE_MAX_ANISOTROPY_EXT,Math.min(4,gl.getParameter(ext.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+  return t;
+ }
+ function uploadMesh(b){
+  const d=new DataView(b);if(d.getUint32(0,true)!==0x32425943||d.getUint32(12,true)!==28)throw new Error('Invalid CYBR geometry header.');
+  const nv=d.getUint32(4,true),ni=d.getUint32(8,true);if(b.byteLength!==16+nv*28+ni*4)throw new Error('Truncated geometry.');
+  mesh={vao:own(gl.createVertexArray(),'vao','geometry layout'),vbo:own(gl.createBuffer(),'buffer','original vertex buffer',nv*28),ibo:own(gl.createBuffer(),'buffer','original triangle indices',ni*4),count:ni};
+  gl.bindVertexArray(mesh.vao);gl.bindBuffer(gl.ARRAY_BUFFER,mesh.vbo);gl.bufferData(gl.ARRAY_BUFFER,new Uint8Array(b,16,nv*28),gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mesh.ibo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(b,16+nv*28,ni),gl.STATIC_DRAW);
+  for(const [loc,size,type,norm,offset] of [[0,3,gl.FLOAT,false,0],[1,3,gl.SHORT,true,12],[2,4,gl.UNSIGNED_BYTE,false,18],[3,2,gl.UNSIGNED_BYTE,true,22],[4,2,gl.SHORT,true,24]]){
+   gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,type,norm,28,offset);
+  }
+  gl.bindVertexArray(null);emptyVAO=own(gl.createVertexArray(),'vao','fullscreen triangle');
+ }
+ function uploadIrradiance(bytes){
+  if(bytes.byteLength!==GEOMETRY_INFO.vertices*6)throw new Error('Baked lighting geometry mismatch.');
+  mesh.irradiance=own(gl.createBuffer(),'buffer','original per-vertex indirect lighting',bytes.byteLength);
+  gl.bindVertexArray(mesh.vao);gl.bindBuffer(gl.ARRAY_BUFFER,mesh.irradiance);gl.bufferData(gl.ARRAY_BUFFER,new Uint8Array(bytes),gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(5);gl.vertexAttribPointer(5,3,gl.HALF_FLOAT,false,6,0);gl.bindVertexArray(null);
+ }
+ function newTexture(label,bytes,format,w,h,filter){
+  const t=own(gl.createTexture(),'texture',label,bytes);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,t);
+  gl.texStorage2D(gl.TEXTURE_2D,1,format,w,h);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,filter);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,filter);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t;
+ }
+ function allocateTarget(w,h){
+  // Delete before allocating: an orientation change must not retain the old full-size targets.
+  disposeTarget();
+  const formats=floatColor?[
+   {name:'R11F_G11F_B10F',format:gl.R11F_G11F_B10F,bpp:4,linear:true},
+   {name:'RGBA8 RGBM',format:gl.RGBA8,bpp:4,linear:false}
+  ]:[{name:'RGBA8 RGBM',format:gl.RGBA8,bpp:4,linear:false}];
+  for(const fmt of formats){
+   let color=null,depth=null,fbo=null;
+   try{
+    color=newTexture('native opaque HDR color',w*h*fmt.bpp,fmt.format,w,h,gl.LINEAR);
+    depth=newTexture('native depth',w*h*4,gl.DEPTH_COMPONENT24,w,h,gl.NEAREST);
+    fbo=own(gl.createFramebuffer(),'framebuffer','native opaque framebuffer');gl.bindFramebuffer(gl.FRAMEBUFFER,fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,color,0);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.TEXTURE_2D,depth,0);gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
+    if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw new Error('Framebuffer incomplete: '+fmt.name);
+    target={color,depth,fbo,width:w,height:h,format:fmt.name,linear:fmt.linear};gl.bindFramebuffer(gl.FRAMEBUFFER,null);return;
+   }catch(e){drop(fbo);drop(color);drop(depth);event('framebuffer-format-rejected',{format:fmt.name,error:String(e)});if(gl.isContextLost())throw e;}
+  }
+  state.nativeAllocationFailures++;throw new Error('The browser could not allocate the native render target. Resolution was not silently reduced. Use an explicit scale in Diagnostics or restart.');
+ }
+ function resize(force=false){
+  if(!gl||state.lost||!mesh)return;
+  if(!force&&fences.length){pendingResize=true;requestFrame();return;}
+  pendingResize=false;
+  const r=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+  const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+  let w=Math.max(2,Math.round(nw*state.scale)),h=Math.max(2,Math.round(nh*state.scale));
+  const limit=Math.min(1,limits.width/w,limits.height/h);w=Math.max(2,Math.floor(w*limit));h=Math.max(2,Math.floor(h*limit));
+  state.cssWidth=r.width;state.cssHeight=r.height;state.dpr=dpr;state.nativeWidth=nw;state.nativeHeight=nh;
+  state.resolutionReason=limit<1?'hardware-limit':state.scale===1?'native':'explicit-user-selection';
+  if(force||!target||w!==state.width||h!==state.height){
+   // Flush once per resize, never wait for GPU completion on the UI thread.
+   disposeTarget();canvas.width=w;canvas.height=h;state.width=gl.drawingBufferWidth;state.height=gl.drawingBufferHeight;
+   if(state.width!==w||state.height!==h)state.resolutionReason='browser-allocation-limit';
+   if(state.width<2||state.height<2)throw new Error('The browser returned an empty drawing buffer.');
+   allocateTarget(state.width,state.height);state.resizeCount++;state.lastResizeAt=performance.now();
+   canvas.dataset.resolution=state.width+'x'+state.height;canvas.dataset.resolutionReason=state.resolutionReason;
+   state.dirty=true;event('resize',{width:state.width,height:state.height,knownMiB:allocation().knownPayloadMiB});
+  }
+  requestFrame();
+ }
+ function loadError(error){
+  state.error=String(error.message||error);state.ready=false;initializing=false;state.stage='startup-error';
+  if(state.raf)cancelAnimationFrame(state.raf);state.raf=0;
+  status.hidden=false;message.textContent='The renderer could not start.';detail.textContent=state.error;detail.hidden=false;
+  document.getElementById('retry').hidden=false;canvas.dataset.status='error';event('startup-error',{message:state.error});syncUI();
+ }
+ async function initialize(){
+  if(initializing)return;initializing=true;const generation=++initGeneration;
+  state.error='';state.ready=false;state.lost=false;status.hidden=false;detail.hidden=true;progress.style.width='2%';
+  document.getElementById('retry').hidden=true;message.textContent='Preparing the native renderer.';
+  try{
+   gl=canvas.getContext('webgl2',{alpha:false,antialias:false,depth:false,stencil:false,preserveDrawingBuffer:false,powerPreference:'default',failIfMajorPerformanceCaveat:false})||canvas.getContext('webgl2');
+   if(!gl)throw new Error('WebGL 2 was not supplied by this browser.');
+   const ext=gl.getExtension('WEBGL_debug_renderer_info');
+   gpu={vendor:gl.getParameter(ext?ext.UNMASKED_VENDOR_WEBGL:gl.VENDOR),renderer:gl.getParameter(ext?ext.UNMASKED_RENDERER_WEBGL:gl.RENDERER),version:gl.getParameter(gl.VERSION),shadingLanguage:gl.getParameter(gl.SHADING_LANGUAGE_VERSION)};
+   const max=Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE),gl.getParameter(gl.MAX_RENDERBUFFER_SIZE)),vp=gl.getParameter(gl.MAX_VIEWPORT_DIMS);
+   limits={width:Math.min(max,vp[0]),height:Math.min(max,vp[1])};
+   floatColor=!!gl.getExtension('EXT_color_buffer_float');timerExt=gl.getExtension('EXT_disjoint_timer_query_webgl2');resetTelemetry();
+   // Compile two bounded raster programs only. No dormant ray tracer is compiled.
+   state.stage='compile';message.textContent='Compiling the two raster passes.';
+   programs.scene=await makeProgram(SHADERS['scene.vert'],SHADERS['scene.frag'],'opaque raster program',generation);
+   if(!alive(generation))return;
+   programs.composite=await makeProgram(SHADERS['screen.vert'],SHADERS['composite.frag'],'optics + display + text',generation);
+   if(!alive(generation))return;
+   // Sequential upload bounds peak CPU memory. Decompressed arrays are not retained.
+   await uploadAsset(GEOMETRY_GZIP,uploadMesh,'Loading the original precision geometry.',15,generation);
+   await uploadAsset(IRR_GZIP,uploadIrradiance,'Loading baked surface lighting.',35,generation);
+   await uploadAsset(ENV_GZIP,uploadEnvironment,'Loading the studio illumination.',48,generation);
+   await uploadAsset(PROBE_GZIP,uploadProbes,'Loading local reflections.',57,generation);
+   await uploadAsset(SURFACE_COLOR,b=>surfaceColor=uploadSurface(b,6,'8 × 1024px albedo + roughness maps'),'Loading full-detail materials.',73,generation);
+   await uploadAsset(SURFACE_NORMAL,b=>surfaceNormal=uploadSurface(b,7,'8 × 1024px normal + occlusion maps'),'Loading full-detail surface normals.',87,generation);
+   if(!alive(generation))return;
+   resize(true);gl.disable(gl.DITHER);gl.disable(gl.BLEND);state.ready=true;state.dirty=true;state.stage='ready';initializing=false;
+   canvas.dataset.status='ready';progress.style.width='100%';
+   if(observer)observer.disconnect();
+   observer=new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(state.ready&&!state.lost)try{resize();}catch(e){loadError(e);}},90);});observer.observe(canvas);
+   event('ready',{renderer:gpu.renderer,resolution:[state.width,state.height],knownMiB:allocation().knownPayloadMiB});syncUI();requestFrame();
+  }catch(e){if(generation===initGeneration&&!state.lost)loadError(e);}
+ }
+ function pollTelemetry(now){
+  while(fences.length){
+   const f=fences[0],result=gl.clientWaitSync(f.sync,0,0);if(result===gl.TIMEOUT_EXPIRED)break;
+   gl.deleteSync(f.sync);fences.shift();
+   if(result!==gl.WAIT_FAILED){state.completedFrames=Math.max(state.completedFrames,f.sequence);state.fenceWallMs=Math.max(0,now-f.at);state.peakFenceWallMs=Math.max(state.peakFenceWallMs,state.fenceWallMs);completedStamps.push({t:now,n:f.sequence});}
+   else event('fence-wait-failed');
+  }
+  while(completedStamps.length>1&&completedStamps[0].t<now-2500)completedStamps.shift();
+  const a=completedStamps[0],b=completedStamps.at(-1);state.completedFPS=a&&b&&b.t-a.t>300?(b.n-a.n)*1000/(b.t-a.t):null;
+  if(timerExt&&timerQueries.length){
+   const disjoint=gl.getParameter(timerExt.GPU_DISJOINT_EXT);
+   if(disjoint){state.gpuDisjointEvents++;state.gpuFrameMs=null;gpuSamples=[];for(const t of timerQueries)gl.deleteQuery(t.query);timerQueries=[];return;}
+   while(timerQueries.length){
+    const t=timerQueries[0];if(!gl.getQueryParameter(t.query,gl.QUERY_RESULT_AVAILABLE)){
+    if(now-t.at>8000){gl.deleteQuery(t.query);timerQueries.shift();state.timerFailures++;continue;}break;
+   }
+    timerQueries.shift();const ms=gl.getQueryParameter(t.query,gl.QUERY_RESULT)/1e6;gl.deleteQuery(t.query);
+    if(Number.isFinite(ms)&&ms>0){gpuSamples.push(ms);if(gpuSamples.length>60)gpuSamples.shift();state.gpuSamples++;state.gpuFrameMs=gpuSamples.reduce((s,x)=>s+x,0)/gpuSamples.length;}
+   }
+  }
+ }
+ function requestFrame(){if(!state.raf&&state.ready&&!state.lost&&!document.hidden&&panel.hidden)state.raf=requestAnimationFrame(render);}
+ function invalidate(){state.dirty=true;requestFrame();}
+ function advance(now){
+  if(state.transitionDuration>0){
+   const t=clamp((now-state.transitionStart)/state.transitionDuration,0,1),e=t*t*(3-2*t);
+   state.chapter=state.transitionFrom+(state.target-state.transitionFrom)*e;state.dirty=true;
+   if(t>=1){state.chapter=state.target;state.transitionDuration=0;}
+  }
+ }
+ function groupVisible(g,c){
+  const p=sub3(g.bounds.center,c.origin),r=g.bounds.radius,z=dot3(p,c.forward);
+  if(z+r<.06||z-r>90)return false;
+  const x=dot3(p,c.right),y=dot3(p,c.up),a=state.width/state.height,f=c.lens[2];
+  const planes=[[f,0,c.lens[0]+a/2],[-f,0,a/2-c.lens[0]],[0,f,c.lens[1]+.5],[0,-f,.5-c.lens[1]]];
+  return planes.every(n=>n[0]*x+n[1]*y+n[2]*z>=-r*Math.hypot(...n));
+ }
+ function draw(c){
+  const pr=programs.scene;
+  gl.bindFramebuffer(gl.FRAMEBUFFER,target.fbo);gl.viewport(0,0,state.width,state.height);
+  gl.enable(gl.DEPTH_TEST);gl.depthMask(true);gl.depthFunc(gl.LEQUAL);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);gl.disable(gl.BLEND);
+  gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);common(pr,c);gl.bindVertexArray(mesh.vao);
+  const groups=GEOMETRY_INFO.groups.filter(g=>groupVisible(g,c));
+  groups.sort((a,b)=>{
+   if(a.name.includes('sweep'))return 1;if(b.name.includes('sweep'))return -1;
+   return Math.hypot(...sub3(a.bounds.center,c.origin))-a.bounds.radius-(Math.hypot(...sub3(b.bounds.center,c.origin))-b.bounds.radius);
+  });
+  state.trianglesDrawn=0;state.groupsDrawn=groups.length;state.groupsCulled=GEOMETRY_INFO.groups.length-groups.length;
+  for(const g of groups){gl.drawElements(gl.TRIANGLES,g.indexCount,gl.UNSIGNED_INT,g.indexStart*4);state.trianglesDrawn+=g.indexCount/3;}
+  const fx=programs.composite;gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,state.width,state.height);
+  gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);common(fx,c);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,target.color);integer(fx,'u_scene',0);
+  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,target.depth);integer(fx,'u_depth',1);
+  gl.uniform4f(loc(fx,'u_mouse'),state.pointer[0]*state.width,state.pointer[1]*state.height,-1,-1);
+  integer(fx,'u_edge_aa',state.edgeAA?1:0);one(fx,'u_render_mode',state.scale===1?0:state.scale===.75?1:2);
+  one(fx,'u_playback',state.playing?1:0);one(fx,'u_fps',state.completedFPS??state.drawFPS??-1);one(fx,'u_gpu_ms',state.gpuFrameMs??-1);one(fx,'u_rt_mode',1);one(fx,'u_interaction',1);
+  gl.bindVertexArray(emptyVAO);gl.drawArrays(gl.TRIANGLES,0,3);
+ }
+ function render(now){
+  state.raf=0;if(!state.ready||state.lost||document.hidden||!panel.hidden)return;
+  try{
+   if(gl.isContextLost())return;
+   const dt=state.lastTime?clamp((now-state.lastTime)/1000,0,.25):0;state.lastTime=now;
+   if(state.playing){state.time+=dt;state.dirty=true;}
+   if(state.tour){const phase=Math.max(0,(state.time-state.tourStart)/5.5),seg=Math.floor(phase),t=clamp((phase-seg-.55)/.45,0,1);state.chapter=state.target=Math.min(7,seg+t*t*(3-2*t));state.dirty=true;if(phase>=8)state.tour=false;}
+   advance(now);if(state.dpr!==(window.devicePixelRatio||1))pendingResize=true;pollTelemetry(performance.now());
+   if(pendingResize){if(fences.length){requestFrame();return;}resize();}
+   if(!state.dirty){if(fences.length||timerQueries.length)requestFrame();return;}
+   // Bound queued work, but never wait synchronously or block on a timer query.
+   if(fences.length>=2){requestFrame();return;}
+   const begin=performance.now();lastCamera=camera();let query=null;
+   if(timerExt&&timerQueries.length<3&&state.frame%8===0){query=gl.createQuery();if(query)gl.beginQuery(timerExt.TIME_ELAPSED_EXT,query);}
+   state.stage='draw';draw(lastCamera);
+   if(query){gl.endQuery(timerExt.TIME_ELAPSED_EXT);timerQueries.push({query,at:begin});}
+   state.frame++;state.submittedFrames++;
+   const sync=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);if(sync)fences.push({sync,at:begin,sequence:state.submittedFrames});
+   if(state.lastSubmit){frameIntervals.push(now-state.lastSubmit);if(frameIntervals.length>180)frameIntervals.shift();}
+   state.lastSubmit=now;submittedStamps.push(now);while(submittedStamps.length>1&&submittedStamps[0]<now-2500)submittedStamps.shift();
+   state.drawFPS=submittedStamps.length>=3&&now-submittedStamps[0]>300?(submittedStamps.length-1)*1000/(now-submittedStamps[0]):null;
+   if(state.inputSequence!==state.submittedInputSequence){state.inputToSubmitMs=Math.max(0,begin-state.lastInputAt);state.submittedInputSequence=state.inputSequence;}
+   cpuSamples.push(performance.now()-begin);if(cpuSamples.length>90)cpuSamples.shift();
+   state.dirty=false;state.stage='ready';status.hidden=true;syncUI();
+   if(now-state.telemetryAt>700){state.telemetryAt=now;const fps=state.completedFPS??state.drawFPS;document.getElementById('visible-diagnostics').textContent='Diagnostics'+(state.playing&&fps!==null?' · '+fps.toFixed(0)+' fps':'');}
+   if(state.playing||state.tour||state.transitionDuration>0||fences.length||timerQueries.length)requestFrame();
+  }catch(e){if(!state.lost)loadError(e);}
+ }
+ function noteInput(){state.lastInputAt=performance.now();state.inputSequence++;state.dirty=true;}
+ function selectChapter(value,direct=false){
+  const now=performance.now();advance(now);noteInput();state.tour=false;state.target=clamp(value,0,7);
+  if(direct||reduced.matches){state.chapter=state.target;state.transitionDuration=0;}
+  else{state.transitionFrom=state.chapter;state.transitionStart=now;state.transitionDuration=clamp(150+Math.abs(state.target-state.chapter)*45,150,360);}
+  syncUI();requestFrame();
+ }
+ function syncUI(){
+  const key=[Math.round(state.chapter),state.playing,state.lost,state.ready,state.edgeAA,state.width,state.height,state.scale].join('|');
+  if(key===previousUIKey)return;previousUIKey=key;
+  document.getElementById('play-button').textContent=state.playing?'Pause animation':'Play animation';
+  document.getElementById('play-button').setAttribute('aria-pressed',String(state.playing));
+  document.getElementById('panel-play').textContent=state.playing?'Pause animation':'Play animation';
+  document.getElementById('edge-aa').textContent='Edge AA '+(state.edgeAA?'on':'off');document.getElementById('edge-aa').setAttribute('aria-pressed',String(state.edgeAA));
+  document.getElementById('live-status').textContent=state.lost?'Renderer stopped · native pixels retained':!state.ready?'Preparing native renderer':(state.playing?'Live':'Interactive · on demand')+' · '+state.width+' × '+state.height+(state.scale===1?' native':' explicit scale');
+  canvas.dataset.chapter=String(Math.round(state.chapter));
+  document.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',Number(b.dataset.chapter)===Math.round(state.target)?'page':'false'));
+  document.querySelectorAll('[data-scale]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.scale)===state.scale)));
+  document.title='CYBR / '+names[Math.round(state.chapter)]+' — Mobile Recovery';
+ }
+ function setScale(value){state.scale=clamp(value,.25,1);try{resize();}catch(e){loadError(e);}previousUIKey='';syncUI();announce('Explicit render scale '+Math.round(state.scale*100)+' percent.');}
+ function togglePlay(){state.playing=!state.playing;state.lastTime=0;syncUI();invalidate();}
+ function logical(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*900/r.height,y:(r.bottom-e.clientY)*900/r.height,w:r.width*900/r.height};}
+ function controlAt(p){
+  const {x,y,w}=p;
+  if(y>=826&&y<=876&&x>w-124&&x<w-28)return 'source';
+  if(y>=20&&y<=70&&x>28&&x<w-28)return ['chapter',clamp(Math.floor((x-28)/((w-56)/8)),0,7)];
+  if(state.chapter>6.5&&y>=106&&y<=146){const portrait=w<760;if(x>=28&&x<=(portrait?w*.5-8:178))return 'github';if(x>=(portrait?w*.5+8:194)&&x<=(portrait?w-28:374))return 'x';}
+  return null;
+ }
+ function runControl(a){if(Array.isArray(a))selectChapter(a[1]);else if(a==='source')saveShaders();else if(a==='github')window.open('https://github.com/cybrdelic','_blank','noopener');else if(a==='x')window.open('https://x.com/cybrdelic','_blank','noopener');}
+ function project(p){const c=lastCamera||camera(),v=sub3(p,c.origin),z=dot3(v,c.forward);if(z<=0)return null;const uv=[dot3(v,c.right)*c.lens[2]/z+c.lens[0],dot3(v,c.up)*c.lens[2]/z+c.lens[1]];return [state.cssWidth*.5+uv[0]*state.cssHeight,state.cssHeight*.5-uv[1]*state.cssHeight,z];}
+ function pickModule(e){
+  const r=canvas.getBoundingClientRect(),xy=[e.clientX-r.left,e.clientY-r.top];let chosen=0,best=Infinity;
+  for(let id=1;id<=7;id++){const p=project(id===7?[0,2,0]:add3(center(id),[0,1.4,0]));if(!p)continue;const radius=state.cssHeight*(lastCamera||camera()).lens[2]*1.1/p[2],d=Math.hypot(xy[0]-p[0],xy[1]-p[1]);if(d<radius&&d<best){best=d;chosen=id;}}
+  if(chosen)selectChapter(chosen);
+ }
+ function bindCanvas(){
+  canvas.addEventListener('pointerdown',e=>{
+   if(e.button!==0)return;canvas.focus({preventScroll:true});const p=logical(e);
+   gesture={id:e.pointerId,x:e.clientX,y:e.clientY,chapter:state.chapter,drag:state.drag.slice(),touch:e.pointerType==='touch',control:controlAt(p),moved:0};
+   state.pressed=true;state.transitionDuration=0;canvas.setPointerCapture(e.pointerId);noteInput();requestFrame();
+  });
+  canvas.addEventListener('pointermove',e=>{
+   const r=canvas.getBoundingClientRect();state.pointer=[(e.clientX-r.left)/r.width,(r.bottom-e.clientY)/r.height];
+   if(!gesture||gesture.id!==e.pointerId)return;
+   const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;gesture.moved=Math.max(gesture.moved,Math.hypot(dx,dy));if(gesture.control)return;
+   if(gesture.touch&&Math.abs(dy)>Math.abs(dx)*.8)selectChapter(gesture.chapter-dy/Math.max(140,state.cssHeight*.23),true);
+   else{noteInput();state.drag=[clamp(gesture.drag[0]+dx/state.cssWidth,-.9,.9),clamp(gesture.drag[1]-dy/state.cssHeight,-.9,.9)];requestFrame();}
+  });
+  canvas.addEventListener('pointerup',e=>{
+   if(!gesture||gesture.id!==e.pointerId)return;const g=gesture;gesture=null;state.pressed=false;
+   if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);
+   if(g.moved<7){if(g.control)runControl(g.control);else pickModule(e);}else if(g.touch&&!g.control)selectChapter(Math.round(state.chapter));invalidate();
+  });
+  const cancel=()=>{if(gesture&&gesture.touch&&gesture.moved>7&&!gesture.control)selectChapter(Math.round(state.chapter));gesture=null;state.pressed=false;invalidate();};
+  canvas.addEventListener('pointercancel',cancel);canvas.addEventListener('lostpointercapture',cancel);
+  canvas.addEventListener('dblclick',()=>{state.drag=[0,0];invalidate();});
+  canvas.addEventListener('wheel',e=>{
+   e.preventDefault();const now=performance.now(),unit=e.deltaMode===1?16:e.deltaMode===2?state.cssHeight:1;
+   const dy=clamp((Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX)*unit,-350,350);
+   if(now-lastWheelAt>140||Math.sign(dy)!==wheelDirection){wheelStart=Math.round(state.chapter);wheelTotal=0;}
+   lastWheelAt=now;wheelDirection=Math.sign(dy);wheelTotal+=dy;selectChapter(state.chapter+dy/380,true);clearTimeout(wheelTimer);
+   wheelTimer=setTimeout(()=>{let dest=Math.round(state.chapter);if(dest===wheelStart&&Math.abs(wheelTotal)>45)dest+=Math.sign(wheelTotal);selectChapter(dest);},80);
+  },{passive:false});
+  canvas.addEventListener('webglcontextlost',e=>{
+   if(e.currentTarget!==canvas)return;e.preventDefault();
+   const before=allocation();state.lastFailure={at:new Date().toISOString(),kind:'webglcontextlost',statusMessage:e.statusMessage||'',stage:state.stage,resolution:[state.width,state.height],knownPayloadBytes:before.knownPayloadBytes,submittedFrames:state.submittedFrames,completedFrames:state.completedFrames};
+   state.lost=true;state.ready=false;state.playing=false;state.contextLosses++;state.error='WebGL context lost; the driver did not provide a specific cause.';
+   initGeneration++;initializing=false;fences=[];timerQueries=[];if(state.raf)cancelAnimationFrame(state.raf);state.raf=0;
+   resources.clear();programs={};mesh=null;target=null;gesture=null;state.pressed=false;if(observer)observer.disconnect();
+   status.hidden=false;message.textContent='Graphics context lost.';
+   detail.textContent='Rendering is stopped. Diagnostics remains available. The browser may restore the context; Restart renderer creates a fresh canvas without the old GPU resources.';detail.hidden=false;
+   document.getElementById('retry').hidden=false;canvas.dataset.status='lost';event('context-lost',state.lastFailure);previousUIKey='';syncUI();
+   clearTimeout(recoveryTimer);recoveryTimer=setTimeout(()=>{if(state.lost)message.textContent='Rendering is still stopped. Restart is available.';},5000);
+  });
+  canvas.addEventListener('webglcontextrestored',e=>{
+   if(e.currentTarget!==canvas)return;clearTimeout(recoveryTimer);state.restorations++;state.lost=false;event('context-restored');
+   if(state.contextLosses<=1){state.playing=false;initialize();}
+   else{message.textContent='The context returned. Restart rendering manually.';document.getElementById('retry').hidden=false;}
+  });
+ }
+ async function restart(){
+  if(initializing)return;
+  state.manualRestarts++;event('manual-restart');clearTimeout(recoveryTimer);clearTimeout(resizeTimer);
+  if(state.raf)cancelAnimationFrame(state.raf);state.raf=0;initGeneration++;
+  if(observer)observer.disconnect();resetTelemetry();releaseResources();
+  const old=canvas,oldGL=gl;canvas=old.cloneNode(false);old.replaceWith(canvas);
+  gl=null;state.ready=false;state.lost=false;state.playing=false;state.pressed=false;gesture=null;state.width=0;state.height=0;
+  if(oldGL&&!oldGL.isContextLost())try{oldGL.getExtension('WEBGL_lose_context')?.loseContext();}catch(_){}
+  // The old canvas's loss event cannot mutate state: handlers check currentTarget.
+  bindCanvas();closePanel(false);previousUIKey='';syncUI();await initialize();
+ }
+ function percentile(a,p){if(a.length<3)return null;const s=[...a].sort((x,y)=>x-y);return s[Math.min(s.length-1,Math.floor((s.length-1)*p))];}
+ function report(){
+  const mem=allocation();return {
+   build:BUILD,reportCapturedAt:new Date().toISOString(),reportPurpose:'Native raster recovery telemetry. Submission/completion rates are not guarantees of display FPS. No progressive path tracer is present.',
+   api:gl?'webgl2':'none',ready:state.ready,lost:state.lost,contextLosses:state.contextLosses,manualRestarts:state.manualRestarts,restorations:state.restorations,lastFailure:state.lastFailure,
+   userAgent:navigator.userAgent,protocol:location.protocol,embedded:window.self!==window.top,viewport:[innerWidth,innerHeight],cssResolution:[state.cssWidth,state.cssHeight],
+   devicePixelRatio:window.devicePixelRatio||1,resolution:[state.width,state.height],nativeResolution:[state.nativeWidth,state.nativeHeight],resolutionReason:state.resolutionReason,renderScale:state.scale,adaptiveResolution:false,
+   softwareRenderer:/swiftshader|llvmpipe|softpipe|software/i.test(gpu.renderer||''),gpu,
+   renderer:'Two-pass raster; analytic glass boundaries; static scene-local optical caches; native pixel edge AA; no scene BVH',
+   singleFragmentShader:false,fullScreenSceneRayMarching:false,progressiveStudio:{available:false,enabled:false,reason:'Removed from this mobile build; no accumulation textures or path-tracing program.'},
+   secondaryRays:{enabled:false,hierarchyAllocated:false},antialiasing:{type:state.edgeAA?'native edge-aware filtering':'native single-sample',samples:1},
+   renderTarget:target?{format:target.format,colorBytesPerPixel:4,depthBytesPerPixel:4,offscreenTargets:1}:null,
+   memory:mem,lastKnownPayloadMiB:bytesMiB(lastKnownAllocation),peakCPUUploadPolicy:'Sequential decompression/upload; CPU asset arrays released after upload.',
+   sourceGeometry:{sha256:GEOMETRY_INFO.sha256,triangles:GEOMETRY_INFO.triangles,vertices:GEOMETRY_INFO.vertices,unchangedFromPrecisionLab:true},
+   geometryBytes:GEOMETRY_INFO.uncompressedBytes,triangles:GEOMETRY_INFO.triangles,trianglesDrawn:state.trianglesDrawn,groupsDrawn:state.groupsDrawn,groupsCulled:state.groupsCulled,
+   surfaceMaps:{size:SURFACE_INFO.size,layers:SURFACE_INFO.layers,mips:true,source:'Original unmodified Precision Lab material maps; no photos/scans claimed'},
+   environment:{format:ENV_INFO.type,size:ENV_INFO.size,levels:ENV_INFO.levels},localReflectionProbes:{count:PROBE_INFO.probes,format:PROBE_INFO.type,faceSize:PROBE_INFO.size,levels:PROBE_INFO.levels,static:true},
+   passes:{opaque:1,compositeDisplayAndUI:1,pathTrace:0,reconstruction:0,depthOfField:0,multisampleResolve:0},bufferLimits:limits,
+   targetFPS:60,targetFrameMs:1000/60,sixtyFPSVerified:false,frame:state.frame,submittedFrames:state.submittedFrames,completedFrames:state.completedFrames,
+   drawFPS:state.drawFPS,completedFPS:state.completedFPS,timingObservationCount:frameIntervals.length,sufficientTimingObservations:frameIntervals.length>=60,
+   frameIntervalP50Ms:percentile(frameIntervals,.5),frameIntervalP95Ms:percentile(frameIntervals,.95),frameIntervalP99Ms:percentile(frameIntervals,.99),
+   cpuSubmitMeanMs:cpuSamples.length?cpuSamples.reduce((s,x)=>s+x,0)/cpuSamples.length:null,
+   gpuTimerAvailable:!!timerExt,gpuFrameMs:state.gpuFrameMs,gpuSamples:state.gpuSamples,gpuDisjointEvents:state.gpuDisjointEvents,pendingTimingQueries:timerQueries.length,timerFailures:state.timerFailures,
+   timerQueriesGateRendering:false,fencesGateRendering:true,pendingCompletionFences:fences.length,maxFramesInFlight:2,
+   fenceCompletionWallMs:state.fenceWallMs,peakFenceCompletionWallMs:state.peakFenceWallMs,inputEvents:state.inputSequence,inputToSubmitMs:state.inputToSubmitMs,
+   chapter:state.chapter,playing:state.playing,diagnosticsVisible:!panel.hidden,renderOnDemand:true,resizePending:pendingResize,resizeCount:state.resizeCount,nativeAllocationFailures:state.nativeAllocationFailures,
+   events:events.slice(),limitations:[
+    'This repairs the allocation/workload architecture. It does not establish photorealism or mobile 60 fps.',
+    'The authored geometry and procedural materials remain unchanged. No scanned assets have been substituted.',
+    'Optical caches and baked indirect lighting are static. Glass transmission is approximate and animation lighting is not recomputed.',
+    'No native-resolution reduction is automatic. Known memory payloads exclude driver/browser overhead.'
+   ],error:state.error
+  };
+ }
+ function openPanel(){
+  if(state.raf)cancelAnimationFrame(state.raf);state.raf=0;panel.hidden=false;document.getElementById('visible-diagnostics').setAttribute('aria-expanded','true');
+  const r=report();reportBox.value=JSON.stringify(r,null,2);
+  document.getElementById('performance-text').textContent=(r.ready?'Ready':r.lost?'Context lost':'Not ready')+' · '+r.resolution.join(' × ')+' pixels\n'+
+   r.memory.knownPayloadMiB+' MiB known GPU payload (not total VRAM)\n'+
+   (r.drawFPS!==null?r.drawFPS.toFixed(1)+' submitted frames/s':'Submission sample not ready')+'\n'+
+   (r.completedFPS!==null?r.completedFPS.toFixed(1)+' observed completed frames/s':'Completion sample not ready')+'\n'+
+   (r.gpuFrameMs!==null?r.gpuFrameMs.toFixed(2)+' ms GPU timer':'GPU timer unavailable / not sampled')+'\n'+(r.gpu.renderer||'No renderer');
+  document.getElementById('copy-result').textContent='';syncUI();document.getElementById('performance-copy').focus({preventScroll:true});
+ }
+ function closePanel(resume=true){panel.hidden=true;document.getElementById('visible-diagnostics').setAttribute('aria-expanded','false');state.lastTime=0;if(resume)invalidate();canvas.focus({preventScroll:true});}
+ async function copyReport(){
+  try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(reportBox.value);document.getElementById('copy-result').textContent='Report copied.';}
+  catch(_){reportBox.focus();reportBox.select();let ok=false;try{ok=document.execCommand('copy');}catch(_){}document.getElementById('copy-result').textContent=ok?'Report copied.':'Clipboard unavailable. The full report is selected; use Copy or Download JSON.';}
+ }
+ function saveBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000);}
+ function saveShaders(){saveBlob(new Blob([Object.entries(SHADERS).map(([name,s])=>'// '+name+'\n'+s).join('\n\n')],{type:'text/plain'}),'CYBR-Mobile-Recovery-Shaders.glsl');}
+ async function saveOriginal(){try{saveBlob(new Blob([await decompress(ORIGINAL_GZIP)],{type:'text/html'}),'CYBR-Original-Ray-Traced.html');}catch(e){document.getElementById('copy-result').textContent=String(e);}}
+ document.getElementById('visible-diagnostics').addEventListener('click',()=>panel.hidden?openPanel():closePanel());
+ document.getElementById('performance-close').addEventListener('click',()=>closePanel());document.getElementById('performance-copy').addEventListener('click',copyReport);
+ document.getElementById('performance-download').addEventListener('click',()=>saveBlob(new Blob([reportBox.value],{type:'application/json'}),'CYBR-Mobile-Recovery-Diagnostics.json'));
+ document.getElementById('play-button').addEventListener('click',togglePlay);document.getElementById('panel-play').addEventListener('click',togglePlay);
+ document.getElementById('edge-aa').addEventListener('click',()=>{state.edgeAA=!state.edgeAA;syncUI();invalidate();});
+ document.getElementById('retry').addEventListener('click',restart);document.getElementById('panel-restart').addEventListener('click',restart);
+ document.getElementById('source-save').addEventListener('click',saveShaders);document.getElementById('original-save').addEventListener('click',saveOriginal);
+ document.querySelectorAll('[data-scale]').forEach(b=>b.addEventListener('click',()=>{setScale(Number(b.dataset.scale));openPanel();}));
+ document.querySelectorAll('[data-chapter]').forEach(b=>b.addEventListener('click',()=>selectChapter(Number(b.dataset.chapter))));
+ document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&!panel.hidden){closePanel();return;}
+  if(!panel.hidden){if(e.key==='Tab'){const f=[...panel.querySelectorAll('button,textarea')].filter(x=>!x.disabled),i=f.indexOf(document.activeElement);if(e.shiftKey&&i===0){e.preventDefault();f.at(-1).focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();}}return;}
+  if(e.ctrlKey||e.altKey||e.metaKey||/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName))return;
+  const k=e.key.toLowerCase();
+  if(['arrowright','arrowdown','pagedown'].includes(k)){e.preventDefault();selectChapter(Math.round(state.target)+1);}
+  else if(['arrowleft','arrowup','pageup'].includes(k)){e.preventDefault();selectChapter(Math.round(state.target)-1);}
+  else if(k==='home')selectChapter(0);else if(k==='end')selectChapter(7);else if(/^[1-8]$/.test(k))selectChapter(Number(k)-1);
+  else if(k===' '){e.preventDefault();togglePlay();}else if(k==='d')openPanel();else if(k==='s')saveShaders();
+  else if(k==='t'){state.tour=!state.tour;state.playing=true;state.tourStart=state.time-Math.floor(state.chapter)*5.5;syncUI();invalidate();}
+ });
+ document.addEventListener('visibilitychange',()=>{state.lastTime=0;if(document.hidden&&state.raf){cancelAnimationFrame(state.raf);state.raf=0;}else invalidate();});
+ window.addEventListener('pagehide',()=>{if(state.raf)cancelAnimationFrame(state.raf);state.raf=0;});
+ window.addEventListener('pageshow',()=>{if(state.ready)invalidate();});
+ window.CYBR={
+  get report(){return report();},get diagnostics(){return {chapter:state.chapter,target:state.target,playing:state.playing,resolution:[state.width,state.height],time:state.time,transitionDuration:state.transitionDuration};},
+  go:value=>selectChapter(value),setScale,pause:()=>{state.playing=false;state.tour=false;syncUI();},
+  play:()=>{state.playing=true;state.lastTime=0;syncUI();invalidate();},openDiagnostics:openPanel,restart,
+  test:{get gl(){return gl;},get resources(){return allocation();},
+   // Test-only synchronous screenshot. No synchronous readback exists in the live loop.
+   capture(chapter=state.chapter,time=0){
+    if(!state.ready||state.lost)throw new Error('Renderer is not ready.');
+    if(state.raf)cancelAnimationFrame(state.raf);state.raf=0;state.playing=false;state.tour=false;
+    state.chapter=state.target=clamp(chapter,0,7);state.transitionDuration=0;state.time=time;lastCamera=camera();draw(lastCamera);syncUI();
+    return canvas.toDataURL('image/png');
+   },
+   setEdgeAA:value=>{state.edgeAA=!!value;syncUI();invalidate();},
+   simulateLoss:()=>gl.getExtension('WEBGL_lose_context')?.loseContext()
+  }
+ };
+ bindCanvas();syncUI();initialize();
+})();
+</script>
+</body>
+</html>

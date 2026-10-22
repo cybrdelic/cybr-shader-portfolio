@@ -1,0 +1,17 @@
+{
+  "width": 256,
+  "height": 256,
+  "frames": 48,
+  "grid": [
+    32,
+    64,
+    32
+  ],
+  "format": "RG8",
+  "bytes": 6291456,
+  "seconds": 7.92,
+  "simulationSteps": 326,
+  "timeStep": 0.055,
+  "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+  "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+}

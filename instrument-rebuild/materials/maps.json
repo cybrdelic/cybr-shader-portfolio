@@ -1,0 +1,18 @@
+{
+  "size": 1024,
+  "layers": 8,
+  "names": [
+    "directional-metal",
+    "enamel-microfinish",
+    "growth-coordinate-walnut",
+    "mineral-fracture-stone",
+    "fissured-bark",
+    "sparse-seam-marble",
+    "porous-basalt",
+    "nine-veined-leaves"
+  ],
+  "format": "RGBA8",
+  "colorSpace": "linear albedo; roughness in alpha",
+  "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+  "source": "Authored deterministic grain, fracture, bark-plate and leaf-venation maps. Not photographed or scanned."
+}

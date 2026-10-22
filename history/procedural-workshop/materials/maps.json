@@ -1,0 +1,18 @@
+{
+  "size": 1024,
+  "layers": 8,
+  "names": [
+    "abrasive-machining",
+    "micro-enamel",
+    "growth-ring-walnut",
+    "cleavage-mica-quartz",
+    "cellular-bark",
+    "veined-marble",
+    "porous-basalt",
+    "veined-leaf-variants"
+  ],
+  "format": "RGBA8",
+  "colorSpace": "linear albedo; roughness in alpha",
+  "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+  "source": "Deterministic process-based surface fields; linear albedo, roughness, height-derived normals. No scans or photographs."
+}

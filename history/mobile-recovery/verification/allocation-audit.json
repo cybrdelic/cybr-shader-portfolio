@@ -1,0 +1,45 @@
+{
+  "dimensions": [
+    1440,
+    2654
+  ],
+  "pixels": 3821760,
+  "basis": "Source-derived application payload estimates, not measured physical VRAM. Native browser buffers, driver padding/overhead, programs and CPU memory excluded. Depth24 budgeted at 4 bytes/texel.",
+  "old": {
+    "mesh vertex/index buffers": 48322448,
+    "vertex irradiance": 5814246,
+    "material color+normal full mip chains": 89478464,
+    "environment RGBA16F": 16777200,
+    "local probes RGBA16F": 29360016,
+    "BVH nodes RGBA32F": 27131904,
+    "triangle indices RGBA32UI": 28278784,
+    "ray positions RGBA32F": 15532032,
+    "ray normals RGBA16F": 7766016,
+    "ray attributes RGBA16F": 7766016,
+    "ray irradiance RGBA16F": 7766016,
+    "scene color RGBA16F": 30574080,
+    "scene depth D24 (estimated 4B)": 15287040,
+    "finish color RGBA16F": 30574080,
+    "MSAA2 color RGBA16F": 61148160,
+    "MSAA2 depth D24 (estimated 4B)": 30574080,
+    "studio color/guide ping-pong": 122296320,
+    "denoiser ping-pong": 61148160,
+    "unused shadow depth D24": 4
+  },
+  "new": {
+    "mesh vertex/index buffers": 48322448,
+    "vertex irradiance": 5814246,
+    "material color+normal full mip chains": 89478464,
+    "environment RGB9_E5": 8388600,
+    "local probes RGB9_E5": 14680008,
+    "opaque color R11F_G11F_B10F": 15287040,
+    "opaque depth D24 (estimated 4B)": 15287040
+  },
+  "oldPayloadBytes": 635595066,
+  "newPayloadBytes": 197257846,
+  "oldPayloadMiB": 606.1506900787354,
+  "newPayloadMiB": 188.11974143981934,
+  "reductionPercent": 68.96485568376013,
+  "oldRenderTargetsMiB": 335.313720703125,
+  "newRenderTargetsMiB": 29.15771484375
+}

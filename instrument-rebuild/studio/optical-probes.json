@@ -1,0 +1,15 @@
+{
+  "size": 512,
+  "layers": 12,
+  "levels": 10,
+  "bytes": 16777200,
+  "format": "RGBA8 RGBM",
+  "encodingRange": 16,
+  "objects": [
+    1,
+    7
+  ],
+  "provisional": false,
+  "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+  "source": "Actual opaque-geometry browser captures at the optical centers, including the optical mounts; analytic glass itself is absent from the opaque pass; box-filtered mips. Scene-local fallback for off-screen refraction/reflection, not a photograph or scan."
+}

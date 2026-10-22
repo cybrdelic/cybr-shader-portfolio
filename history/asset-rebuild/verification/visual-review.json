@@ -1,0 +1,40 @@
+{
+  "captureResolution": [
+    2560,
+    1600
+  ],
+  "cssViewport": [
+    1280,
+    800
+  ],
+  "devicePixelRatio": 2,
+  "timeSeconds": 2.0,
+  "generatedImagesUsed": false,
+  "renderer": "Actual WebGL2 canvas, Chromium ANGLE/Mesa llvmpipe",
+  "comparison": {
+    "baseline": "CYBR-Mobile-Recovery",
+    "updated": "CYBR-Asset-Rebuild",
+    "cameraNote": "Forest uses revised camera in both pages; all other chapter cameras unchanged.",
+    "processing": "Matched crop, uniform resize and labels only. No content retouching."
+  },
+  "judgment": {
+    "tree": "New fused anatomy and surface data; remains authored, not scanned.",
+    "stone": "New non-convex geometry and mineral maps; still visibly CG in places.",
+    "mechanisms": "Revised supports/windings/enamel housings; cached reflections remain limited.",
+    "flame": "Standalone coarse-volume presentation rejected. Baked flow modulates analytic fine sheets; not a photographic fire result."
+  },
+  "physicalMobileTested": false,
+  "photorealismAchieved": false,
+  "files": {
+    "before-2x/chapter-0.png": "e2dd896e2a93cd168e7ef62cead714a81ac8269ed3e2e5782072d40be5cc7e21",
+    "before-2x/chapter-2.png": "3742ca2cc11a78fe73bb0d42209d74b7958ae7ad82160aa129b63427cf4e711f",
+    "before-2x/chapter-3.png": "11c83f7499fafaa7be02d85c56385948bbaf9ae006893a26a82004b25946e52f",
+    "before-2x/chapter-4.png": "26a8ec796a459896e7daa0decaf31480845e56b9b196fd0f157b5c6a5dd99419",
+    "before-2x/chapter-6.png": "a8e26060c8dff755c45f0642cb1f84c65a38c5820b2bdb8c86619904f14d4222",
+    "final-2x/chapter-0.png": "267205daae631183ddd8ca031352fc449edc11d68232598b97ad266d2754a936",
+    "final-2x/chapter-2.png": "b274b6355ceb5af75ad933352ab912061a166f29140bc2ce01091fac18d2ca11",
+    "final-2x/chapter-3.png": "3531548dafe8ee4c91699548cdcf0ceeb43fe5d513ce1dcb5e0725ad858e9c25",
+    "final-2x/chapter-4.png": "d290f7988a52813dc60407bf00cab837572a75e63a8db2608c7e4bdd774b311c",
+    "final-2x/chapter-6.png": "e1296a42738f01e43811d66600a9ea9e9855847c8347e5cbc39904d61f9c0a10"
+  }
+}

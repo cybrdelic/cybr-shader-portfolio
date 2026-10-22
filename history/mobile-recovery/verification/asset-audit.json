@@ -1,0 +1,24 @@
+{
+  "environment": {
+    "originalBytes": 16777200,
+    "newBytes": 8388600,
+    "maxAbsoluteError": 0.015625,
+    "meanAbsoluteError": 0.0003629566344898194,
+    "maxErrorRelativeToBrightestChannel": 0.0019550342112779617,
+    "format": "RGB9_E5 (shared exponent HDR)",
+    "sameResolutionAndMips": true
+  },
+  "probes": {
+    "originalBytes": 29360016,
+    "newBytes": 14680008,
+    "maxAbsoluteError": 0.015625,
+    "meanAbsoluteError": 0.00039419558015652,
+    "maxErrorRelativeToBrightestChannel": 0.0019550342112779617,
+    "format": "RGB9_E5 (shared exponent HDR)",
+    "sameResolutionAndMips": true
+  },
+  "geometrySHA256": "defe5b56de035078a32bf9aa6bde9670e72031a5aff1eeea03da1807b97290aa",
+  "geometryUnchanged": true,
+  "triangles": 1765775,
+  "vertices": 969041
+}

@@ -1,0 +1,175 @@
+{
+  "schema": "lossless-cache-transport/v1",
+  "description": "Exact byte-split transport of nine original derived caches. Restore original paths before building or running. This is lossless packaging, not asset reduction.",
+  "part_size_limit_bytes": 8388608,
+  "files": [
+    {
+      "path": "history/asset-rebuild/studio/probes.bin.gz",
+      "bytes": 14064195,
+      "sha256": "06a5e3e0e52ecb50a652e9bc5c0ba7cf60ffb0ed1d32d5529526ffb8621eee77",
+      "parts": [
+        {
+          "path": "transport/parts/history/asset-rebuild/studio/probes.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "52af795058a3498aed6d6624a071bbdae3788433c26c1e7661cee287039bfd8e"
+        },
+        {
+          "path": "transport/parts/history/asset-rebuild/studio/probes.bin.gz/part-002",
+          "bytes": 5675587,
+          "sha256": "ee0816e70799a913a0f4207d271321973fc9e01c39f111624e8893bf3c9311bf"
+        }
+      ]
+    },
+    {
+      "path": "history/mobile-recovery/geometry/mesh.bin.gz",
+      "bytes": 20179491,
+      "sha256": "cd1c8547acb4f3c25a774d41604f3fc62f08e74a5270f0e992648407f96bcf0c",
+      "parts": [
+        {
+          "path": "transport/parts/history/mobile-recovery/geometry/mesh.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "3a1392640ee656261913710e50928fef6663f81b56bd3d526d76ba4e2faa7f05"
+        },
+        {
+          "path": "transport/parts/history/mobile-recovery/geometry/mesh.bin.gz/part-002",
+          "bytes": 8388608,
+          "sha256": "8bd9eef3c308a50844164264b109957bfcdd0085dad6d5cf08f2aaadd6813cef"
+        },
+        {
+          "path": "transport/parts/history/mobile-recovery/geometry/mesh.bin.gz/part-003",
+          "bytes": 3402275,
+          "sha256": "10f00c636269786925a86cd1f2e469506ad190b4b2d5c93f3e8227aec4439117"
+        }
+      ]
+    },
+    {
+      "path": "history/precision-lab/geometry/mesh.bin.gz",
+      "bytes": 20179491,
+      "sha256": "cd1c8547acb4f3c25a774d41604f3fc62f08e74a5270f0e992648407f96bcf0c",
+      "parts": [
+        {
+          "path": "transport/parts/history/precision-lab/geometry/mesh.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "3a1392640ee656261913710e50928fef6663f81b56bd3d526d76ba4e2faa7f05"
+        },
+        {
+          "path": "transport/parts/history/precision-lab/geometry/mesh.bin.gz/part-002",
+          "bytes": 8388608,
+          "sha256": "8bd9eef3c308a50844164264b109957bfcdd0085dad6d5cf08f2aaadd6813cef"
+        },
+        {
+          "path": "transport/parts/history/precision-lab/geometry/mesh.bin.gz/part-003",
+          "bytes": 3402275,
+          "sha256": "10f00c636269786925a86cd1f2e469506ad190b4b2d5c93f3e8227aec4439117"
+        }
+      ]
+    },
+    {
+      "path": "history/precision-lab/geometry/optical-bvh.bin.gz",
+      "bytes": 21324526,
+      "sha256": "42909603937f3149a0e69e0d65770213d3643087a2534c20fa567ab5e2e2fc58",
+      "parts": [
+        {
+          "path": "transport/parts/history/precision-lab/geometry/optical-bvh.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "6633ada7e7246436c45a9978dbeb1693c998fe2f1c4b4f917e3197b8323a5174"
+        },
+        {
+          "path": "transport/parts/history/precision-lab/geometry/optical-bvh.bin.gz/part-002",
+          "bytes": 8388608,
+          "sha256": "9699fefd8b8c618890c5f2c99210c276470171243ca1561677578a61fac41452"
+        },
+        {
+          "path": "transport/parts/history/precision-lab/geometry/optical-bvh.bin.gz/part-003",
+          "bytes": 4547310,
+          "sha256": "5cb0a925d4b36a10f0387cf2ee7deb688d0466422c6b6fc101849e809ab2b213"
+        }
+      ]
+    },
+    {
+      "path": "history/precision-lab/studio/probes.bin.gz",
+      "bytes": 14074956,
+      "sha256": "b0f9eff1b83f1d3d42f72369692901d6f17e34b9342ecb6f6b0abffcf025c996",
+      "parts": [
+        {
+          "path": "transport/parts/history/precision-lab/studio/probes.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "595909b8f953ee3b29b5e5e3194dd8da360cb1be3c76b231bf9c491b7ccf8244"
+        },
+        {
+          "path": "transport/parts/history/precision-lab/studio/probes.bin.gz/part-002",
+          "bytes": 5686348,
+          "sha256": "3084bc3ca91967b9cbf52d8b78463c026413de8099ca388b497684378fd8dedb"
+        }
+      ]
+    },
+    {
+      "path": "history/procedural-workshop/geometry/mesh.bin.gz",
+      "bytes": 14221850,
+      "sha256": "79e525360057ac81819951ac08c9d923c74db50eb26a6f74047a7878cc15b438",
+      "parts": [
+        {
+          "path": "transport/parts/history/procedural-workshop/geometry/mesh.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "260fb4bf056e045d5cca03d9293312dd5fd07bf78ed294c50025420291ad92e2"
+        },
+        {
+          "path": "transport/parts/history/procedural-workshop/geometry/mesh.bin.gz/part-002",
+          "bytes": 5833242,
+          "sha256": "7409f09199168a075efde969b4282b642292a77dc03ddec9df4c191258e0a880"
+        }
+      ]
+    },
+    {
+      "path": "history/procedural-workshop/studio/probes.bin.gz",
+      "bytes": 13689381,
+      "sha256": "95c604a25fa6c366fd89763e73d6764e7a208e5a9387fdfe782dc19902071e74",
+      "parts": [
+        {
+          "path": "transport/parts/history/procedural-workshop/studio/probes.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "48bacd2f351d1e136d4cb910ed25dd79c49001208d28bdb193308bd7b38032c7"
+        },
+        {
+          "path": "transport/parts/history/procedural-workshop/studio/probes.bin.gz/part-002",
+          "bytes": 5300773,
+          "sha256": "8fbf6bc012d201286e1379e0265163c3bc72b6adc884113115df2b6ddcd7b7e1"
+        }
+      ]
+    },
+    {
+      "path": "instrument-rebuild/geometry/mesh.bin.gz",
+      "bytes": 13506574,
+      "sha256": "f26a08737e8cc0923ba97b109075f87da4c76265acea34d9714cb674e01ab8ab",
+      "parts": [
+        {
+          "path": "transport/parts/instrument-rebuild/geometry/mesh.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "7e9af343f4bdaaa431e23767c147ecf3aa22e00237c8d0c8bfc424786be8e877"
+        },
+        {
+          "path": "transport/parts/instrument-rebuild/geometry/mesh.bin.gz/part-002",
+          "bytes": 5117966,
+          "sha256": "d07f0cca59b9f820f319e9f47df77d5b7a3c1ee7157147c87a5c317bd07345fc"
+        }
+      ]
+    },
+    {
+      "path": "instrument-rebuild/studio/probes.bin.gz",
+      "bytes": 14215070,
+      "sha256": "b5931bfab739bd067e632a40032b9e4201efc6d30989f65d22ddf608176b2660",
+      "parts": [
+        {
+          "path": "transport/parts/instrument-rebuild/studio/probes.bin.gz/part-001",
+          "bytes": 8388608,
+          "sha256": "e9a87146029ac8c54dc7337ab990ff78ad73c339e521fc6e194b79ddf4347264"
+        },
+        {
+          "path": "transport/parts/instrument-rebuild/studio/probes.bin.gz/part-002",
+          "bytes": 5826462,
+          "sha256": "1765fb8bcb0bebbaaa194d1eb33bb122b35b302b835e57dcd70466d179b228c6"
+        }
+      ]
+    }
+  ]
+}

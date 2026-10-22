@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b0d">
+<meta name="description" content="Alejandro Figueroa: graphics, simulation and systems. Eight chapters of a procedural portfolio drawn entirely in one fragment shader.">
+<title>CYBR / The Computational Instrument — Alejandro Figueroa</title>
+<style>
+:root{color-scheme:dark;background:#070b0d;color:#eee9de;font-family:system-ui,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+body{min-height:100svh}#portfolio{display:block;width:100%;height:100%;height:100dvh;background:#070b0d;touch-action:none;cursor:grab;outline:none}
+#portfolio:focus-visible{outline:1px solid #dcb57a;outline-offset:-4px}
+[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#status{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(28px,7vw,96px);background:radial-gradient(ellipse at 72% 35%,#172426 0,#080d0f 60%);z-index:2}
+#status h1{margin:0 0 28px;letter-spacing:.28em;font-size:13px;font-weight:500;color:#ddbe8f}
+#status-message{font-size:clamp(24px,3vw,42px);font-weight:400;max-width:730px;line-height:1.2;margin:0 0 32px}
+#status-actions{display:flex;flex-wrap:wrap;gap:12px}#status button,#status a{appearance:none;border:1px solid #546263;border-radius:0;background:#ffffff08;color:#ece9de;text-decoration:none;font:inherit;font-size:12px;padding:13px 17px;cursor:pointer}
+#status a:hover,#status button:hover{border-color:#dcb57a}#status-detail{font:11px/1.55 monospace;white-space:pre-wrap;max-height:28vh;max-width:85vw;overflow:auto;color:#b8c3c3}
+</style>
+</head>
+<body>
+<canvas id="portfolio" tabindex="0" role="img" aria-describedby="portfolio-instructions" aria-label="CYBR: a portfolio drawn entirely by a fragment shader. Eight chapters of one connected computational instrument."></canvas>
+<section id="status" role="status" aria-live="polite"><h1>CYBR / INSTRUMENT</h1><p id="status-message">Preparing the instrument.</p><pre id="status-detail" hidden></pre><div id="status-actions" hidden><button type="button" id="fallback-download">Download complete GLSL</button><a id="fallback-editor" href="https://fragcoord.xyz/" target="_blank" rel="noopener noreferrer">Open in FragCoord</a></div></section>
+<main class="sr-only" aria-label="Portfolio text and controls">
+<h1>Alejandro Figueroa — CYBR</h1><p>Software engineer. Graphics, simulation and systems. C++, TypeScript, Python and GPU programming.</p>
+<p id="portfolio-instructions">Scroll or swipe to move through eight chapters. Drag with a mouse to orbit. Click a mechanism to visit its project. Use arrows or keys 1 through 8 to select chapters. T starts a tour, Space pauses animation, S downloads the complete shader, E opens it in FragCoord, Q changes rendering quality, F toggles fullscreen, P exports the current rendered image, and R resets the camera. Brackets adjust exposure.</p>
+<nav id="accessible-nav" aria-label="Portfolio chapters"><button type="button" data-chapter="0" aria-label="Chapter 1: Assembly">Assembly</button>
+<button type="button" data-chapter="1" aria-label="Chapter 2: Light">Light</button>
+<button type="button" data-chapter="2" aria-label="Chapter 3: Geometry">Geometry</button>
+<button type="button" data-chapter="3" aria-label="Chapter 4: Scenes">Scenes</button>
+<button type="button" data-chapter="4" aria-label="Chapter 5: Elements">Elements</button>
+<button type="button" data-chapter="5" aria-label="Chapter 6: Materials">Materials</button>
+<button type="button" data-chapter="6" aria-label="Chapter 7: Forest">Forest</button>
+<button type="button" data-chapter="7" aria-label="Chapter 8: About">About</button></nav>
+<button type="button" id="accessible-play">Pause animation</button><button type="button" id="accessible-tour">Start portfolio tour</button><button type="button" id="accessible-quality">Change rendering quality</button><button type="button" id="accessible-source">Open complete shader in FragCoord</button><button type="button" id="accessible-download">Download complete GLSL source</button>
+<section><h2>Assembly</h2><p>Code, made physical. Six project worlds form one connected procedural machine.</p></section>
+<section><h2>Light</h2><p>CYBR LIGHT. Optics, reflection, refraction and light transport.</p></section>
+<section><h2>Geometry</h2><p>CYBR GEO. Procedural construction from rules and relationships.</p></section>
+<section><h2>Scenes</h2><p>CYBR SCENES. Landscapes, structures and coherent worlds.</p></section>
+<section><h2>Elements</h2><p>CYBR ELEMENTS. Fire, water and molten material.</p></section>
+<section><h2>Materials</h2><p>CYBR MATERIALS. The structure behind wood, stone, metal and ceramic.</p></section>
+<section><h2>Forest</h2><p>CYBR FOREST. Branching, growth and organic form.</p></section>
+<section><h2>About</h2><p>Alejandro Figueroa. Software engineer working in graphics, simulation and systems.</p></section>
+<a href="https://github.com/cybrdelic" target="_blank" rel="noopener noreferrer">Alejandro Figueroa on GitHub</a><a href="https://x.com/cybrdelic" target="_blank" rel="noopener noreferrer">CYBRDELIC on X</a>
+<output id="render-diagnostics">Preparing WebGL 2.</output><p id="announcement" role="status" aria-live="polite" aria-atomic="true"></p>
+</main>
+<script>
+
+'use strict';
+// This is the complete native FragCoord source, without WebGL host declarations.
+// The build replaces this marker; no shader, texture, font, or model is fetched.
+const FRAGMENT_SOURCE = String.raw`__FRAGMENT_SOURCE__`;
+// Source stays local until the visitor explicitly opens the editor.
+function fragcoordURL() {
+  const bytes = new TextEncoder().encode(FRAGMENT_SOURCE);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 8192) binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+  return 'https://fragcoord.xyz/#code=' + btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+(() => {
+  const canvas = document.getElementById('portfolio');
+  const status = document.getElementById('status');
+  const statusMessage = document.getElementById('status-message');
+  const statusDetail = document.getElementById('status-detail');
+  const statusActions = document.getElementById('status-actions');
+  const announcement = document.getElementById('announcement');
+  const diagnosticOutput = document.getElementById('render-diagnostics');
+  const chapterButtons = [...document.querySelectorAll('[data-chapter]')];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobile = window.matchMedia('(pointer: coarse)').matches;
+  const names = ['Assembly', 'Light', 'Geometry', 'Scenes', 'Elements', 'Materials', 'Forest', 'About'];
+  const slugs = ['assembly', 'light', 'geometry', 'scenes', 'elements', 'materials', 'forest', 'about'];
+  const query = new URLSearchParams(location.search);
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const finiteNumber = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+  const hashChapter = slugs.indexOf(location.hash.slice(1));
+  const initialChapter = clamp(query.has('chapter') ? finiteNumber(query.get('chapter'), 0) : Math.max(0, hashChapter), 0, 7);
+  const qualityModes = [
+    { name:'Adaptive', pixels:mobile ? 380000 : 800000, quality:1.0, adaptive:true },
+    { name:'High detail', pixels:mobile ? 1400000 : 2800000, quality:2.0, adaptive:false },
+    { name:'Fast', pixels:mobile ? 220000 : 420000, quality:0.0, adaptive:false }
+  ];
+  const initialMode = query.get('quality') === 'detail' ? 1 : query.get('quality') === 'fast' ? 2 : 0;
+  const state = {
+    chapter:initialChapter, target:initialChapter, time:Math.max(0, finiteNumber(query.get('time'), 0)),
+    playing:!reducedMotion.matches && query.get('still') !== '1', tour:query.get('tour') === '1' && !reducedMotion.matches, tourStart:0,
+    frame:0, exposure:1.0, qualityMode:initialMode, adaptiveScale:1,
+    pointer:[0.65, 0.5], click:[0, 0], pressed:false, drag:[0, 0],
+    ready:false, lost:false, raf:0, lastTime:0, meanFrame:1 / 60, sampleCount:0,
+    lastResize:0, lastDiagnostic:0, announcedChapter:-1, capture:false,
+    width:0, height:0, cssWidth:0, cssHeight:0
+  };
+  let gl, program, vertexArray, uniforms, compileGeneration = 0;
+  let pointerGesture = null, wheelTimer = 0, lastWheelTime = 0, wheelStart = initialChapter, wheelTotal = 0;
+
+  document.getElementById('fallback-editor').addEventListener('click', event => { event.preventDefault(); openFragCoord(); });
+  function announce(text) { announcement.textContent = text; }
+  function openLink(url) {
+    const link = document.createElement('a');
+    link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+    document.body.appendChild(link); link.click(); link.remove();
+  }
+  function openFragCoord() { openLink(fragcoordURL()); }
+  function saveBlob(blob, filename) {
+    if (!blob) { announce('The image could not be exported.'); return; }
+    const url = URL.createObjectURL(blob), link = document.createElement('a');
+    link.href = url; link.download = filename;
+    document.body.appendChild(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+  function downloadSource() {
+    saveBlob(new Blob([FRAGMENT_SOURCE], {type:'text/plain;charset=utf-8'}), 'cybr-computational-instrument.frag');
+    announce('Complete shader downloaded.');
+  }
+  function showFailure(message, detail = '') {
+    state.ready = false;
+    status.hidden = false; statusMessage.textContent = message;
+    statusDetail.hidden = !detail; statusDetail.textContent = detail;
+    statusActions.hidden = false;
+    diagnosticOutput.textContent = message;
+  }
+  function syncAccessibleState() {
+    const selected = clamp(Math.round(state.target), 0, 7);
+    chapterButtons.forEach((button, index) => {
+      if (index === selected) button.setAttribute('aria-current', 'page');
+      else button.removeAttribute('aria-current');
+    });
+    document.getElementById('accessible-play').textContent = state.playing ? 'Pause animation' : 'Play animation';
+    document.getElementById('accessible-tour').textContent = state.tour ? 'Stop portfolio tour' : 'Start portfolio tour';
+    if (selected !== state.announcedChapter) {
+      state.announcedChapter = selected;
+      announce('Chapter ' + (selected + 1) + ' of 8. ' + names[selected] + '.');
+      document.title = 'CYBR / ' + names[selected] + ' — Alejandro Figueroa';
+      if (!query.has('chapter')) { try { history.replaceState(null, '', location.pathname + location.search + '#' + slugs[selected]); } catch (_) {} }
+    }
+  }
+  function selectChapter(value, manual = true) {
+    if (manual) state.tour = false;
+    state.target = clamp(value, 0, 7);
+    if (reducedMotion.matches) state.chapter = state.target;
+    syncAccessibleState(); schedule();
+  }
+  function stepChapter(direction) { selectChapter(Math.round(state.target) + direction); }
+  function togglePlay() { state.playing = !state.playing; syncAccessibleState(); schedule(); announce(state.playing ? 'Animation playing.' : 'Animation paused.'); }
+  function toggleTour() {
+    state.tour = !state.tour;
+    if (state.tour) {
+      state.playing = true;
+      const start = state.target > 6.9 ? 0 : Math.floor(state.target);
+      state.tourStart = state.time - start * 7;
+      selectChapter(start, false);
+    }
+    syncAccessibleState(); schedule(); announce(state.tour ? 'Portfolio tour started.' : 'Portfolio tour stopped.');
+  }
+  function toggleQuality() {
+    state.qualityMode = (state.qualityMode + 1) % qualityModes.length;
+    state.adaptiveScale = 1; state.sampleCount = 0; resize(true); schedule();
+    announce(qualityModes[state.qualityMode].name + ' rendering quality.');
+  }
+  async function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+      else announce('Fullscreen is not available in this browser.');
+    } catch (_) { announce('The browser could not enter fullscreen.'); }
+  }
+
+  const vertexSource = `#version 300 es
+  precision highp float;
+  void main() {
+    vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));
+    gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
+  }`;
+  const fragmentPreamble = `#version 300 es
+  precision highp float;
+  precision highp int;
+  uniform vec2 u_resolution;
+  uniform float u_time;
+  uniform float u_time_delta;
+  uniform int u_frame;
+  uniform vec4 u_mouse;
+  uniform vec2 u_drag;
+  uniform float u_scroll;
+  out vec4 fragColor;
+  #line 1
+  `;
+  function compileShader(type, source) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source); gl.compileShader(shader);
+    return shader;
+  }
+  async function initialize() {
+    const generation = ++compileGeneration;
+    state.ready = false; state.lost = false;
+    status.hidden = false; statusActions.hidden = true; statusDetail.hidden = true;
+    statusMessage.textContent = 'Compiling the world.';
+    gl = canvas.getContext('webgl2', {
+      alpha:false, antialias:false, depth:false, stencil:false,
+      preserveDrawingBuffer:false, powerPreference:'high-performance', desynchronized:true
+    });
+    if (!gl) {
+      showFailure('This portfolio requires WebGL 2. You can open its complete source in FragCoord or download the shader.');
+      return;
+    }
+    try {
+      const vertex = compileShader(gl.VERTEX_SHADER, vertexSource);
+      const fragment = compileShader(gl.FRAGMENT_SHADER, fragmentPreamble + FRAGMENT_SOURCE);
+      const pendingProgram = gl.createProgram();
+      gl.attachShader(pendingProgram, vertex); gl.attachShader(pendingProgram, fragment); gl.linkProgram(pendingProgram);
+      const parallel = gl.getExtension('KHR_parallel_shader_compile');
+      if (parallel) {
+        while (!gl.getProgramParameter(pendingProgram, parallel.COMPLETION_STATUS_KHR)) {
+          await new Promise(resolve => setTimeout(resolve, 25));
+          if (generation !== compileGeneration || state.lost) return;
+        }
+      }
+      if (!gl.getProgramParameter(pendingProgram, gl.LINK_STATUS)) {
+        const errors = [gl.getShaderInfoLog(vertex), gl.getShaderInfoLog(fragment), gl.getProgramInfoLog(pendingProgram)].filter(Boolean).join('\n');
+        gl.deleteShader(vertex); gl.deleteShader(fragment); gl.deleteProgram(pendingProgram);
+        throw new Error(errors || 'The graphics driver did not link the shader.');
+      }
+      gl.detachShader(pendingProgram, vertex); gl.detachShader(pendingProgram, fragment);
+      gl.deleteShader(vertex); gl.deleteShader(fragment);
+      if (program) gl.deleteProgram(program);
+      program = pendingProgram; gl.useProgram(program);
+      if (vertexArray) gl.deleteVertexArray(vertexArray);
+      vertexArray = gl.createVertexArray(); gl.bindVertexArray(vertexArray);
+      gl.disable(gl.DEPTH_TEST); gl.disable(gl.BLEND); gl.disable(gl.CULL_FACE); gl.disable(gl.DITHER);
+      uniforms = Object.fromEntries(['u_resolution','u_time','u_time_delta','u_frame','u_mouse','u_drag','u_scroll','u_chapter','u_exposure','u_quality','u_tour','u_pick'].map(name => [name, gl.getUniformLocation(program, name)]));
+      state.ready = true; state.lastTime = 0; state.sampleCount = 0; state.frame = 0;
+      resize(true); syncAccessibleState(); schedule();
+    } catch (error) {
+      showFailure('The shader could not compile on this graphics driver. The source is available below.', String(error.message || error));
+    }
+  }
+  function resize(force = false) {
+    if (!gl || state.lost) return;
+    const rect = canvas.getBoundingClientRect();
+    const cssWidth = Math.max(1, rect.width), cssHeight = Math.max(1, rect.height);
+    const mode = qualityModes[state.qualityMode];
+    const budget = mode.pixels * state.adaptiveScale * state.adaptiveScale;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(budget / (cssWidth * cssHeight)));
+    const width = Math.max(2, Math.round(cssWidth * pixelRatio));
+    const height = Math.max(2, Math.round(cssHeight * pixelRatio));
+    if (force || width !== state.width || height !== state.height) {
+      canvas.width = width; canvas.height = height;
+      state.width = width; state.height = height;
+      gl.viewport(0, 0, width, height);
+    }
+    state.cssWidth = cssWidth; state.cssHeight = cssHeight; schedule();
+  }
+  function schedule() {
+    if (!state.raf && state.ready && !state.lost && !document.hidden) state.raf = requestAnimationFrame(render);
+  }
+  function render(timestamp) {
+    state.raf = 0;
+    if (!state.ready || state.lost || document.hidden) return;
+    const rawDelta = state.lastTime ? (timestamp - state.lastTime) * 0.001 : 1 / 60;
+    const delta = clamp(rawDelta, 0, 0.1); state.lastTime = timestamp;
+    if (state.playing) state.time += delta;
+    if (state.tour) {
+      const phase = Math.max(0, (state.time - state.tourStart) / 7);
+      const section = Math.floor(phase), t = clamp((phase - section - 0.62) / 0.38, 0, 1);
+      selectChapter(Math.min(7, section + t * t * (3 - 2 * t)), false);
+      if (phase >= 8) { state.tour = false; syncAccessibleState(); }
+    }
+    const blend = reducedMotion.matches ? 1 : 1 - Math.exp(-delta * 8);
+    state.chapter += (state.target - state.chapter) * blend;
+    if (Math.abs(state.chapter - state.target) < 0.0001) state.chapter = state.target;
+    gl.useProgram(program); gl.bindVertexArray(vertexArray);
+    gl.uniform2f(uniforms.u_resolution, state.width, state.height);
+    gl.uniform1f(uniforms.u_time, state.time);
+    gl.uniform1f(uniforms.u_time_delta, state.playing ? delta : 0);
+    gl.uniform1i(uniforms.u_frame, state.frame++);
+    const clickSign = state.pressed ? 1 : -1;
+    gl.uniform4f(uniforms.u_mouse, state.pointer[0] * state.width, state.pointer[1] * state.height, clickSign * state.click[0] * state.width, clickSign * state.click[1] * state.height);
+    gl.uniform2f(uniforms.u_drag, state.drag[0] * state.width, state.drag[1] * state.height);
+    gl.uniform1f(uniforms.u_scroll, 0);
+    gl.uniform1f(uniforms.u_chapter, state.chapter);
+    gl.uniform1f(uniforms.u_exposure, state.exposure);
+    gl.uniform1f(uniforms.u_quality, qualityModes[state.qualityMode].quality);
+    // The wrapper drives the same chapter uniform as the native editor slider.
+    // Native FragCoord's optional tour is disabled here to prevent two clocks.
+    gl.uniform1f(uniforms.u_tour, 0);
+    gl.uniform1f(uniforms.u_pick, 0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (state.frame === 1 || !status.hidden) { status.hidden = true; canvas.classList.add('ready'); }
+    if (state.capture) {
+      state.capture = false;
+      canvas.toBlob(blob => saveBlob(blob, 'cybr-' + slugs[Math.round(state.chapter)] + '.png'), 'image/png');
+      announce('Rendered image exported.');
+    }
+    if (rawDelta > 0 && rawDelta < 0.5) {
+      state.meanFrame += (rawDelta - state.meanFrame) * 0.045; state.sampleCount++;
+    }
+    // Resize only after enough observed frames and with hysteresis. This never
+    // assumes a particular phone model or a guaranteed rendering frame rate.
+    if (qualityModes[state.qualityMode].adaptive && state.sampleCount > 50 && timestamp - state.lastResize > 2200) {
+      const before = state.adaptiveScale;
+      if (state.meanFrame > 0.032) state.adaptiveScale = Math.max(0.52, before * 0.87);
+      else if (state.meanFrame < 0.019 && before < 1) state.adaptiveScale = Math.min(1, before * 1.06);
+      if (state.adaptiveScale !== before) { resize(); state.lastResize = timestamp; state.sampleCount = 0; }
+    }
+    if (timestamp - state.lastDiagnostic > 1000) {
+      state.lastDiagnostic = timestamp;
+      diagnosticOutput.textContent = 'WebGL 2 ready. ' + state.width + ' by ' + state.height + ' pixels. Chapter ' + names[Math.round(state.chapter)] + '. ' + qualityModes[state.qualityMode].name + '. Frame ' + state.frame + '.';
+      canvas.dataset.chapter = String(Math.round(state.chapter));
+      canvas.dataset.renderer = 'webgl2';
+    }
+    if (state.playing || state.tour || state.pressed || Math.abs(state.chapter - state.target) > 0.0001) schedule();
+  }
+
+  // UI uses logical coordinates with height 900 regardless of resolution.
+  // These rectangles match ui.glsl, including the portrait layout threshold.
+  function logicalPoint(event) {
+    const rect = canvas.getBoundingClientRect(), scale = 900 / Math.max(1, rect.height);
+    return {x:(event.clientX - rect.left) * scale, y:(rect.bottom - event.clientY) * scale, width:rect.width * scale};
+  }
+  function hitAction(point, activate = false) {
+    const {x, y, width} = point;
+    if (y >= 20 && y <= 70 && x >= 28 && x <= width - 28) {
+      if (activate) selectChapter(Math.floor(clamp((x - 28) / (width - 56), 0, 0.999999) * 8));
+      return true;
+    }
+    if (x >= width - 124 && x <= width - 28 && y >= 826 && y <= 876) {
+      if (activate) downloadSource();
+      return true;
+    }
+    if (Math.abs(state.chapter - 7) < 0.15 && y >= 106 && y <= 146) {
+      const firstEnd = width < 760 ? width * 0.5 - 8 : 178;
+      const secondStart = width < 760 ? width * 0.5 + 8 : 194;
+      const secondEnd = width < 760 ? width - 28 : 374;
+      if (x >= 28 && x <= firstEnd) { if (activate) openLink('https://github.com/cybrdelic'); return true; }
+      if (x >= secondStart && x <= secondEnd) { if (activate) openLink('https://x.com/cybrdelic'); return true; }
+    }
+    return false;
+  }
+  function pickMechanism() {
+    if (!state.ready || state.lost || !state.width || !state.height) return 0;
+    // The exact same shader emits a flat object identifier for this one draw.
+    // Normal rendering is restored before the browser presents the canvas.
+    gl.useProgram(program); gl.bindVertexArray(vertexArray);
+    gl.uniform1f(uniforms.u_pick, 1);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    const pixel = new Uint8Array(4);
+    const x = clamp(Math.floor(state.pointer[0] * state.width), 0, state.width - 1);
+    const y = clamp(Math.floor(state.pointer[1] * state.height), 0, state.height - 1);
+    gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+    gl.uniform1f(uniforms.u_pick, 0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    const object = pixel[0];
+    if (object >= 1 && object <= 6) selectChapter(object);
+    else if (object === 7) selectChapter(0);
+    else if (object === 8) selectChapter(7);
+    return object;
+  }
+  function updatePointer(event) {
+    const rect = canvas.getBoundingClientRect();
+    state.pointer[0] = clamp((event.clientX - rect.left) / Math.max(1, rect.width), 0, 1);
+    state.pointer[1] = clamp((rect.bottom - event.clientY) / Math.max(1, rect.height), 0, 1);
+    canvas.style.cursor = hitAction(logicalPoint(event)) ? 'pointer' : (state.pressed ? 'grabbing' : 'grab');
+    schedule();
+  }
+  canvas.addEventListener('pointerdown', event => {
+    if (!event.isPrimary || event.button !== 0) return;
+    updatePointer(event); state.pressed = true; state.click = [...state.pointer];
+    pointerGesture = {id:event.pointerId, x:event.clientX, y:event.clientY, lastX:event.clientX, lastY:event.clientY, moved:0, startTarget:state.target, axis:null, touch:event.pointerType === 'touch', onControl:hitAction(logicalPoint(event))};
+    canvas.setPointerCapture(event.pointerId); canvas.focus({preventScroll:true});
+  });
+  canvas.addEventListener('pointermove', event => {
+    if (!event.isPrimary) return;
+    updatePointer(event);
+    if (!pointerGesture || pointerGesture.id !== event.pointerId) return;
+    const gesture = pointerGesture;
+    const dx = event.clientX - gesture.lastX, dy = event.clientY - gesture.lastY;
+    const totalX = event.clientX - gesture.x, totalY = event.clientY - gesture.y;
+    gesture.moved = Math.max(gesture.moved, Math.hypot(totalX, totalY));
+    if (!gesture.onControl && gesture.moved > 5) {
+      if (gesture.touch) {
+        if (!gesture.axis) gesture.axis = Math.abs(totalY) >= Math.abs(totalX) ? 'y' : 'x';
+        const distance = gesture.axis === 'y' ? totalY / Math.max(240, canvas.clientHeight * 0.55) : totalX / Math.max(240, canvas.clientWidth * 0.72);
+        selectChapter(gesture.startTarget - distance);
+      } else {
+        state.drag[0] += dx / Math.max(1, canvas.clientWidth);
+        state.drag[1] -= dy / Math.max(1, canvas.clientHeight);
+        state.drag[0] = clamp(state.drag[0], -0.65, 0.65);
+        state.drag[1] = clamp(state.drag[1], -0.45, 0.45);
+      }
+    }
+    gesture.lastX = event.clientX; gesture.lastY = event.clientY;
+    schedule();
+  });
+  canvas.addEventListener('pointerup', event => {
+    if (!pointerGesture || pointerGesture.id !== event.pointerId) return;
+    state.pressed = false; updatePointer(event);
+    const gesture = pointerGesture; pointerGesture = null;
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    if (gesture.moved < 9) {
+      if (!hitAction(logicalPoint(event), true)) pickMechanism();
+    } else if (gesture.touch && !gesture.onControl) {
+      const total = gesture.axis === 'y' ? event.clientY - gesture.y : event.clientX - gesture.x;
+      let destination = Math.round(state.target);
+      if (destination === Math.round(gesture.startTarget) && Math.abs(total) > 42) destination -= Math.sign(total);
+      selectChapter(destination);
+    }
+    schedule();
+  });
+  const cancelPointer = () => {
+    if (pointerGesture && pointerGesture.touch && !pointerGesture.onControl) selectChapter(Math.round(state.target));
+    state.pressed = false; pointerGesture = null; schedule();
+  };
+  canvas.addEventListener('pointercancel', cancelPointer);
+  canvas.addEventListener('lostpointercapture', cancelPointer);
+  canvas.addEventListener('dblclick', event => { if (!hitAction(logicalPoint(event))) { state.drag = [0, 0]; schedule(); announce('Camera reset.'); } });
+  canvas.addEventListener('wheel', event => {
+    event.preventDefault();
+    const now = performance.now();
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? canvas.clientHeight : 1;
+    const amount = clamp((Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX) * unit, -350, 350);
+    if (now - lastWheelTime > 400) { wheelStart = Math.round(state.target); wheelTotal = 0; }
+    lastWheelTime = now; wheelTotal += amount;
+    selectChapter(state.target + amount / 650);
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(() => {
+      let destination = Math.round(state.target);
+      if (destination === wheelStart && Math.abs(wheelTotal) >= 45) destination += Math.sign(wheelTotal);
+      selectChapter(destination);
+    }, 260);
+  }, {passive:false});
+  document.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
+    const key = event.key.toLowerCase();
+    if (key === 'arrowright' || key === 'arrowdown' || key === 'pagedown') { event.preventDefault(); stepChapter(1); }
+    else if (key === 'arrowleft' || key === 'arrowup' || key === 'pageup') { event.preventDefault(); stepChapter(-1); }
+    else if (key === 'home') { event.preventDefault(); selectChapter(0); }
+    else if (key === 'end') { event.preventDefault(); selectChapter(7); }
+    else if (/^[1-8]$/.test(key)) selectChapter(Number(key) - 1);
+    else if (key === ' ') {
+      if (event.target.tagName === 'BUTTON') return;
+      event.preventDefault(); togglePlay();
+    }
+    else if (key === 't') toggleTour();
+    else if (key === 'e') openFragCoord();
+    else if (key === 's') downloadSource();
+    else if (key === 'p') state.capture = true;
+    else if (key === 'q') toggleQuality();
+    else if (key === 'f') toggleFullscreen();
+    else if (key === 'r') { state.drag = [0, 0]; announce('Camera reset.'); }
+    else if (key === '[' || key === ']') { state.exposure = clamp(state.exposure + (key === '[' ? -0.05 : 0.05), 0.3, 2.5); }
+    schedule();
+  });
+  chapterButtons.forEach(button => button.addEventListener('click', () => selectChapter(Number(button.dataset.chapter))));
+  document.getElementById('accessible-play').addEventListener('click', togglePlay);
+  document.getElementById('accessible-tour').addEventListener('click', toggleTour);
+  document.getElementById('accessible-quality').addEventListener('click', toggleQuality);
+  document.getElementById('accessible-source').addEventListener('click', () => openFragCoord());
+  document.getElementById('accessible-download').addEventListener('click', downloadSource);
+  document.getElementById('fallback-download').addEventListener('click', downloadSource);
+  window.addEventListener('hashchange', () => { const selected = slugs.indexOf(location.hash.slice(1)); if (selected >= 0) selectChapter(selected); });
+  window.addEventListener('resize', () => resize());
+  if (window.ResizeObserver) new ResizeObserver(() => resize()).observe(canvas);
+  document.addEventListener('visibilitychange', () => {
+    state.lastTime = 0;
+    if (document.hidden && state.raf) { cancelAnimationFrame(state.raf); state.raf = 0; }
+    else schedule();
+  });
+  reducedMotion.addEventListener('change', event => {
+    if (event.matches) { state.playing = false; state.tour = false; state.chapter = state.target; syncAccessibleState(); schedule(); }
+  });
+  canvas.addEventListener('webglcontextlost', event => {
+    event.preventDefault(); state.lost = true; state.ready = false; compileGeneration++;
+    if (state.raf) cancelAnimationFrame(state.raf); state.raf = 0;
+    status.hidden = false; statusActions.hidden = false; statusMessage.textContent = 'The graphics context is recovering. The source remains available.';
+  });
+  canvas.addEventListener('webglcontextrestored', () => {
+    program = null; vertexArray = null; state.adaptiveScale = Math.max(0.52, state.adaptiveScale * 0.8); initialize();
+  });
+  // Read-only instrumentation is useful for checking shader compatibility.
+  Object.defineProperty(window, 'CYBR', {value:Object.freeze({
+    get source() { return FRAGMENT_SOURCE; },
+    get diagnostics() { return {ready:state.ready, lost:state.lost, frame:state.frame, chapter:state.chapter, resolution:[state.width,state.height], quality:qualityModes[state.qualityMode].name, target:state.target, tour:state.tour, playing:state.playing, drag:[...state.drag], estimatedFPS:1 / state.meanFrame}; }
+  })});
+  initialize();
+})();
+
+</script>
+</body>
+</html>

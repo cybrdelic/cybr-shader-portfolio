@@ -1,0 +1,104 @@
+{
+  "build": "cybr-procedural-workshop-2026-10-22",
+  "sourceAssetPolicy": {
+    "scans": false,
+    "photographicTextures": false,
+    "photogrammetry": false,
+    "importedModels": false,
+    "imageGeneration": false
+  },
+  "allRevisedRuntimeAssets": "Parametric geometry, numerical surface fields, procedural room illumination, offline numerical visibility/bounce caches, and a procedural flow cache.",
+  "referenceUse": "ARX-6 source and existing rendered reference inspected for proportions/finishes/lighting; no reference image incorporated into the runtime.",
+  "entries": [
+    {
+      "path": "shaders/screen.frag",
+      "bytes": 45194,
+      "sha256": "bf3f4d691efd3644d84a52c17e2b216d955bc1cd239e7484437bdf7cf1a542f7"
+    },
+    {
+      "path": "shaders/scene.vert",
+      "bytes": 3878,
+      "sha256": "6a69a698fb4452aa65efd9efd67691ba363809ad4d580c540790eed614d074fd"
+    },
+    {
+      "path": "shaders/scene.frag",
+      "bytes": 30710,
+      "sha256": "392c19be7bb6cb3460fa4e3db5540a5d6d55630a4c2cd415efe87bded1e7d978"
+    },
+    {
+      "path": "shaders/screen.vert",
+      "bytes": 142,
+      "sha256": "858964c9fc9c79e65c08a86be2bd87916d143db0868af190f60d8bfaf404719b"
+    },
+    {
+      "path": "studio/workshop_surfaces.py",
+      "bytes": 6181,
+      "sha256": "2e6ae6423e12259f63dd6e63a7c24452e6f6d0f2a0eb43eeaca941742284eb15"
+    },
+    {
+      "path": "studio/geometry.py",
+      "bytes": 9678,
+      "sha256": "c7e599177614aa308e9e5ea12e1932971eaa11ff7e88f461518be9a1a6e52d6c"
+    },
+    {
+      "path": "studio/exhibits.py",
+      "bytes": 22286,
+      "sha256": "7db362318780f80af45b76c669176311904d437edcbd6665c7092d33363342ef"
+    },
+    {
+      "path": "studio/rebuild_organics.py",
+      "bytes": 10880,
+      "sha256": "796c2f40f25e9429ad256e989238c40e5f6d3b8038a68cc92d08426dc62707fa"
+    },
+    {
+      "path": "studio/optical_environment.py",
+      "bytes": 5174,
+      "sha256": "ec7352b2e90a60b4b7dfcd1f367fb0743e146ea5eb1ee7fdc8a68bb825520ab5"
+    },
+    {
+      "path": "studio/bake_flame.py",
+      "bytes": 4134,
+      "sha256": "6634ffc9fb22b5550cc03b6502f563a8aa817b0f16e18306b1862a9d49abc6e6"
+    },
+    {
+      "path": "geometry/mesh.bin.gz",
+      "bytes": 14221850,
+      "sha256": "79e525360057ac81819951ac08c9d923c74db50eb26a6f74047a7878cc15b438"
+    },
+    {
+      "path": "materials/noise.r8.gz",
+      "bytes": 262242,
+      "sha256": "65ac386600b06085f8378af79ccfbd3ea2addf54a0200f2df9ceb9d546a7f989"
+    },
+    {
+      "path": "materials/flame.rg8.gz",
+      "bytes": 278613,
+      "sha256": "8e0e6357d44fbf6cea456a32da2bf51db822a9af4a4872c2a8133be9de215107"
+    },
+    {
+      "path": "materials/color.rgba.gz",
+      "bytes": 4950687,
+      "sha256": "a6a2d6eca2bcd716eddc238e1ce78ba07d0b2ed30189d1819932fe8ec8e0cdae"
+    },
+    {
+      "path": "materials/normal.rgba.gz",
+      "bytes": 4891690,
+      "sha256": "c46a68ffb04c65ae2efb6e5a90518440835dca502a0f14cc0861782a3f56bc20"
+    },
+    {
+      "path": "studio/environment.bin.gz",
+      "bytes": 3123088,
+      "sha256": "b3ab80748b49d508247ee6ebe9f9b4d30f4ec086adaca26a3e9271458696ce0a"
+    },
+    {
+      "path": "studio/probes.bin.gz",
+      "bytes": 13689381,
+      "sha256": "95c604a25fa6c366fd89763e73d6764e7a208e5a9387fdfe782dc19902071e74"
+    },
+    {
+      "path": "studio/irradiance.bin.gz",
+      "bytes": 3327853,
+      "sha256": "79d7e09e590c1ddde1ffab8d53b2c4ef914d539f1f31e62b85414a2471960142"
+    }
+  ]
+}

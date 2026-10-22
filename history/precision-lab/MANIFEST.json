@@ -1,0 +1,181 @@
+{
+  "build": "cybr-precision-lab-2026-10-22",
+  "htmlSHA256": "37f20b688c623cd2757066230f5a231e78a7e64c3f2a4088be7e049b9e5108d8",
+  "htmlBytes": 100934244,
+  "geometry": {
+    "format": "CYB2",
+    "vertices": 969041,
+    "triangles": 1765775,
+    "stride": 28,
+    "uncompressedBytes": 48322464,
+    "compressedBytes": 20179491,
+    "sha256": "defe5b56de035078a32bf9aa6bde9670e72031a5aff1eeea03da1807b97290aa",
+    "groups": [
+      {
+        "name": "atelier-chassis",
+        "object": 0,
+        "part": 0,
+        "indexStart": 0,
+        "indexCount": 957072,
+        "vertices": 161168,
+        "triangles": 319024
+      },
+      {
+        "name": "light-optomechanics",
+        "object": 1,
+        "part": 0,
+        "indexStart": 957072,
+        "indexCount": 678096,
+        "vertices": 115279,
+        "triangles": 226032
+      },
+      {
+        "name": "geometry-axial-machine",
+        "object": 2,
+        "part": 0,
+        "indexStart": 1635168,
+        "indexCount": 503076,
+        "vertices": 86350,
+        "triangles": 167692
+      },
+      {
+        "name": "precision-rotor-bearing",
+        "object": 2,
+        "part": 0,
+        "indexStart": 2138244,
+        "indexCount": 61824,
+        "vertices": 10606,
+        "triangles": 20608
+      },
+      {
+        "name": "scenes-geological-outcrop",
+        "object": 3,
+        "part": 0,
+        "indexStart": 2200068,
+        "indexCount": 434748,
+        "vertices": 77004,
+        "triangles": 144916
+      },
+      {
+        "name": "elements-crucible",
+        "object": 4,
+        "part": 0,
+        "indexStart": 2634816,
+        "indexCount": 342081,
+        "vertices": 60383,
+        "triangles": 114027
+      },
+      {
+        "name": "thermal-physical-hardware",
+        "object": 4,
+        "part": 0,
+        "indexStart": 2976897,
+        "indexCount": 101340,
+        "vertices": 17022,
+        "triangles": 33780
+      },
+      {
+        "name": "materials-study-rack",
+        "object": 5,
+        "part": 0,
+        "indexStart": 3078237,
+        "indexCount": 274440,
+        "vertices": 46458,
+        "triangles": 91480
+      },
+      {
+        "name": "forest-root-system",
+        "object": 6,
+        "part": 0,
+        "indexStart": 3352677,
+        "indexCount": 343218,
+        "vertices": 72301,
+        "triangles": 114406
+      },
+      {
+        "name": "forest-individual-leaves",
+        "object": 6,
+        "part": 0,
+        "indexStart": 3695895,
+        "indexCount": 352512,
+        "vertices": 110160,
+        "triangles": 117504
+      },
+      {
+        "name": "forest-soil-and-litter",
+        "object": 6,
+        "part": 0,
+        "indexStart": 4048407,
+        "indexCount": 22080,
+        "vertices": 4800,
+        "triangles": 7360
+      },
+      {
+        "name": "central-metrology-instrument",
+        "object": 7,
+        "part": 0,
+        "indexStart": 4070487,
+        "indexCount": 839736,
+        "vertices": 142178,
+        "triangles": 279912
+      },
+      {
+        "name": "central-calibration-hardware",
+        "object": 7,
+        "part": 0,
+        "indexStart": 4910223,
+        "indexCount": 181752,
+        "vertices": 30736,
+        "triangles": 60584
+      },
+      {
+        "name": "area-lit-studio-sweep",
+        "object": 0,
+        "part": 0,
+        "indexStart": 5091975,
+        "indexCount": 205350,
+        "vertices": 34596,
+        "triangles": 68450
+      }
+    ],
+    "source": "Parametric machined profiles, beveled surfaces, individual rotor blades, seeded branching foliage and stratified terrain. No sampled SDF normals.",
+    "ambientOcclusion": {
+      "samples": 40,
+      "range": 1.2,
+      "decayLength": 0.3,
+      "normalAwareSmoothingPasses": 3,
+      "type": "offline cosine-weighted visibility and 56/24 sample rectangular area-light visibility, static rest pose"
+    }
+  },
+  "verification": {
+    "passed": 39,
+    "total": 39,
+    "physicalAndroidTested": false,
+    "sixtyFPSVerified": false,
+    "visualTargetCertified": false
+  },
+  "captures": [
+    {
+      "file": "CYBR-Precision-Lab-Assembly.png",
+      "sha256": "9937bde25fadb564514c6e8e4f84e005d73279e797308dc5d9f7700ab56aa74d",
+      "provenance": "Actual WebGL canvas, 1280 x 800. Raw or reconstructed as labelled; no retouching or image generation."
+    },
+    {
+      "file": "CYBR-Precision-Lab-Assembly-Raw.png",
+      "sha256": "f2e59039731ad692c068f4d5c052f456fed38443a054d164ffc0ce314c5647d3",
+      "provenance": "Actual WebGL canvas, 1280 x 800. Raw or reconstructed as labelled; no retouching or image generation."
+    },
+    {
+      "file": "CYBR-Precision-Lab-Geometry.png",
+      "sha256": "8c57324cc831517f68b820e1340cfec95254d2df918926caccfe901d83a67dc7",
+      "provenance": "Actual WebGL canvas, 1280 x 800. Raw or reconstructed as labelled; no retouching or image generation."
+    },
+    {
+      "file": "CYBR-Precision-Lab-Geometry-Raw.png",
+      "sha256": "a830e81e1faee32ed6665846473b8f117624b25b31408a2ee22d9b496c7c74d0",
+      "provenance": "Actual WebGL canvas, 1280 x 800. Raw or reconstructed as labelled; no retouching or image generation."
+    }
+  ],
+  "mode": "Native-pixel interactive Live renderer and progressive Studio path tracer. Multi-pass geometry, not one fragment shader.",
+  "assetSource": "Procedurally authored; no photographic scans or captured HDRI."
+}

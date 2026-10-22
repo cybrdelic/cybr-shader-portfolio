@@ -1,0 +1,9 @@
+{
+  "size": 256,
+  "levels": 9,
+  "layers": 42,
+  "probes": 7,
+  "type": "RGBA16F",
+  "bytes": 29360016,
+  "source": "Actual geometry renders, each excluding its own exhibit. Static local image-based lighting; 160 GGX samples per filtered texel."
+}

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10171b"><meta name="cybr-build" content="cybr-instrument-rebuild-2026-10-22">
+<title>CYBR / Instrument Rebuild</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;color:#ece9de;background:#131b20}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}button,a,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid #d7af77;outline-offset:3px}[hidden]{display:none!important}
+#portfolio{display:block;width:100%;height:100%;height:100dvh;touch-action:none;cursor:grab;outline:none}#portfolio:active{cursor:grabbing}
+#status{position:fixed;inset:0;background:radial-gradient(ellipse at 70% 30%,#263237,#0c1215 70%);z-index:10;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(28px,7vw,90px)}#status h1{font-weight:400;letter-spacing:.2em;font-size:17px;color:#d7af77}#status h2{font-size:clamp(24px,5vw,44px);font-weight:400;max-width:720px;margin:18px 0}#status p{max-width:620px;font-size:14px;line-height:1.65;color:#b7c1c0}#status pre{white-space:pre-wrap;overflow:auto;max-height:40vh;max-width:85vw;font-size:12px}#progress{height:2px;width:min(420px,75vw);background:#374245;margin-top:16px}#progress span{display:block;height:100%;width:8%;background:#d7af77;transition:width .25s}
+#visible-diagnostics{position:fixed;z-index:15;right:12px;bottom:calc(84px + env(safe-area-inset-bottom,0px));min-height:44px;padding:9px 13px;color:#ece9de;border:1px solid #8b815e;border-radius:4px;background:#10191feb;font-size:12px;touch-action:manipulation}
+#performance-panel{position:fixed;z-index:30;inset:12px 12px auto auto;width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;padding:20px;background:#0d151afc;border:1px solid #65716a;box-shadow:0 12px 50px #0008;touch-action:pan-y}#performance-panel h2{font-size:18px;font-weight:500;margin:0 0 10px}#performance-panel p{font-size:12px;line-height:1.55;color:#b9c7c7}.actions{position:sticky;top:-20px;background:#0d151a;display:flex;flex-wrap:wrap;gap:7px;padding:10px 0}.actions button,.modes button,#status button{min-height:44px;background:#101f27;color:#eee9de;border:1px solid #68787c;padding:9px 12px;font-size:12px}.modes{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.modes button[aria-pressed=true]{border-color:#dcb57a;color:#dcb57a}#performance-report{width:100%;height:270px;resize:vertical;background:#090f13;color:#dbe1df;font:11px/1.5 ui-monospace,monospace;border:1px solid #53656c;padding:10px;user-select:text;-webkit-user-select:text}#performance-text{white-space:pre-wrap;font:12px/1.6 ui-monospace,monospace;color:#e1ddd0}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+#render-quality{position:fixed;left:14px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:16;display:flex;align-items:center;gap:0;border:1px solid #77817a;border-radius:4px;background:#11191df0;max-width:calc(100vw - 172px)}
+#render-quality button{min-height:44px;padding:8px 12px;background:none;border:0;color:#bbc3c0;font-size:12px;touch-action:manipulation}
+#render-quality button[aria-pressed=true]{color:#eed1a2;background:#ffffff10}
+#sample-count{position:fixed;left:16px;bottom:calc(132px + env(safe-area-inset-bottom,0px));font:10px/1.4 system-ui;color:#b8c0bc;background:#11191dcc;padding:3px 5px;z-index:16;pointer-events:none;max-width:55vw}
+</style></head><body>
+<canvas id="portfolio" tabindex="0" aria-label="Interactive CYBR portfolio. Swipe or scroll through eight chapters. Drag horizontally to orbit. Arrow keys select chapters."></canvas>
+<section id="status" aria-live="polite"><h1>CYBR / INSTRUMENTS</h1><h2 id="status-message">Loading the instrument.</h2><p id="status-note">Native-resolution live rendering. Drag or scroll to navigate. Path tracing and its large memory allocations are not included in this asset rebuild.</p><div id="progress"><span></span></div><pre id="status-detail" hidden></pre><button id="retry" hidden>Retry</button></section>
+<button id="visible-diagnostics" aria-controls="performance-panel" aria-expanded="false">Diagnostics</button>
+<div id="render-quality"><button id="live-mode" aria-pressed="false">Play animation</button></div><output id="sample-count">Paused · native pixels</output>
+<section id="performance-panel" role="dialog" aria-modal="true" aria-labelledby="performance-heading" hidden><h2 id="performance-heading">Renderer diagnostics</h2><div class="actions"><button id="performance-copy">Copy report</button><button id="performance-download">Download JSON</button><button id="performance-close">Close</button></div><div id="performance-text"></div><p>Rendering pauses while this panel is open. The report preserves the measurements captured before pausing. GPU timing is shown only when supported; completion delay is not GPU execution time.</p><div class="modes"><button data-scale="1">Native</button><button data-scale="0.75">75%</button><button data-scale="0.5">50%</button><button id="panel-play">Play animation</button><button id="panel-aa" aria-pressed="true">Edge refinement on</button></div><div class="modes"><button id="source-save">Save mobile shader sources</button><button id="original-save">Save original ray-traced build</button></div><p>Two-pass native-resolution raster renderer. No path-tracing hierarchy, HDR accumulation, reconstruction, multisample targets, or depth-of-field buffers are allocated. One RGB8 history refines stationary pixel coverage over eight raster views; it resets immediately on navigation. Glass solves analytic entry/exit surfaces and internal reflections, sampling static scene-local radiance; it does not trace the neighbouring triangles. Every exhibit has been rebuilt without scans; finite-area lighting uses a mathematical GGX lookup fit; this is not a photographic scan collection. Native-device 60 fps remains unverified.</p><label for="performance-report">Selectable report</label><textarea id="performance-report" readonly spellcheck="false"></textarea><p id="copy-result" role="status"></p></section>
+<nav class="sr-only" aria-label="Portfolio chapters">__ACCESSIBLE_NAV__</nav><div id="announcement" class="sr-only" aria-live="polite"></div>
+<script>
+'use strict';
+const SHADERS=__SHADERS__;
+const GEOMETRY_INFO=__GEOMETRY_INFO__;
+const GEOMETRY_GZIP='__GEOMETRY_GZIP__';
+const ENV_INFO=__ENV_INFO__;
+const ENV_GZIP='__ENV_GZIP__';
+const PROBE_INFO=__PROBE_INFO__;
+const PROBE_GZIP='__PROBE_GZIP__';
+const IRR_INFO=__IRR_INFO__;
+const IRR_GZIP='__IRR_GZIP__';
+const FLAME_INFO=__FLAME_INFO__;
+const FLAME_GZIP='__FLAME_GZIP__';
+const NOISE_GZIP='__NOISE_GZIP__';
+const SURFACE_INFO=__SURFACE_INFO__;
+const SURFACE_COLOR='__SURFACE_COLOR__';
+const SURFACE_NORMAL='__SURFACE_NORMAL__';
+const AREA_INFO=__AREA_INFO__;
+const AREA_GZIP='__AREA_GZIP__';
+const OPTICAL_INFO=__OPTICAL_INFO__;
+const OPTICAL_GZIP='__OPTICAL_GZIP__';
+const ORIGINAL_GZIP='__ORIGINAL_GZIP__';
+(()=>{
+ const BUILD='cybr-instrument-rebuild-2026-10-22';
+ const canvas=document.getElementById('portfolio'),panel=document.getElementById('performance-panel'),status=document.getElementById('status');
+ const message=document.getElementById('status-message'),detail=document.getElementById('status-detail'),progress=document.querySelector('#progress span'),reportBox=document.getElementById('performance-report');
+ const q=new URLSearchParams(location.search),names=['Assembly','Light','Geometry','Scenes','Elements','Materials','Forest','About'],slugs=names.map(x=>x.toLowerCase());
+ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));const number=(v,d=0)=>v!=null&&Number.isFinite(Number(v))?Number(v):d;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const initial=clamp(q.has('chapter')?number(q.get('chapter')):Math.max(0,slugs.indexOf(location.hash.slice(1))),0,7);
+ const state={studioMode:false,studioSamples:0,studioDenoise:true,studioMaxSamples:256,studioSignature:"",traceOptics:false,focusEnabled:false,ready:false,lost:false,contextLosses:0,error:'',chapter:initial,target:initial,time:number(q.get('time')),playing:q.get('animate')==='1'&&!reduced.matches,aaEnabled:q.get('aa')!=='0',aaCount:0,aaSignature:'',tour:false,tourStart:0,drag:[0,0],pointer:[.5,.5],pressed:false,
+  width:0,height:0,cssWidth:0,cssHeight:0,dpr:1,nativeWidth:0,nativeHeight:0,scale:clamp(number(q.get('scale'),1),.25,1),resolutionReason:'native',frame:0,lastTime:0,lastSubmit:0,accum:0,raf:0,transitionStart:0,transitionDuration:0,transitionFrom:initial,
+  submittedFrames:0,completedFrames:0,drawFPS:null,completedFPS:null,gpuFrameMs:null,cpuSubmitMs:null,gpuSamples:0,pendingTimingQueries:0,peakFenceWallMs:0,fenceWallMs:null,lastInputAt:0,inputSequence:0,submittedInputSequence:0,inputToSubmitMs:null,shadowPasses:0,shadowLastTime:-Infinity,telemetryAt:0,actualTriangleCount:GEOMETRY_INFO.triangles};
+ let linearHDR=false,cameraOverride=null,probeSkip=-1;
+ 
+ let noiseTexture=null,flameTexture=null,areaTexture=null,opticalTexture=null,edgeHistory=null;let allocationStage='initial';let lastContextLoss=null;let recoveryCount=0;let resources=[];let startupMs=null;const RESOURCE_BUDGET=320*1024*1024;
+ let surfaceColor=null,surfaceNormal=null,surfaceColorBytes=null,surfaceNormalBytes=null;
+ const aaSamples=0;
+ let rawShadowSampler=null;
+ let environmentTexture=null,environmentBytes=null,probeTexture=null,probeBytes=null,irradianceBytes=null;
+ let gl=null,programs={},mesh=null,emptyVAO=null,sceneFBO=null,sceneColor=null,sceneDepth=null,shadowFBO=null,shadowDepth=null;
+ let limits={width:8192,height:8192},gpu={},geometryBytes=null,initGeneration=0,timerExt=null,timerQueries=[],fences=[],submittedStamps=[],completedStamps=[],cpuSamples=[],gpuSamples=[],frameIntervals=[],contextOptions=null;
+ let observer=null,gesture=null,wheelTimer=0,wheelDirection=0,lastWheelAt=0,wheelStart=0,wheelTotal=0,lastCamera=null,initializing=false;
+ const SHADOW_SIZE=1,NEAR=.06,FAR=90;
+ const externalRequests=[];
+ const add3=(a,b)=>a.map((v,i)=>v+b[i]),sub3=(a,b)=>a.map((v,i)=>v-b[i]),mul3=(a,s)=>a.map(v=>v*s),dot3=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0);
+ const normalize3=a=>mul3(a,1/Math.max(1e-12,Math.hypot(...a))),cross3=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+ const axes=[[1,0],[-.5,Math.sqrt(3)/2],[.5,Math.sqrt(3)/2],[1,0],[.5,-Math.sqrt(3)/2],[-.5,-Math.sqrt(3)/2],[-1,0]];
+ function center(id){return id>=1&&id<=6?[axes[id][0]*3.15,0,axes[id][1]*3.15]:[0,0,0];}
+ function cameraTarget(ch){ch=clamp(ch,0,7);return ch===0?[0,1.06,0]:ch===7?[0,1.05,0]:add3(center(ch),[0,[0,1.55,1.03,1.25,1.07,1.20,1.62][ch],0]);}
+ function cameraEye(ch){ch=clamp(ch,0,7);if(ch===0)return [.9,6.8,13.2];if(ch===7)return [-7.7,5.8,10.1];const c=center(ch),r=normalize3(c),t=[-r[2],0,r[0]];return add3(add3(add3(c,mul3(r,ch===6?5.45:ch===3?4.3:4.0)),mul3(t,ch===1?.80:ch===3?1.55:ch===5?1.05:.70)),[0,ch===3?3.7:ch===2?3.6:ch===4?3.65:ch===6?3.25:2.95,0]);}
+ function spline(a,b,c,d,t){return a.map((_,i)=>.5*(2*b[i]+(-a[i]+c[i])*t+(2*a[i]-5*b[i]+4*c[i]-d[i])*t*t+(-a[i]+3*b[i]-3*c[i]+d[i])*t*t*t));}
+ function camera(){const pos=clamp(state.chapter,0,7),section=Math.floor(pos),f=pos-section;const at=fn=>spline(fn(section-1),fn(section),fn(section+1),fn(section+2),f);const target=at(cameraTarget);let offset=sub3(at(cameraEye),target);const angle=clamp(state.drag[0],-.9,.9)*1.65,c=Math.cos(angle),s=Math.sin(angle),x=offset[0],z=offset[2];offset[0]=c*x+s*z;offset[2]=-s*x+c*z;offset[1]+=clamp(state.drag[1],-.9,.9)*3;const a=state.width/state.height,portrait=a<.85,f0=clamp(Math.min(pos,7-pos)/.8,0,1),wide=1-f0*f0*(3-2*f0);if(portrait)offset=mul3(offset,1.48+.37*wide);const origin=add3(target,offset),forward=normalize3(sub3(target,origin)),right=normalize3(cross3(forward,[0,1,0])),up=cross3(right,forward);return {origin,forward,right,up,focus:Math.hypot(...offset),lens:[portrait?0:(.02+.045*(1-wide))*a,portrait?.085:.105,portrait?1.43:1.82-.10*wide]};}
+ function multiply4(a,b){const r=new Float32Array(16);for(let c=0;c<4;c++)for(let row=0;row<4;row++)for(let k=0;k<4;k++)r[c*4+row]+=a[k*4+row]*b[c*4+k];return r;}
+ function lightMatrix(){const eye=[-4.5,8.5,6.5],at=[0,.6,0],f=normalize3(sub3(at,eye)),r=normalize3(cross3(f,[0,1,0])),u=cross3(r,f);const view=new Float32Array([r[0],u[0],-f[0],0,r[1],u[1],-f[1],0,r[2],u[2],-f[2],0,-dot3(r,eye),-dot3(u,eye),dot3(f,eye),1]);const v=1/Math.tan(70*Math.PI/360),near=.5,far=30;return multiply4(new Float32Array([v,0,0,0,0,v,0,0,0,0,-(far+near)/(far-near),-1,0,0,-2*far*near/(far-near),0]),view);}
+ const light=lightMatrix();
+ function announce(text){document.getElementById('announcement').textContent=text;}
+ function loadError(error){state.error=String(error.message||error);state.ready=false;message.textContent='The renderer could not start.';detail.textContent=state.error;detail.hidden=false;status.hidden=false;document.getElementById('retry').hidden=false;initializing=false;canvas.dataset.status='error';}
+ async function decompress(encoded){if(typeof DecompressionStream==='undefined')throw new Error('This browser does not support gzip stream decompression. Use a current full browser, not an attachment preview.');const s=atob(encoded),bytes=new Uint8Array(s.length);for(let i=0;i<s.length;i++)bytes[i]=s.charCodeAt(i);return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();}
+ function saveBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
+ function saveShaders(){const s=Object.entries(SHADERS).map(([name,source])=>'// ===== '+name+' =====\n'+source).join('\n\n');saveBlob(new Blob([s],{type:'text/plain'}),'CYBR-Asset-Rebuild-Shaders.glsl');announce('Mobile shader sources downloaded.');}
+ async function saveOriginal(){try{saveBlob(new Blob([await decompress(ORIGINAL_GZIP)],{type:'text/html'}),'CYBR-Original-Ray-Traced.html');}catch(e){document.getElementById('copy-result').textContent=String(e);}}
+ function createShader(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);return sh;}
+ async function makeProgram(vs,fs){const vert=createShader(gl.VERTEX_SHADER,vs),frag=createShader(gl.FRAGMENT_SHADER,fs),program=gl.createProgram();gl.attachShader(program,vert);gl.attachShader(program,frag);gl.linkProgram(program);const ext=gl.getExtension('KHR_parallel_shader_compile');if(ext){const start=performance.now();while(!gl.getProgramParameter(program,ext.COMPLETION_STATUS_KHR)){if(state.lost)throw new Error('Graphics context lost during compilation.');if(performance.now()-start>120000)throw new Error('Shader compilation did not complete.');await new Promise(r=>setTimeout(r,16));}}
+  if(!gl.getProgramParameter(program,gl.LINK_STATUS)){const err=[gl.getShaderInfoLog(vert),gl.getShaderInfoLog(frag),gl.getProgramInfoLog(program)].filter(Boolean).join('\n');gl.deleteProgram(program);gl.deleteShader(vert);gl.deleteShader(frag);throw new Error(err||'Shader linking failed.');}gl.deleteShader(vert);gl.deleteShader(frag);return {p:program,u:{}};}
+ function loc(pr,name){return name in pr.u?pr.u[name]:(pr.u[name]=gl.getUniformLocation(pr.p,name));}
+ function one(pr,name,v){gl.uniform1f(loc(pr,name),v);}function integer(pr,name,v){gl.uniform1i(loc(pr,name),v);}
+ function common(pr,c){gl.useProgram(pr.p);gl.uniform2f(loc(pr,'u_resolution'),state.width,state.height);one(pr,'u_time',state.time);one(pr,'u_chapter',state.chapter);one(pr,'u_exposure',1.0);one(pr,'u_focus_distance',c.focus||6);one(pr,'u_focus_enabled',state.focusEnabled?1:0);integer(pr,'u_linear_hdr',linearHDR?1:0);for(const name of ['origin','forward','right','up','lens'])gl.uniform3fv(loc(pr,'u_camera_'+name),c[name]);gl.uniformMatrix4fv(loc(pr,'u_light_matrix'),false,light);gl.activeTexture(gl.TEXTURE3);gl.bindTexture(gl.TEXTURE_CUBE_MAP,environmentTexture);integer(pr,'u_environment',3);gl.uniform3fv(loc(pr,'u_irradiance[0]'),ENV_INFO.irradianceSH.flat());gl.activeTexture(gl.TEXTURE5);gl.bindTexture(gl.TEXTURE_2D_ARRAY,probeTexture);integer(pr,'u_probe_cache',5);integer(pr,'u_have_probes',probeSkip<0?1:0);gl.activeTexture(gl.TEXTURE6);gl.bindTexture(gl.TEXTURE_2D_ARRAY,surfaceColor);integer(pr,'u_surface_color',6);gl.activeTexture(gl.TEXTURE7);gl.bindTexture(gl.TEXTURE_2D_ARRAY,surfaceNormal);integer(pr,'u_surface_normal',7);gl.activeTexture(gl.TEXTURE8);gl.bindTexture(gl.TEXTURE_3D,noiseTexture);integer(pr,'u_noise_lattice',8);gl.activeTexture(gl.TEXTURE9);gl.bindTexture(gl.TEXTURE_2D_ARRAY,flameTexture);integer(pr,'u_flame',9);gl.activeTexture(gl.TEXTURE10);gl.bindTexture(gl.TEXTURE_2D_ARRAY,areaTexture);integer(pr,'u_area_lut',10);gl.activeTexture(gl.TEXTURE12);gl.bindTexture(gl.TEXTURE_2D_ARRAY,opticalTexture);integer(pr,'u_optical_cache',12);}
+ function texture(filter){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,filter);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,filter);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t;}
+ function setupEnvironment(){
+  rawShadowSampler=gl.createSampler();gl.samplerParameteri(rawShadowSampler,gl.TEXTURE_COMPARE_MODE,gl.NONE);gl.samplerParameteri(rawShadowSampler,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.samplerParameteri(rawShadowSampler,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.samplerParameteri(rawShadowSampler,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.samplerParameteri(rawShadowSampler,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  environmentTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE3);gl.bindTexture(gl.TEXTURE_CUBE_MAP,environmentTexture);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);const bytes=new Uint16Array(environmentBytes);let offset=0;
+  for(let level=0;level<ENV_INFO.levels;level++){const size=Math.max(1,ENV_INFO.size>>level),len=size*size*4;
+   for(let face=0;face<6;face++){gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X+face,level,gl.RGBA16F,size,size,0,gl.RGBA,gl.HALF_FLOAT,bytes.subarray(offset,offset+len));offset+=len;}}
+  gl.texParameteri(gl.TEXTURE_CUBE_MAP,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_CUBE_MAP,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  for(const axis of [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T,gl.TEXTURE_WRAP_R])gl.texParameteri(gl.TEXTURE_CUBE_MAP,axis,gl.CLAMP_TO_EDGE);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);
+ }
+ function setupProbes(){
+  probeTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE5);gl.bindTexture(gl.TEXTURE_2D_ARRAY,probeTexture);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);gl.texStorage3D(gl.TEXTURE_2D_ARRAY,PROBE_INFO.levels,gl.RGBA16F,PROBE_INFO.size,PROBE_INFO.size,PROBE_INFO.layers);
+  const data=new Uint16Array(probeBytes);let offset=0;
+  for(let level=0;level<PROBE_INFO.levels;level++){const size=Math.max(1,PROBE_INFO.size>>level),len=size*size*4*PROBE_INFO.layers;
+    gl.texSubImage3D(gl.TEXTURE_2D_ARRAY,level,0,0,0,size,size,PROBE_INFO.layers,gl.RGBA,gl.HALF_FLOAT,data.subarray(offset,offset+len));offset+=len;}
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);
+ }
+
+
+ 
+ 
+
+ function setupSurfaceMaps(){
+   function upload(bytes,unit){
+     const size=SURFACE_INFO.size,layers=SURFACE_INFO.layers;
+     if(bytes.byteLength!==size*size*layers*4)throw new Error('Truncated material map cache.');
+     const texture=gl.createTexture();gl.activeTexture(unit);gl.bindTexture(gl.TEXTURE_2D_ARRAY,texture);
+     gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);
+     gl.texStorage3D(gl.TEXTURE_2D_ARRAY,Math.log2(size)+1,gl.RGBA8,size,size,layers);
+     gl.texSubImage3D(gl.TEXTURE_2D_ARRAY,0,0,0,0,size,size,layers,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array(bytes));
+     gl.generateMipmap(gl.TEXTURE_2D_ARRAY);
+     gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+     gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+     gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.REPEAT);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.REPEAT);
+     const aniso=gl.getExtension('EXT_texture_filter_anisotropic');
+     if(aniso)gl.texParameterf(gl.TEXTURE_2D_ARRAY,aniso.TEXTURE_MAX_ANISOTROPY_EXT,Math.min(8,gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+     gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);return texture;
+   }
+   surfaceColor=upload(surfaceColorBytes,gl.TEXTURE6);surfaceNormal=upload(surfaceNormalBytes,gl.TEXTURE7);
+ }
+
+ function setupBuffers(){const b=geometryBytes,d=new DataView(b);if(d.getUint32(0,true)!==0x32425943||d.getUint32(12,true)!==28)throw new Error('Invalid geometry cache.');const nv=d.getUint32(4,true),ni=d.getUint32(8,true);if(b.byteLength!==16+nv*28+ni*4)throw new Error('Truncated geometry cache.');mesh={vao:gl.createVertexArray(),vbo:gl.createBuffer(),ibo:gl.createBuffer(),count:ni};gl.bindVertexArray(mesh.vao);gl.bindBuffer(gl.ARRAY_BUFFER,mesh.vbo);gl.bufferData(gl.ARRAY_BUFFER,new Uint8Array(b,16,nv*28),gl.STATIC_DRAW);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mesh.ibo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(b,16+nv*28,ni),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,28,0);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,3,gl.SHORT,true,28,12);gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,4,gl.UNSIGNED_BYTE,false,28,18);gl.enableVertexAttribArray(3);gl.vertexAttribPointer(3,2,gl.UNSIGNED_BYTE,true,28,22);gl.enableVertexAttribArray(4);gl.vertexAttribPointer(4,2,gl.SHORT,true,28,24);if(irradianceBytes.byteLength!==nv*6)throw new Error('Irradiance cache does not match geometry.');mesh.irradianceBuffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,mesh.irradianceBuffer);gl.bufferData(gl.ARRAY_BUFFER,new Uint8Array(irradianceBytes),gl.STATIC_DRAW);gl.enableVertexAttribArray(5);gl.vertexAttribPointer(5,3,gl.HALF_FLOAT,false,6,0);gl.bindVertexArray(null);emptyVAO=gl.createVertexArray();
+  sceneFBO=gl.createFramebuffer();gl.activeTexture(gl.TEXTURE0);sceneColor=texture(gl.LINEAR);sceneDepth=texture(gl.NEAREST);edgeHistory=texture(gl.LINEAR);gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+ }
+ function resize(force=false){
+ if(!gl||state.lost||!sceneFBO)return;
+ const r=canvas.getBoundingClientRect(),dpr=devicePixelRatio||1,nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+ let w=Math.max(2,Math.round(nw*state.scale)),h=Math.max(2,Math.round(nh*state.scale));const factor=Math.min(1,limits.width/w,limits.height/h);w=Math.max(2,Math.floor(w*factor));h=Math.max(2,Math.floor(h*factor));
+ state.cssWidth=r.width;state.cssHeight=r.height;state.dpr=dpr;state.nativeWidth=nw;state.nativeHeight=nh;state.resolutionReason=factor<1?'hardware-limit':state.scale===1?'native':'explicit-user-selection';
+ if(!force&&w===state.width&&h===state.height)return;
+ const planned=memoryEstimate(w,h);if(planned.applicationGpuBytes>RESOURCE_BUDGET)throw new Error('The requested buffer exceeds this build\'s 320 MiB application-resource budget. Native pixels were not silently reduced. Select 75% or 50% in Diagnostics, or use a smaller window.');
+ canvas.width=w;canvas.height=h;state.width=gl.drawingBufferWidth;state.height=gl.drawingBufferHeight;
+ if(state.width!==w||state.height!==h)state.resolutionReason='browser-allocation-limit';w=state.width;h=state.height;
+ gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,sceneColor);gl.texImage2D(gl.TEXTURE_2D,0,linearHDR?gl.RGBA16F:gl.RGBA8,w,h,0,gl.RGBA,linearHDR?gl.HALF_FLOAT:gl.UNSIGNED_BYTE,null);
+ gl.bindTexture(gl.TEXTURE_2D,sceneDepth);gl.texImage2D(gl.TEXTURE_2D,0,gl.DEPTH_COMPONENT24,w,h,0,gl.DEPTH_COMPONENT,gl.UNSIGNED_INT,null);
+ gl.bindFramebuffer(gl.FRAMEBUFFER,sceneFBO);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,sceneColor,0);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.TEXTURE_2D,sceneDepth,0);gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
+ if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw new Error('Native-resolution color/depth framebuffer allocation failed.');gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+ gl.bindTexture(gl.TEXTURE_2D,edgeHistory);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB8,w,h,0,gl.RGB,gl.UNSIGNED_BYTE,null);state.aaCount=0;state.aaSignature='';
+ canvas.dataset.resolution=w+'x'+h;state.accum=100;requestFrame();
+}
+ function cleanupTelemetry(){for(const f of fences){try{gl.deleteSync(f.sync);}catch{}}for(const x of timerQueries){try{gl.deleteQuery(x.query);}catch{}}fences=[];timerQueries=[];submittedStamps=[];completedStamps=[];cpuSamples=[];gpuSamples=[];frameIntervals=[];state.drawFPS=null;state.completedFPS=null;state.gpuFrameMs=null;state.fenceWallMs=null;state.pendingTimingQueries=0;}
+ function rollingRate(a,now){while(a.length>1&&a[0]<now-2000)a.shift();return a.length>=3&&a.at(-1)-a[0]>=100?(a.length-1)*1000/(a.at(-1)-a[0]):null;}
+ function telemetry(now){while(fences.length){const f=fences[0],result=gl.clientWaitSync(f.sync,0,0);if(result===gl.TIMEOUT_EXPIRED)break;gl.deleteSync(f.sync);fences.shift();if(result!==gl.WAIT_FAILED){state.completedFrames=Math.max(state.completedFrames,f.sequence);state.fenceWallMs=Math.max(0,now-f.at);state.peakFenceWallMs=Math.max(state.peakFenceWallMs,state.fenceWallMs);completedStamps.push({t:now,n:f.sequence});}}
+  while(completedStamps.length>1&&completedStamps[0].t<now-2000)completedStamps.shift();const first=completedStamps[0],last=completedStamps.at(-1);state.completedFPS=first&&last&&last.t-first.t>100?(last.n-first.n)*1000/(last.t-first.t):null;
+  if(timerExt&&timerQueries.length){const disjoint=gl.getParameter(timerExt.GPU_DISJOINT_EXT);while(timerQueries.length){const q=timerQueries[0];if(!gl.getQueryParameter(q.query,gl.QUERY_RESULT_AVAILABLE))break;timerQueries.shift();if(!disjoint){const ms=gl.getQueryParameter(q.query,gl.QUERY_RESULT)/1e6;if(ms>0&&Number.isFinite(ms)){gpuSamples.push(ms);if(gpuSamples.length>90)gpuSamples.shift();state.gpuSamples++;state.gpuFrameMs=gpuSamples.reduce((a,b)=>a+b,0)/gpuSamples.length;}}gl.deleteQuery(q.query);}}
+  state.pendingTimingQueries=timerQueries.length;
+ }
+ async function initialize(){
+ if(initializing)return;initializing=true;const generation=++initGeneration,start=performance.now();
+ state.error='';state.ready=false;state.lost=false;status.hidden=false;detail.hidden=true;
+ document.getElementById('retry').hidden=true;progress.style.width='8%';message.textContent='Preparing the native live renderer.';
+ const alive=()=>{if(generation!==initGeneration||state.lost||gl.isContextLost())throw new Error('Context interrupted during '+allocationStage);};
+ const step=async(label,pct)=>{allocationStage=label;message.textContent=label;progress.style.width=pct+'%';await new Promise(r=>setTimeout(r,0));alive();};
+ try{
+  contextOptions={alpha:false,antialias:false,depth:false,stencil:false,preserveDrawingBuffer:false,powerPreference:'high-performance',failIfMajorPerformanceCaveat:false};
+  gl=canvas.getContext('webgl2',contextOptions)||canvas.getContext('webgl2');if(!gl)throw new Error('WebGL 2 is not available in this viewer.');
+  const ext=gl.getExtension('WEBGL_debug_renderer_info');gpu={vendor:gl.getParameter(ext?ext.UNMASKED_VENDOR_WEBGL:gl.VENDOR),renderer:gl.getParameter(ext?ext.UNMASKED_RENDERER_WEBGL:gl.RENDERER),version:gl.getParameter(gl.VERSION),shadingLanguage:gl.getParameter(gl.SHADING_LANGUAGE_VERSION)};
+  const max=Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE),gl.getParameter(gl.MAX_RENDERBUFFER_SIZE)),vp=gl.getParameter(gl.MAX_VIEWPORT_DIMS);limits={width:Math.min(max,vp[0]),height:Math.min(max,vp[1])};
+  timerExt=gl.getExtension('EXT_disjoint_timer_query_webgl2');linearHDR=!!gl.getExtension('EXT_color_buffer_float');cleanupTelemetry();resources=[];
+  await step('Compiling two raster programs.',15);
+  const scene=await makeProgram(SHADERS['scene.vert'],SHADERS['scene.frag']);alive();
+  const screen=await makeProgram(SHADERS['screen.vert'],SHADERS['screen.frag']);alive();programs={scene,screen};
+  await step('Uploading fitted finite-area lighting.',25);
+  {const raw=await decompress(AREA_GZIP);alive();areaTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE10);gl.bindTexture(gl.TEXTURE_2D_ARRAY,areaTexture);
+   gl.texStorage3D(gl.TEXTURE_2D_ARRAY,1,gl.RGBA16F,AREA_INFO.size,AREA_INFO.size,2);gl.texSubImage3D(gl.TEXTURE_2D_ARRAY,0,0,0,0,AREA_INFO.size,AREA_INFO.size,2,gl.RGBA,gl.HALF_FLOAT,new Uint16Array(raw));
+   gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);}
+  await step('Uploading studio illumination.',30);environmentBytes=await decompress(ENV_GZIP);alive();setupEnvironment();environmentBytes=null;
+  await step('Uploading local reflection captures.',40);probeBytes=await decompress(PROBE_GZIP);alive();setupProbes();probeBytes=null;
+  await step('Uploading high-detail optical captures.',48);
+  {const raw=new Uint8Array(await decompress(OPTICAL_GZIP));alive();if(raw.byteLength!==OPTICAL_INFO.bytes)throw new Error('Truncated optical cache');
+   opticalTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE12);gl.bindTexture(gl.TEXTURE_2D_ARRAY,opticalTexture);
+   gl.texStorage3D(gl.TEXTURE_2D_ARRAY,OPTICAL_INFO.levels,gl.RGBA8,OPTICAL_INFO.size,OPTICAL_INFO.size,OPTICAL_INFO.layers);
+   let offset=0;for(let level=0;level<OPTICAL_INFO.levels;level++){const n=Math.max(1,OPTICAL_INFO.size>>level),len=n*n*4*OPTICAL_INFO.layers;
+    gl.texSubImage3D(gl.TEXTURE_2D_ARRAY,level,0,0,0,n,n,OPTICAL_INFO.layers,gl.RGBA,gl.UNSIGNED_BYTE,raw.subarray(offset,offset+len));offset+=len;}
+   gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+   gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);}
+  await step('Uploading material detail.',55);surfaceColorBytes=await decompress(SURFACE_COLOR);alive();surfaceNormalBytes=await decompress(SURFACE_NORMAL);alive();setupSurfaceMaps();surfaceColorBytes=null;surfaceNormalBytes=null;
+  await step('Uploading procedural noise lattice.',65);const noise=await decompress(NOISE_GZIP);alive();noiseTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE8);gl.bindTexture(gl.TEXTURE_3D,noiseTexture);gl.texStorage3D(gl.TEXTURE_3D,1,gl.R8,64,64,64);gl.texSubImage3D(gl.TEXTURE_3D,0,0,0,0,64,64,64,gl.RED,gl.UNSIGNED_BYTE,new Uint8Array(noise));gl.texParameteri(gl.TEXTURE_3D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_3D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);for(const a of [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T,gl.TEXTURE_WRAP_R])gl.texParameteri(gl.TEXTURE_3D,a,gl.REPEAT);
+  await step('Uploading the baked flame volume.',70);
+  {const flame=await decompress(FLAME_GZIP);alive();if(flame.byteLength!==FLAME_INFO.bytes)throw new Error('Truncated flame cache');
+   flameTexture=gl.createTexture();gl.activeTexture(gl.TEXTURE9);gl.bindTexture(gl.TEXTURE_2D_ARRAY,flameTexture);
+   gl.texStorage3D(gl.TEXTURE_2D_ARRAY,1,gl.RG8,FLAME_INFO.width,FLAME_INFO.height,FLAME_INFO.frames);
+   gl.texSubImage3D(gl.TEXTURE_2D_ARRAY,0,0,0,0,FLAME_INFO.width,FLAME_INFO.height,FLAME_INFO.frames,gl.RG,gl.UNSIGNED_BYTE,new Uint8Array(flame));
+   gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+   gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);}
+  await step('Uploading mechanism geometry.',75);geometryBytes=await decompress(GEOMETRY_GZIP);alive();irradianceBytes=await decompress(IRR_GZIP);alive();setupBuffers();geometryBytes=null;irradianceBytes=null;
+  await step('Allocating the native drawing buffer.',90);resize(true);alive();
+  const err=gl.getError();if(err!==gl.NO_ERROR)throw new Error('Resource initialization failed (WebGL code '+err+'). No automatic resolution change was made.');
+  gl.disable(gl.DITHER);gl.disable(gl.BLEND);state.ready=true;state.lastTime=0;state.frame=0;state.submittedFrames=0;state.completedFrames=0;state.lastSubmit=0;state.drawFPS=null;state.completedFPS=null;state.accum=100;
+  if(recoveryCount){state.playing=false;state.tour=false;}
+  canvas.dataset.status='ready';startupMs=performance.now()-start;allocationStage='ready';progress.style.width='100%';initializing=false;
+  if(!observer){observer=new ResizeObserver(()=>{try{resize();}catch(e){loadError(e);}});observer.observe(canvas);}
+  syncUI();requestFrame();
+ }catch(e){geometryBytes=irradianceBytes=environmentBytes=probeBytes=surfaceColorBytes=surfaceNormalBytes=null;if(generation===initGeneration&&!state.lost)loadError(e);}
+}
+
+ 
+ 
+ 
+ document.getElementById('live-mode').addEventListener('click',togglePlay);
+ 
+ 
+ function requestFrame(){if(!state.raf&&state.ready&&!state.lost&&!document.hidden&&panel.hidden)state.raf=requestAnimationFrame(render);}
+ function advance(now){if(state.transitionDuration>0){const t=clamp((now-state.transitionStart)/state.transitionDuration,0,1),e=t*t*(3-2*t);state.chapter=state.transitionFrom+(state.target-state.transitionFrom)*e;if(t>=1){state.chapter=state.target;state.transitionDuration=0;}}}
+ function render(now){
+ state.raf=0;if(!state.ready||state.lost||document.hidden||!panel.hidden)return;
+ const dt=state.lastTime?Math.min(.1,Math.max(0,(now-state.lastTime)/1000)):1/60;state.lastTime=now;
+ if(state.playing)state.time+=dt;
+ if(state.tour){const p=Math.max(0,(state.time-state.tourStart)/5.5),seg=Math.floor(p),t=clamp((p-seg-.55)/.45,0,1);state.chapter=state.target=Math.min(7,seg+t*t*(3-2*t));state.transitionDuration=0;if(p>=8)state.tour=false;}
+ advance(now);if(state.dpr!==(devicePixelRatio||1))resize();
+ const begin=performance.now();telemetry(begin);if(fences.length>=2){requestFrame();return;}
+ lastCamera=cameraOverride||camera();
+ const refine=state.aaEnabled&&!state.playing&&!state.tour&&!state.pressed&&state.transitionDuration===0&&probeSkip<0;
+ const signature=JSON.stringify([lastCamera,state.chapter,state.time,state.width,state.height]);
+ if(!refine||signature!==state.aaSignature){state.aaCount=0;state.aaSignature=signature;}
+ const sample=Math.min(state.aaCount,7),jitter=[[0,0],[0,-1/6],[-.25,1/6],[.25,-7/18],[-.375,-1/18],[.125,5/18],[-.125,-5/18],[.375,1/18]][sample];
+ if(refine)lastCamera={...lastCamera,lens:[lastCamera.lens[0]+jitter[0]/state.height,lastCamera.lens[1]+jitter[1]/state.height,lastCamera.lens[2]]};
+ let tq=null;if(timerExt&&timerQueries.length<4&&state.frame%12===0){tq=gl.createQuery();gl.beginQuery(timerExt.TIME_ELAPSED_EXT,tq);}
+ const pr=programs.scene;gl.bindFramebuffer(gl.FRAMEBUFFER,sceneFBO);gl.viewport(0,0,state.width,state.height);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.depthMask(true);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);gl.disable(gl.BLEND);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);common(pr,lastCamera);gl.bindVertexArray(mesh.vao);
+ // Submit near exhibits first, then the shared plinth and floor, for early depth rejection.
+ const ordered=GEOMETRY_INFO.groups.slice().sort((a,b)=>{const dist=g=>{if(g.name==='area-lit-studio-sweep')return 1e8;const p=g.object?add3(center(g.object),[0,1.3,0]):[0,0,0];return dot3(sub3(p,lastCamera.origin),sub3(p,lastCamera.origin));};return dist(a)-dist(b);});
+ for(const group of ordered)if(group.object!==probeSkip)gl.drawElements(gl.TRIANGLES,group.indexCount,gl.UNSIGNED_INT,group.indexStart*4);
+ const fx=programs.screen;gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);common(fx,lastCamera);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,sceneColor);integer(fx,'u_scene',0);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,sceneDepth);integer(fx,'u_depth',1);gl.activeTexture(gl.TEXTURE11);gl.bindTexture(gl.TEXTURE_2D,edgeHistory);integer(fx,'u_edge_history',11);one(fx,'u_edge_weight',refine?sample/(sample+1):0);
+ gl.uniform4f(loc(fx,'u_mouse'),state.pointer[0]*state.width,state.pointer[1]*state.height,-1,-1);one(fx,'u_render_mode',state.scale===1?0:state.scale===.75?1:2);one(fx,'u_playback',state.playing?1:0);one(fx,'u_fps',state.completedFPS??state.drawFPS??-1);one(fx,'u_gpu_ms',state.gpuFrameMs??-1);one(fx,'u_rt_mode',1);one(fx,'u_interaction',1);gl.bindVertexArray(emptyVAO);gl.drawArrays(gl.TRIANGLES,0,3);
+ if(refine){gl.activeTexture(gl.TEXTURE11);gl.bindTexture(gl.TEXTURE_2D,edgeHistory);gl.copyTexSubImage2D(gl.TEXTURE_2D,0,0,0,0,0,state.width,state.height);state.aaCount=Math.min(8,state.aaCount+1);}
+ if(tq){gl.endQuery(timerExt.TIME_ELAPSED_EXT);timerQueries.push({query:tq,at:begin});}
+ const sync=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);if(sync)fences.push({sync,at:begin,sequence:state.submittedFrames+1});gl.flush();
+ if(state.lastSubmit){frameIntervals.push(now-state.lastSubmit);if(frameIntervals.length>240)frameIntervals.shift();}state.lastSubmit=now;state.frame++;state.submittedFrames++;submittedStamps.push(now);state.drawFPS=rollingRate(submittedStamps,now);
+ if(state.inputSequence!==state.submittedInputSequence){state.inputToSubmitMs=Math.max(0,begin-state.lastInputAt);state.submittedInputSequence=state.inputSequence;}
+ state.cpuSubmitMs=performance.now()-begin;cpuSamples.push(state.cpuSubmitMs);if(cpuSamples.length>90)cpuSamples.shift();if(!status.hidden)status.hidden=true;
+ if(now-state.telemetryAt>500){state.telemetryAt=now;const fps=state.completedFPS??state.drawFPS;document.getElementById('visible-diagnostics').textContent='Diagnostics'+((state.playing||state.tour||state.pressed||state.transitionDuration>0)?(fps!=null?' · '+fps.toFixed(0)+' fps':''):(state.aaEnabled&&state.aaCount<8?' · refining':' · idle'));syncUI();}
+ if(state.playing||state.tour||state.pressed||state.transitionDuration>0||(refine&&state.aaCount<8))requestFrame();else syncUI();
+}
+ function noteInput(){state.lastInputAt=performance.now();state.inputSequence++;}
+ function selectChapter(value,direct=false){const now=performance.now();advance(now);noteInput();state.tour=false;const target=clamp(value,0,7);state.target=target;if(direct||reduced.matches){state.chapter=target;state.transitionDuration=0;}else{state.transitionFrom=state.chapter;state.transitionStart=now;state.transitionDuration=clamp(150+Math.abs(target-state.chapter)*45,150,360);}state.accum=100;syncUI();requestFrame();}
+ function syncUI(){
+ document.getElementById('live-mode').textContent=state.playing?'Pause animation':'Play animation';document.getElementById('live-mode').setAttribute('aria-pressed',String(state.playing));
+ document.getElementById('sample-count').textContent=(state.playing?'Live':'Paused')+' · '+(state.scale===1?'native pixels':Math.round(state.scale*100)+'% selected')+(!state.playing&&state.aaEnabled?' · edge AA '+state.aaCount+'/8':'');
+ canvas.dataset.chapter=String(Math.round(state.chapter));document.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',Number(b.dataset.chapter)===Math.round(state.target)?'page':'false'));
+ document.getElementById('panel-aa').textContent='Edge refinement '+(state.aaEnabled?'on':'off');document.getElementById('panel-aa').setAttribute('aria-pressed',String(state.aaEnabled));
+ document.getElementById('panel-play').textContent=state.playing?'Pause animation':'Play animation';document.querySelectorAll('[data-scale]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.scale)===state.scale)));document.title='CYBR / '+names[Math.round(state.chapter)]+' — Instrument Rebuild';
+}
+ function setScale(scale){
+ state.scale=clamp(scale,.25,1);
+ try{resize(true);if(state.error&&programs.scene&&programs.screen&&sceneFBO&&!state.lost&&!gl.isContextLost()){state.error='';state.ready=true;initializing=false;allocationStage='ready';state.playing=false;canvas.dataset.status='ready';}syncUI();requestFrame();announce('Rendering scale '+Math.round(scale*100)+' percent.');}
+ catch(error){loadError(error);}
+ }
+ function togglePlay(){state.playing=!state.playing;state.lastTime=0;syncUI();requestFrame();}
+ function logical(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*900/r.height,y:(r.bottom-e.clientY)*900/r.height,w:r.width*900/r.height};}
+ function controlAt(p){const {x,y,w}=p;if(y>=826&&y<=876&&x>w-124&&x<w-28)return 'source';if(y>=20&&y<=70&&x>28&&x<w-28)return ['chapter',clamp(Math.floor((x-28)/((w-56)/8)),0,7)];if(y>=774&&y<=814&&x>w-88)return 'play';if(y>=735&&y<=814&&x<Math.min(245,w-100)&&x>24)return 'diagnostics';if(y>=735&&y<=779&&x>w-128)return 'diagnostics';if(state.chapter>6.5&&y>=106&&y<=146){const portrait=w<760;if(x>=28&&x<=(portrait?w*.5-8:178))return 'github';if(x>=(portrait?w*.5+8:194)&&x<=(portrait?w-28:374))return 'x';}return null;}
+ function runControl(a){if(Array.isArray(a))selectChapter(a[1]);else if(a==='source')saveShaders();else if(a==='play')togglePlay();else if(a==='diagnostics')openPanel();else if(a==='github')window.open('https://github.com/cybrdelic','_blank','noopener');else if(a==='x')window.open('https://x.com/cybrdelic','_blank','noopener');}
+ function project(p){const c=lastCamera||camera(),v=sub3(p,c.origin),z=dot3(v,c.forward);if(z<=0)return null;const uv=[dot3(v,c.right)*c.lens[2]/z+c.lens[0],dot3(v,c.up)*c.lens[2]/z+c.lens[1]];return [state.cssWidth*.5+uv[0]*state.cssHeight,state.cssHeight*.5-uv[1]*state.cssHeight,z];}
+ function pickModule(e){const r=canvas.getBoundingClientRect(),xy=[e.clientX-r.left,e.clientY-r.top];let chosen=0,best=Infinity;for(let id=1;id<=7;id++){const p=project(id===7?[0,2,0]:add3(center(id),[0,1.4,0]));if(!p)continue;const radius=state.cssHeight*(lastCamera||camera()).lens[2]*1.1/p[2],d=Math.hypot(xy[0]-p[0],xy[1]-p[1]);if(d<radius&&d<best){best=d;chosen=id;}}if(chosen)selectChapter(chosen===7?7:chosen);}
+ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus({preventScroll:true});const p=logical(e);gesture={id:e.pointerId,x:e.clientX,y:e.clientY,chapter:state.chapter,drag:state.drag.slice(),touch:e.pointerType==='touch',control:controlAt(p),moved:0};state.pressed=true;state.transitionDuration=0;canvas.setPointerCapture(e.pointerId);noteInput();requestFrame();});
+ canvas.addEventListener('pointermove',e=>{const r=canvas.getBoundingClientRect();state.pointer=[(e.clientX-r.left)/r.width,(r.bottom-e.clientY)/r.height];if(!gesture||gesture.id!==e.pointerId)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;gesture.moved=Math.max(gesture.moved,Math.hypot(dx,dy));if(gesture.control)return;if(gesture.touch&&Math.abs(dy)>Math.abs(dx)*.8){selectChapter(gesture.chapter-dy/Math.max(140,state.cssHeight*.23),true);}else{noteInput();state.drag=[clamp(gesture.drag[0]+dx/state.cssWidth,-.9,.9),clamp(gesture.drag[1]-dy/state.cssHeight,-.9,.9)];state.accum=100;requestFrame();}});
+ canvas.addEventListener('pointerup',e=>{if(!gesture||gesture.id!==e.pointerId)return;const g=gesture;gesture=null;state.pressed=false;if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);if(g.moved<7){if(g.control)runControl(g.control);else pickModule(e);}else if(g.touch&&!g.control)selectChapter(Math.round(state.chapter));requestFrame();});
+ function cancelPointer(){if(gesture&&gesture.touch&&gesture.moved>7&&!gesture.control)selectChapter(Math.round(state.chapter));gesture=null;state.pressed=false;requestFrame();}canvas.addEventListener('pointercancel',cancelPointer);canvas.addEventListener('lostpointercapture',cancelPointer);
+ canvas.addEventListener('wheel',e=>{e.preventDefault();const now=performance.now(),unit=e.deltaMode===1?16:e.deltaMode===2?state.cssHeight:1,dy=clamp((Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX)*unit,-350,350);if(now-lastWheelAt>140||Math.sign(dy)!==wheelDirection){wheelStart=Math.round(state.chapter);wheelTotal=0;}lastWheelAt=now;wheelDirection=Math.sign(dy);wheelTotal+=dy;selectChapter(state.chapter+dy/380,true);clearTimeout(wheelTimer);wheelTimer=setTimeout(()=>{let dest=Math.round(state.chapter);if(dest===wheelStart&&Math.abs(wheelTotal)>45)dest+=Math.sign(wheelTotal);selectChapter(dest);},80);},{passive:false});
+ canvas.addEventListener('dblclick',e=>{if(!controlAt(logical(e))){state.drag=[0,0];noteInput();requestFrame();}});
+ function memoryEstimate(w=state.width,h=state.height){
+ const mipBytes=(n,layers,bpp)=>{let total=0;for(let x=n;x>=1;x=Math.floor(x/2))total+=x*x*layers*bpp;return total;};
+ const parts={opticalCaptures:OPTICAL_INFO.bytes,edgeHistory:w*h*3,areaLightLUT:AREA_INFO.bytes,mesh:GEOMETRY_INFO.uncompressedBytes-16,vertexIrradiance:IRR_INFO.bytes,environment:ENV_INFO.bytes,reflectionCaptures:PROBE_INFO.bytes,surfaceArrays:2*mipBytes(SURFACE_INFO.size,SURFACE_INFO.layers,4),noiseLattice:64**3,flameVolumes:FLAME_INFO.bytes,sceneColor:w*h*(linearHDR?8:4),sceneDepth:w*h*4};
+ return {applicationGpuBytes:Object.values(parts).reduce((a,b)=>a+b,0),parts,budgetBytes:RESOURCE_BUDGET,renderTargetCount:2,decodedCpuCachesRetained:false,excludes:'Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM.'};
+}
+function report(){
+ const sorted=frameIntervals.slice().sort((a,b)=>a-b),pct=p=>sorted.length?sorted[Math.min(sorted.length-1,Math.floor(sorted.length*p))]:null;
+ return {build:BUILD,reportCapturedAt:new Date().toISOString(),reportPurpose:'Procedural instrument reconstruction, hierarchical pine, coherent geological cleavage, finite-area lighting and manufactured finishes. Native-resolution mobile raster path; not physical-device certified.',api:gl?'webgl2':'none',ready:state.ready,lost:state.lost,contextLosses:state.contextLosses,lastContextLoss,allocationStage,startupMs,userAgent:navigator.userAgent,protocol:location.protocol,embedded:window.self!==window.top,viewport:[innerWidth,innerHeight],cssResolution:[state.cssWidth,state.cssHeight],devicePixelRatio:state.dpr,resolution:[state.width,state.height],nativeResolution:[state.nativeWidth,state.nativeHeight],resolutionReason:state.resolutionReason,renderScale:state.scale,adaptiveResolution:false,softwareRenderer:/swiftshader|llvmpipe|software|lavapipe/i.test(gpu.renderer||''),gpu,
+ renderer:'Two-pass raster with numerically fitted finite-area GGX lighting, new procedural geometry, baked visibility/indirect light, analytic solid-lens/crystal interfaces with static scene-local radiance captures',singleFragmentShader:false,pathTracerCompiled:false,bvhUploaded:false,progressiveStudio:{enabled:false,allocatedBytes:0},secondaryRays:{enabled:false,hierarchy:null},reconstruction:false,photographicFocus:false,antialiasing:{type:'Native-pixel spatial resolve; eight subpixel-jittered raster views while stationary only, one RGB8 history; no MSAA or path tracing',samples:state.aaCount,enabled:state.aaEnabled,maximumSamples:8,historyBytes:state.width*state.height*3},linearHDR,memory:memoryEstimate(),surfaceMaps:SURFACE_INFO,flameVolume:FLAME_INFO,freshLightingBake:true,areaLighting:AREA_INFO,opticalCaptures:OPTICAL_INFO,geometrySource:GEOMETRY_INFO.source,triangles:GEOMETRY_INFO.triangles,vertices:GEOMETRY_INFO.vertices,geometrySHA256:GEOMETRY_INFO.sha256,geometryBytes:GEOMETRY_INFO.uncompressedBytes,lightingTransfer:GEOMETRY_INFO.lightingTransfer,passes:{opaque:1,compositeAndUI:1},bufferLimits:limits,
+ targetFPS:60,targetFrameMs:1000/60,frame:state.frame,submittedFrames:state.submittedFrames,completedFrames:state.completedFrames,drawFPS:state.drawFPS,completedFPS:state.completedFPS,frameIntervalP50Ms:pct(.5),frameIntervalP95Ms:pct(.95),frameIntervalP99Ms:pct(.99),cpuSubmitMeanMs:cpuSamples.length?cpuSamples.reduce((a,b)=>a+b,0)/cpuSamples.length:null,gpuTimerAvailable:!!timerExt,gpuFrameMs:state.gpuFrameMs,gpuSamples:state.gpuSamples,pendingTimingQueries:timerQueries.length,timerQueriesGateRendering:false,maxFramesInFlight:2,pendingCompletionFences:fences.length,fenceCompletionWallMs:state.fenceWallMs,peakFenceCompletionWallMs:state.peakFenceWallMs,inputEvents:state.inputSequence,inputToSubmitMs:state.inputToSubmitMs,chapter:state.chapter,playing:state.playing,diagnosticsVisible:!panel.hidden,error:state.error,
+ limitations:['Assets have been reconstructed, but remain authored procedural assets, not photographs or scans.','Static illumination and reflection captures; cached glass cannot track moving occluded geometry.','No MSAA, depth-of-field or path-traced refinement in this live build.','GPU memory figures are format-sized estimates, not driver memory measurements.','Physical Adreno performance and stability have not been verified by the build environment.']};
+}
+ function openPanel(){const r=report();if(state.raf){cancelAnimationFrame(state.raf);state.raf=0;}panel.hidden=false;document.getElementById('visible-diagnostics').setAttribute('aria-expanded','true');reportBox.value=JSON.stringify(r,null,2);const fps=r.completedFPS??r.drawFPS;document.getElementById('performance-text').textContent=(!state.playing&&!state.tour&&!state.pressed&&state.transitionDuration===0?'Animation paused; last raster-refinement rate is not animation FPS':(fps!=null?fps.toFixed(1)+' submitted/completed raster frames/s':'Frame-rate sample not ready'))+'\n'+r.resolution.join(' × ')+' rendered pixels · '+(state.scale===1?'native':Math.round(state.scale*100)+'% explicit scale')+'\n'+(r.gpuFrameMs!=null?r.gpuFrameMs.toFixed(2)+' ms GPU time':'GPU timer not available / not sampled')+'\n'+GEOMETRY_INFO.triangles.toLocaleString()+' triangles · '+(r.memory.applicationGpuBytes/1048576).toFixed(1)+' MiB estimated application GPU resources\n'+(r.gpu.renderer||'No renderer');document.getElementById('copy-result').textContent='';syncUI();document.getElementById('performance-copy').focus({preventScroll:true});}
+ function closePanel(){panel.hidden=true;document.getElementById('visible-diagnostics').setAttribute('aria-expanded','false');state.lastTime=0;state.accum=100;requestFrame();canvas.focus({preventScroll:true});}
+ async function copyReport(){const text=reportBox.value;try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(text);document.getElementById('copy-result').textContent='Report copied.';}catch{reportBox.focus();reportBox.select();let ok=false;try{ok=document.execCommand('copy');}catch{}document.getElementById('copy-result').textContent=ok?'Report copied.':'Clipboard access is blocked. The report is selected; use Copy or Download JSON.';}}
+ document.getElementById('visible-diagnostics').addEventListener('click',()=>panel.hidden?openPanel():closePanel());document.getElementById('performance-close').addEventListener('click',closePanel);document.getElementById('performance-copy').addEventListener('click',copyReport);document.getElementById('performance-download').addEventListener('click',()=>saveBlob(new Blob([reportBox.value],{type:'application/json'}),'CYBR-Instrument-Rebuild-Diagnostics.json'));document.getElementById('source-save').addEventListener('click',saveShaders);document.getElementById('original-save').addEventListener('click',saveOriginal);document.getElementById('panel-play').addEventListener('click',togglePlay);document.getElementById('panel-aa').addEventListener('click',()=>{state.aaEnabled=!state.aaEnabled;state.aaCount=0;state.aaSignature='';syncUI();requestFrame();});document.getElementById('retry').addEventListener('click',()=>location.reload());document.querySelectorAll('[data-scale]').forEach(b=>b.addEventListener('click',()=>{setScale(Number(b.dataset.scale));openPanel();}));document.querySelectorAll('[data-chapter]').forEach(b=>b.addEventListener('click',()=>selectChapter(Number(b.dataset.chapter))));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){closePanel();return;}if(!panel.hidden){if(e.key==='Tab'){const focusables=[...panel.querySelectorAll('button,textarea')].filter(e=>!e.disabled),i=focusables.indexOf(document.activeElement);if(e.shiftKey&&i===0){e.preventDefault();focusables.at(-1).focus();}else if(!e.shiftKey&&i===focusables.length-1){e.preventDefault();focusables[0].focus();}}return;}if(e.ctrlKey||e.altKey||e.metaKey||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const k=e.key.toLowerCase();if(['arrowright','arrowdown','pagedown'].includes(k)){e.preventDefault();selectChapter(Math.round(state.target)+1);}else if(['arrowleft','arrowup','pageup'].includes(k)){e.preventDefault();selectChapter(Math.round(state.target)-1);}else if(k==='home')selectChapter(0);else if(k==='end')selectChapter(7);else if(/^[1-8]$/.test(k))selectChapter(Number(k)-1);else if(k===' '){e.preventDefault();togglePlay();}else if(k==='d')openPanel();else if(k==='s')saveShaders();else if(k==='q')setScale(state.scale===1?.75:state.scale===.75?.5:1);else if(k==='t'){state.tour=!state.tour;state.playing=true;state.tourStart=state.time-Math.floor(state.chapter)*5.5;requestFrame();}});
+
+ canvas.addEventListener('webglcontextlost',e=>{
+  e.preventDefault();lastContextLoss={at:new Date().toISOString(),statusMessage:e.statusMessage||'',frame:state.frame,allocationStage,memory:memoryEstimate(),submittedFrames:state.submittedFrames,completedFrames:state.completedFrames};
+  state.lost=true;state.ready=false;state.contextLosses++;state.playing=false;state.tour=false;fences=[];timerQueries=[];initializing=false;initGeneration++;
+  if(state.raf)cancelAnimationFrame(state.raf);state.raf=0;status.hidden=false;message.textContent='Graphics context interrupted.';detail.textContent='Rendering has stopped. No automatic resolution reduction was made. Diagnostics preserves the allocation stage. Reload is available if the browser does not restore the context.';detail.hidden=false;document.getElementById('retry').hidden=false;document.getElementById('retry').textContent='Reload renderer';canvas.dataset.status='lost';
+ });
+ canvas.addEventListener('webglcontextrestored',()=>{state.lost=false;recoveryCount++;if(recoveryCount>2){loadError(new Error('Repeated graphics resets. Automatic restart has stopped; Diagnostics and Reload remain available.'));return;}initialize();});
+ document.addEventListener('visibilitychange',()=>{state.lastTime=0;if(document.hidden&&state.raf){cancelAnimationFrame(state.raf);state.raf=0;}else requestFrame();});
+ window.CYBR={get report(){return report();},get diagnostics(){return {chapter:state.chapter,target:state.target,playing:state.playing,transitionDuration:state.transitionDuration,resolution:[state.width,state.height],time:state.time};},go:chapter=>selectChapter(chapter),setScale,pause:()=>{state.playing=false;state.tour=false;syncUI();},play:()=>{state.playing=true;state.lastTime=0;requestFrame();},openDiagnostics:openPanel,setTime:t=>{state.time=number(t);requestFrame();},
+ test:{async setScreenSource(source){const next=await makeProgram(SHADERS["screen.vert"],source);gl.deleteProgram(programs.screen.p);programs.screen=next;state.aaCount=0;state.aaSignature="";},async captureProbe(objectId,face,includeSelf=false){
+    if(!linearHDR)throw new Error('Probe baking requires the float framebuffer path.');
+    const fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);gl.flush();await new Promise((resolve,reject)=>{const start=performance.now();function poll(){const result=gl.clientWaitSync(fence,0,0);if(result===gl.WAIT_FAILED)return reject(new Error('Probe readback fence failed'));if(result===gl.TIMEOUT_EXPIRED){if(performance.now()-start>120000)return reject(new Error('Probe readback timed out'));return setTimeout(poll,8);}resolve();}poll();});gl.deleteSync(fence);
+    const forward=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]][face];
+    const up=[[0,-1,0],[0,-1,0],[0,0,1],[0,0,-1],[0,-1,0],[0,-1,0]][face];
+    cameraOverride={origin:add3(center(objectId),[0,objectId===7?2.14:objectId===1?1.59:1.35,0]),forward,right:normalize3(cross3(forward,up)),up,lens:[0,0,.5]};
+    probeSkip=includeSelf?99:objectId;state.playing=false;state.time=0;state.accum=100;render(performance.now());
+    const pixels=new Float32Array(state.width*state.height*4);gl.bindFramebuffer(gl.READ_FRAMEBUFFER,sceneFBO);
+    gl.readPixels(0,0,state.width,state.height,gl.RGBA,gl.FLOAT,pixels);gl.bindFramebuffer(gl.READ_FRAMEBUFFER,null);
+    cameraOverride=null;probeSkip=-1;const bytes=new Uint8Array(pixels.buffer);let str='';for(let i=0;i<bytes.length;i+=16384)str+=String.fromCharCode(...bytes.subarray(i,i+16384));
+    return btoa(str);
+  },get gl(){return gl;},get mesh(){return mesh;},setCamera:c=>{cameraOverride=c;},renderAt(chapter,time=0){state.chapter=state.target=clamp(chapter,0,7);state.transitionDuration=0;state.time=time;state.accum=100;render(performance.now());},
+ async capture(chapter=state.chapter,time=state.time){state.playing=false;state.tour=false;if(state.raf){cancelAnimationFrame(state.raf);state.raf=0;}state.transitionDuration=0;state.chapter=state.target=clamp(chapter,0,7);state.time=time;const start=performance.now();while(fences.length){telemetry(performance.now());if(performance.now()-start>30000)throw new Error('Test readback wait timed out');await new Promise(r=>setTimeout(r,8));}state.aaCount=0;state.aaSignature='';for(let i=0;i<(state.aaEnabled?8:1);i++){while(fences.length){telemetry(performance.now());if(performance.now()-start>120000)throw new Error('Completed raster capture timed out');if(fences.length)await new Promise(r=>setTimeout(r,4));}render(performance.now());gl.finish();if(state.raf){cancelAnimationFrame(state.raf);state.raf=0;}if(i<(state.aaEnabled?8:1)-1){await new Promise(r=>setTimeout(r,0));telemetry(performance.now());}}return canvas.toDataURL('image/png');}}};
+ initialize();
+})();
+</script></body></html>

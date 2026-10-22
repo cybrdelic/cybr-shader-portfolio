@@ -1,0 +1,979 @@
+{
+  "build": "cybr-instrument-rebuild-2026-10-22",
+  "htmlSHA256": "516cfe66d3ed13d5d7de916afe273007ccbaa3b3417ffad3a901ff86f8421ba2",
+  "physicalAndroidTested": false,
+  "sixtyFPSVerified": false,
+  "visualRedesign": true,
+  "visualAcceptance": "Human visual judgment; no numerical photorealism certificate",
+  "environment": "Chromium ANGLE/Mesa software renderer. Real native-size pixel readbacks, emulated touch. Not an Adreno performance measurement. Capture wall times include PNG serialization and readback, not GPU execution time.",
+  "checks": [
+    {
+      "name": "Desktop actual startup",
+      "pass": true,
+      "gpu": {
+        "vendor": "Google Inc. (Mesa)",
+        "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+      },
+      "error": ""
+    },
+    {
+      "name": "Rendered chapter 0",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 2802,
+      "sha256": "2efaa80ee58ee7a6ef4dbd5f187666b23ec8bf1396de3b4d9e59edd58815994c"
+    },
+    {
+      "name": "Rendered chapter 1",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 3928,
+      "sha256": "4032d884044c1a2c01592b3aedd46f554097224c764cde50d9d2465445597dba"
+    },
+    {
+      "name": "Rendered chapter 2",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 3970,
+      "sha256": "48044cd92605dcf6a5abca016d96fda863611a9d7720f8f2fc9e3aa19c3137e8"
+    },
+    {
+      "name": "Rendered chapter 3",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 4303,
+      "sha256": "e29b2034ed8aa1cc09907854b0cc20e85064e52f3d17a45629b5622a25653920"
+    },
+    {
+      "name": "Rendered chapter 4",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 4663,
+      "sha256": "e96be3e486747142ce034600861e091d801a0a10afb6323616918de484e6baec"
+    },
+    {
+      "name": "Rendered chapter 5",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 4238,
+      "sha256": "d001f80c6c74c2c8c3fa912ab13ace363246748b6f447520ea6057965438dd0f"
+    },
+    {
+      "name": "Rendered chapter 6",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 4248,
+      "sha256": "63464e2b89c69105275d281ef5f721e36dc3d55101fe4f2c1ec16802d485ce13"
+    },
+    {
+      "name": "Rendered chapter 7",
+      "pass": true,
+      "size": [
+        960,
+        600
+      ],
+      "colors": 2944,
+      "sha256": "da0c83b218f595935673186a0690b2b11e2748962611c7068c5fc276473c2695"
+    },
+    {
+      "name": "Exactly two programs; no MSAA/renderbuffers",
+      "pass": true,
+      "observed": {
+        "textureBytes": 167602864,
+        "bufferBytes": 32409744,
+        "programs": 2,
+        "renderbuffers": 0,
+        "formats": [
+          34842,
+          32856,
+          33321,
+          33323,
+          33190,
+          32849
+        ],
+        "draws": 1254
+      }
+    },
+    {
+      "name": "Eight-frame native edge resolve completed",
+      "pass": true
+    },
+    {
+      "name": "Own fitted area-light data and true generated optical captures",
+      "pass": true
+    },
+    {
+      "name": "Baked flame volume uploaded with bounded 6 MiB storage",
+      "pass": true,
+      "flame": {
+        "width": 256,
+        "height": 256,
+        "frames": 48,
+        "grid": [
+          32,
+          64,
+          32
+        ],
+        "format": "RG8",
+        "bytes": 6291456,
+        "seconds": 7.92,
+        "simulationSteps": 326,
+        "timeStep": 0.055,
+        "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+        "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+      }
+    },
+    {
+      "name": "No BVH textures or progressive shaders allocated",
+      "pass": true
+    },
+    {
+      "name": "Reported resource bytes match intercepted GL allocations",
+      "pass": true,
+      "reported": 200012608,
+      "observed": 200012608
+    },
+    {
+      "name": "Keyboard navigation",
+      "pass": true
+    },
+    {
+      "name": "Wheel navigation",
+      "pass": true
+    },
+    {
+      "name": "Diagnostics accessible and accurate",
+      "pass": true
+    },
+    {
+      "name": "Denied clipboard selects complete report",
+      "pass": true
+    },
+    {
+      "name": "JSON download",
+      "pass": true
+    },
+    {
+      "name": "Scale reduction requires explicit selection",
+      "pass": true
+    },
+    {
+      "name": "Loss preserves details and exposes reload",
+      "pass": true
+    },
+    {
+      "name": "Diagnostics accessible during context loss",
+      "pass": true
+    },
+    {
+      "name": "Restored context redraws and pauses animation",
+      "pass": true
+    },
+    {
+      "name": "Over-budget allocation rejected before resizing canvas",
+      "pass": true
+    },
+    {
+      "name": "Explicit smaller scale recovers budget error",
+      "pass": true
+    },
+    {
+      "name": "Native portrait actual startup",
+      "pass": true,
+      "gpu": {
+        "vendor": "Google Inc. (Mesa)",
+        "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+      },
+      "error": ""
+    },
+    {
+      "name": "Actual native 1440 by 2654 rendering",
+      "pass": true,
+      "size": [
+        1440,
+        2654
+      ],
+      "colors": 2191,
+      "sha256": "d4ad3660c473cad121f5cfe29396e45e472999946bd5cfdbaa85295843e9ecd7"
+    },
+    {
+      "name": "No GPU timer dependency",
+      "pass": true
+    },
+    {
+      "name": "Native targets plus bounded RGB edge history have expected sizes",
+      "pass": true,
+      "attachmentBytes": 45861120,
+      "edgeHistoryBytes": 11465280
+    },
+    {
+      "name": "Native resource ledger matches GL intercepts",
+      "pass": true,
+      "observed": {
+        "textureBytes": 216289264,
+        "bufferBytes": 32409744,
+        "programs": 2,
+        "renderbuffers": 0,
+        "formats": [
+          34842,
+          32856,
+          33321,
+          33323,
+          33190,
+          32849
+        ],
+        "draws": 228
+      },
+      "reported": {
+        "applicationGpuBytes": 248699008,
+        "parts": {
+          "opticalCaptures": 16777200,
+          "edgeHistory": 11465280,
+          "areaLightLUT": 16384,
+          "mesh": 28908816,
+          "vertexIrradiance": 3500928,
+          "environment": 16777200,
+          "reflectionCaptures": 29360016,
+          "surfaceArrays": 89478464,
+          "noiseLattice": 262144,
+          "flameVolumes": 6291456,
+          "sceneColor": 30574080,
+          "sceneDepth": 15287040
+        },
+        "budgetBytes": 335544320,
+        "renderTargetCount": 2,
+        "decodedCpuCachesRetained": false,
+        "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+      }
+    },
+    {
+      "name": "Touch controls fit viewport",
+      "pass": true,
+      "boxes": {
+        "live-mode": {
+          "x": 15,
+          "y": 687,
+          "width": 107.640625,
+          "height": 44
+        },
+        "visible-diagnostics": {
+          "x": 307.875,
+          "y": 688,
+          "width": 123.125,
+          "height": 44
+        }
+      }
+    },
+    {
+      "name": "Native touch swipe",
+      "pass": true
+    },
+    {
+      "name": "Paused diagnostic does not label refinement as animation FPS",
+      "pass": true
+    },
+    {
+      "name": "Portrait diagnostics remains visible",
+      "pass": true
+    },
+    {
+      "name": "No float color actual startup",
+      "pass": true,
+      "gpu": {
+        "vendor": "Google Inc. (Mesa)",
+        "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+      },
+      "error": ""
+    },
+    {
+      "name": "RGBM fallback renders without HDR color extension",
+      "pass": true,
+      "size": [
+        640,
+        400
+      ],
+      "colors": 3991,
+      "sha256": "ccf268f3d89c3740cbfb4b4813a265458add5e9ac1082b3208db8c5cade87bbf"
+    },
+    {
+      "name": "No uncaught browser/harness errors",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "name": "No external runtime asset requests",
+      "pass": true,
+      "requests": []
+    }
+  ],
+  "passed": 39,
+  "total": 39,
+  "errors": [],
+  "reports": {
+    "desktop": {
+      "build": "cybr-instrument-rebuild-2026-10-22",
+      "reportCapturedAt": "2026-10-22T15:40:21.284Z",
+      "reportPurpose": "Procedural instrument reconstruction, hierarchical pine, coherent geological cleavage, finite-area lighting and manufactured finishes. Native-resolution mobile raster path; not physical-device certified.",
+      "api": "webgl2",
+      "ready": true,
+      "lost": false,
+      "contextLosses": 1,
+      "lastContextLoss": {
+        "at": "2026-10-22T15:40:06.464Z",
+        "statusMessage": "",
+        "frame": 76,
+        "allocationStage": "ready",
+        "memory": {
+          "applicationGpuBytes": 200012608,
+          "parts": {
+            "opticalCaptures": 16777200,
+            "edgeHistory": 1728000,
+            "areaLightLUT": 16384,
+            "mesh": 28908816,
+            "vertexIrradiance": 3500928,
+            "environment": 16777200,
+            "reflectionCaptures": 29360016,
+            "surfaceArrays": 89478464,
+            "noiseLattice": 262144,
+            "flameVolumes": 6291456,
+            "sceneColor": 4608000,
+            "sceneDepth": 2304000
+          },
+          "budgetBytes": 335544320,
+          "renderTargetCount": 2,
+          "decodedCpuCachesRetained": false,
+          "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+        },
+        "submittedFrames": 76,
+        "completedFrames": 73
+      },
+      "allocationStage": "ready",
+      "startupMs": 1299,
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+      "protocol": "about:",
+      "embedded": false,
+      "viewport": [
+        960,
+        600
+      ],
+      "cssResolution": [
+        960,
+        600
+      ],
+      "devicePixelRatio": 1,
+      "resolution": [
+        960,
+        600
+      ],
+      "nativeResolution": [
+        960,
+        600
+      ],
+      "resolutionReason": "native",
+      "renderScale": 1,
+      "adaptiveResolution": false,
+      "softwareRenderer": true,
+      "gpu": {
+        "vendor": "Google Inc. (Mesa)",
+        "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+      },
+      "renderer": "Two-pass raster with numerically fitted finite-area GGX lighting, new procedural geometry, baked visibility/indirect light, analytic solid-lens/crystal interfaces with static scene-local radiance captures",
+      "singleFragmentShader": false,
+      "pathTracerCompiled": false,
+      "bvhUploaded": false,
+      "progressiveStudio": {
+        "enabled": false,
+        "allocatedBytes": 0
+      },
+      "secondaryRays": {
+        "enabled": false,
+        "hierarchy": null
+      },
+      "reconstruction": false,
+      "photographicFocus": false,
+      "antialiasing": {
+        "type": "Native-pixel spatial resolve; eight subpixel-jittered raster views while stationary only, one RGB8 history; no MSAA or path tracing",
+        "samples": 2,
+        "enabled": true,
+        "maximumSamples": 8,
+        "historyBytes": 1728000
+      },
+      "linearHDR": true,
+      "memory": {
+        "applicationGpuBytes": 200012608,
+        "parts": {
+          "opticalCaptures": 16777200,
+          "edgeHistory": 1728000,
+          "areaLightLUT": 16384,
+          "mesh": 28908816,
+          "vertexIrradiance": 3500928,
+          "environment": 16777200,
+          "reflectionCaptures": 29360016,
+          "surfaceArrays": 89478464,
+          "noiseLattice": 262144,
+          "flameVolumes": 6291456,
+          "sceneColor": 4608000,
+          "sceneDepth": 2304000
+        },
+        "budgetBytes": 335544320,
+        "renderTargetCount": 2,
+        "decodedCpuCachesRetained": false,
+        "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+      },
+      "surfaceMaps": {
+        "size": 1024,
+        "layers": 8,
+        "names": [
+          "directional-metal",
+          "enamel-microfinish",
+          "growth-coordinate-walnut",
+          "mineral-fracture-stone",
+          "fissured-bark",
+          "sparse-seam-marble",
+          "porous-basalt",
+          "nine-veined-leaves"
+        ],
+        "format": "RGBA8",
+        "colorSpace": "linear albedo; roughness in alpha",
+        "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+        "source": "Authored deterministic grain, fracture, bark-plate and leaf-venation maps. Not photographed or scanned."
+      },
+      "flameVolume": {
+        "width": 256,
+        "height": 256,
+        "frames": 48,
+        "grid": [
+          32,
+          64,
+          32
+        ],
+        "format": "RG8",
+        "bytes": 6291456,
+        "seconds": 7.92,
+        "simulationSteps": 326,
+        "timeStep": 0.055,
+        "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+        "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+      },
+      "freshLightingBake": true,
+      "areaLighting": {
+        "size": 32,
+        "layers": 2,
+        "format": "RGBA16F",
+        "bytes": 16384,
+        "source": "Deterministic numerical fit of isotropic GGX to transformed cosine densities, generated by fit_area_lights.py; mathematical lookup data, not imagery.",
+        "roughnessRange": [
+          0.1,
+          0.95
+        ],
+        "viewCosineFloor": 0.035,
+        "fitSquaredHellingerMedian": 0.002539048605331911,
+        "fitSquaredHellingerP95": 0.07174076761188829,
+        "elapsedSeconds": 5.264591217041016
+      },
+      "opticalCaptures": {
+        "size": 512,
+        "layers": 12,
+        "levels": 10,
+        "bytes": 16777200,
+        "format": "RGBA8 RGBM",
+        "encodingRange": 16,
+        "objects": [
+          1,
+          7
+        ],
+        "provisional": false,
+        "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+        "source": "Actual opaque-geometry browser captures at the optical centers, including the optical mounts; analytic glass itself is absent from the opaque pass; box-filtered mips. Scene-local fallback for off-screen refraction/reflection, not a photograph or scan."
+      },
+      "geometrySource": "Dimensioned optomechanics, closed-thickness compressor airfoils, supported bearings, cut material specimens, coherent fractured geology, hierarchical procedural pine, refractory crucible and calibrated central instrument. All assets generated by the included code; no scans or image-derived geometry.",
+      "triangles": 1047596,
+      "vertices": 583488,
+      "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+      "geometryBytes": 28908832,
+      "lightingTransfer": null,
+      "passes": {
+        "opaque": 1,
+        "compositeAndUI": 1
+      },
+      "bufferLimits": {
+        "width": 16384,
+        "height": 16384
+      },
+      "targetFPS": 60,
+      "targetFrameMs": 16.666666666666668,
+      "frame": 14,
+      "submittedFrames": 14,
+      "completedFrames": 12,
+      "drawFPS": null,
+      "completedFPS": null,
+      "frameIntervalP50Ms": 498.5,
+      "frameIntervalP95Ms": 5218,
+      "frameIntervalP99Ms": 5218,
+      "cpuSubmitMeanMs": 0.4214285712556115,
+      "gpuTimerAvailable": true,
+      "gpuFrameMs": 4596.613251,
+      "gpuSamples": 8,
+      "pendingTimingQueries": 1,
+      "timerQueriesGateRendering": false,
+      "maxFramesInFlight": 2,
+      "pendingCompletionFences": 2,
+      "fenceCompletionWallMs": 3872.199999999255,
+      "peakFenceCompletionWallMs": 5759.9000000003725,
+      "inputEvents": 5,
+      "inputToSubmitMs": 488.8999999994412,
+      "chapter": 0,
+      "playing": false,
+      "diagnosticsVisible": false,
+      "error": "",
+      "limitations": [
+        "Assets have been reconstructed, but remain authored procedural assets, not photographs or scans.",
+        "Static illumination and reflection captures; cached glass cannot track moving occluded geometry.",
+        "No MSAA, depth-of-field or path-traced refinement in this live build.",
+        "GPU memory figures are format-sized estimates, not driver memory measurements.",
+        "Physical Adreno performance and stability have not been verified by the build environment."
+      ]
+    },
+    "portrait": {
+      "build": "cybr-instrument-rebuild-2026-10-22",
+      "reportCapturedAt": "2026-10-22T15:41:55.234Z",
+      "reportPurpose": "Procedural instrument reconstruction, hierarchical pine, coherent geological cleavage, finite-area lighting and manufactured finishes. Native-resolution mobile raster path; not physical-device certified.",
+      "api": "webgl2",
+      "ready": true,
+      "lost": false,
+      "contextLosses": 0,
+      "lastContextLoss": null,
+      "allocationStage": "ready",
+      "startupMs": 2684.399999999441,
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+      "protocol": "about:",
+      "embedded": false,
+      "viewport": [
+        443,
+        816
+      ],
+      "cssResolution": [
+        443.0625,
+        816.609375
+      ],
+      "devicePixelRatio": 3.25,
+      "resolution": [
+        1440,
+        2654
+      ],
+      "nativeResolution": [
+        1440,
+        2654
+      ],
+      "resolutionReason": "native",
+      "renderScale": 1,
+      "adaptiveResolution": false,
+      "softwareRenderer": true,
+      "gpu": {
+        "vendor": "Google Inc. (Mesa)",
+        "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+      },
+      "renderer": "Two-pass raster with numerically fitted finite-area GGX lighting, new procedural geometry, baked visibility/indirect light, analytic solid-lens/crystal interfaces with static scene-local radiance captures",
+      "singleFragmentShader": false,
+      "pathTracerCompiled": false,
+      "bvhUploaded": false,
+      "progressiveStudio": {
+        "enabled": false,
+        "allocatedBytes": 0
+      },
+      "secondaryRays": {
+        "enabled": false,
+        "hierarchy": null
+      },
+      "reconstruction": false,
+      "photographicFocus": false,
+      "antialiasing": {
+        "type": "Native-pixel spatial resolve; eight subpixel-jittered raster views while stationary only, one RGB8 history; no MSAA or path tracing",
+        "samples": 8,
+        "enabled": true,
+        "maximumSamples": 8,
+        "historyBytes": 11465280
+      },
+      "linearHDR": true,
+      "memory": {
+        "applicationGpuBytes": 248699008,
+        "parts": {
+          "opticalCaptures": 16777200,
+          "edgeHistory": 11465280,
+          "areaLightLUT": 16384,
+          "mesh": 28908816,
+          "vertexIrradiance": 3500928,
+          "environment": 16777200,
+          "reflectionCaptures": 29360016,
+          "surfaceArrays": 89478464,
+          "noiseLattice": 262144,
+          "flameVolumes": 6291456,
+          "sceneColor": 30574080,
+          "sceneDepth": 15287040
+        },
+        "budgetBytes": 335544320,
+        "renderTargetCount": 2,
+        "decodedCpuCachesRetained": false,
+        "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+      },
+      "surfaceMaps": {
+        "size": 1024,
+        "layers": 8,
+        "names": [
+          "directional-metal",
+          "enamel-microfinish",
+          "growth-coordinate-walnut",
+          "mineral-fracture-stone",
+          "fissured-bark",
+          "sparse-seam-marble",
+          "porous-basalt",
+          "nine-veined-leaves"
+        ],
+        "format": "RGBA8",
+        "colorSpace": "linear albedo; roughness in alpha",
+        "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+        "source": "Authored deterministic grain, fracture, bark-plate and leaf-venation maps. Not photographed or scanned."
+      },
+      "flameVolume": {
+        "width": 256,
+        "height": 256,
+        "frames": 48,
+        "grid": [
+          32,
+          64,
+          32
+        ],
+        "format": "RG8",
+        "bytes": 6291456,
+        "seconds": 7.92,
+        "simulationSteps": 326,
+        "timeStep": 0.055,
+        "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+        "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+      },
+      "freshLightingBake": true,
+      "areaLighting": {
+        "size": 32,
+        "layers": 2,
+        "format": "RGBA16F",
+        "bytes": 16384,
+        "source": "Deterministic numerical fit of isotropic GGX to transformed cosine densities, generated by fit_area_lights.py; mathematical lookup data, not imagery.",
+        "roughnessRange": [
+          0.1,
+          0.95
+        ],
+        "viewCosineFloor": 0.035,
+        "fitSquaredHellingerMedian": 0.002539048605331911,
+        "fitSquaredHellingerP95": 0.07174076761188829,
+        "elapsedSeconds": 5.264591217041016
+      },
+      "opticalCaptures": {
+        "size": 512,
+        "layers": 12,
+        "levels": 10,
+        "bytes": 16777200,
+        "format": "RGBA8 RGBM",
+        "encodingRange": 16,
+        "objects": [
+          1,
+          7
+        ],
+        "provisional": false,
+        "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+        "source": "Actual opaque-geometry browser captures at the optical centers, including the optical mounts; analytic glass itself is absent from the opaque pass; box-filtered mips. Scene-local fallback for off-screen refraction/reflection, not a photograph or scan."
+      },
+      "geometrySource": "Dimensioned optomechanics, closed-thickness compressor airfoils, supported bearings, cut material specimens, coherent fractured geology, hierarchical procedural pine, refractory crucible and calibrated central instrument. All assets generated by the included code; no scans or image-derived geometry.",
+      "triangles": 1047596,
+      "vertices": 583488,
+      "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+      "geometryBytes": 28908832,
+      "lightingTransfer": null,
+      "passes": {
+        "opaque": 1,
+        "compositeAndUI": 1
+      },
+      "bufferLimits": {
+        "width": 16384,
+        "height": 16384
+      },
+      "targetFPS": 60,
+      "targetFrameMs": 16.666666666666668,
+      "frame": 42,
+      "submittedFrames": 42,
+      "completedFrames": 41,
+      "drawFPS": null,
+      "completedFPS": null,
+      "frameIntervalP50Ms": 1916.6000000000022,
+      "frameIntervalP95Ms": 2787.2999999998137,
+      "frameIntervalP99Ms": 6899.699999999999,
+      "cpuSubmitMeanMs": 0.6023809522878201,
+      "gpuTimerAvailable": false,
+      "gpuFrameMs": null,
+      "gpuSamples": 0,
+      "pendingTimingQueries": 0,
+      "timerQueriesGateRendering": false,
+      "maxFramesInFlight": 2,
+      "pendingCompletionFences": 1,
+      "fenceCompletionWallMs": 2603.9000000003725,
+      "peakFenceCompletionWallMs": 6911.200000000186,
+      "inputEvents": 3,
+      "inputToSubmitMs": 1904.7999999998137,
+      "chapter": 4,
+      "playing": false,
+      "diagnosticsVisible": false,
+      "error": "",
+      "limitations": [
+        "Assets have been reconstructed, but remain authored procedural assets, not photographs or scans.",
+        "Static illumination and reflection captures; cached glass cannot track moving occluded geometry.",
+        "No MSAA, depth-of-field or path-traced refinement in this live build.",
+        "GPU memory figures are format-sized estimates, not driver memory measurements.",
+        "Physical Adreno performance and stability have not been verified by the build environment."
+      ]
+    },
+    "noFloat": {
+      "build": "cybr-instrument-rebuild-2026-10-22",
+      "reportCapturedAt": "2026-10-22T15:42:11.155Z",
+      "reportPurpose": "Procedural instrument reconstruction, hierarchical pine, coherent geological cleavage, finite-area lighting and manufactured finishes. Native-resolution mobile raster path; not physical-device certified.",
+      "api": "webgl2",
+      "ready": true,
+      "lost": false,
+      "contextLosses": 0,
+      "lastContextLoss": null,
+      "allocationStage": "ready",
+      "startupMs": 2466.2000000001863,
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+      "protocol": "about:",
+      "embedded": false,
+      "viewport": [
+        640,
+        400
+      ],
+      "cssResolution": [
+        640,
+        400
+      ],
+      "devicePixelRatio": 1,
+      "resolution": [
+        640,
+        400
+      ],
+      "nativeResolution": [
+        640,
+        400
+      ],
+      "resolutionReason": "native",
+      "renderScale": 1,
+      "adaptiveResolution": false,
+      "softwareRenderer": true,
+      "gpu": {
+        "vendor": "Google Inc. (Mesa)",
+        "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+      },
+      "renderer": "Two-pass raster with numerically fitted finite-area GGX lighting, new procedural geometry, baked visibility/indirect light, analytic solid-lens/crystal interfaces with static scene-local radiance captures",
+      "singleFragmentShader": false,
+      "pathTracerCompiled": false,
+      "bvhUploaded": false,
+      "progressiveStudio": {
+        "enabled": false,
+        "allocatedBytes": 0
+      },
+      "secondaryRays": {
+        "enabled": false,
+        "hierarchy": null
+      },
+      "reconstruction": false,
+      "photographicFocus": false,
+      "antialiasing": {
+        "type": "Native-pixel spatial resolve; eight subpixel-jittered raster views while stationary only, one RGB8 history; no MSAA or path tracing",
+        "samples": 8,
+        "enabled": true,
+        "maximumSamples": 8,
+        "historyBytes": 768000
+      },
+      "linearHDR": false,
+      "memory": {
+        "applicationGpuBytes": 194188608,
+        "parts": {
+          "opticalCaptures": 16777200,
+          "edgeHistory": 768000,
+          "areaLightLUT": 16384,
+          "mesh": 28908816,
+          "vertexIrradiance": 3500928,
+          "environment": 16777200,
+          "reflectionCaptures": 29360016,
+          "surfaceArrays": 89478464,
+          "noiseLattice": 262144,
+          "flameVolumes": 6291456,
+          "sceneColor": 1024000,
+          "sceneDepth": 1024000
+        },
+        "budgetBytes": 335544320,
+        "renderTargetCount": 2,
+        "decodedCpuCachesRetained": false,
+        "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+      },
+      "surfaceMaps": {
+        "size": 1024,
+        "layers": 8,
+        "names": [
+          "directional-metal",
+          "enamel-microfinish",
+          "growth-coordinate-walnut",
+          "mineral-fracture-stone",
+          "fissured-bark",
+          "sparse-seam-marble",
+          "porous-basalt",
+          "nine-veined-leaves"
+        ],
+        "format": "RGBA8",
+        "colorSpace": "linear albedo; roughness in alpha",
+        "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+        "source": "Authored deterministic grain, fracture, bark-plate and leaf-venation maps. Not photographed or scanned."
+      },
+      "flameVolume": {
+        "width": 256,
+        "height": 256,
+        "frames": 48,
+        "grid": [
+          32,
+          64,
+          32
+        ],
+        "format": "RG8",
+        "bytes": 6291456,
+        "seconds": 7.92,
+        "simulationSteps": 326,
+        "timeStep": 0.055,
+        "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+        "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+      },
+      "freshLightingBake": true,
+      "areaLighting": {
+        "size": 32,
+        "layers": 2,
+        "format": "RGBA16F",
+        "bytes": 16384,
+        "source": "Deterministic numerical fit of isotropic GGX to transformed cosine densities, generated by fit_area_lights.py; mathematical lookup data, not imagery.",
+        "roughnessRange": [
+          0.1,
+          0.95
+        ],
+        "viewCosineFloor": 0.035,
+        "fitSquaredHellingerMedian": 0.002539048605331911,
+        "fitSquaredHellingerP95": 0.07174076761188829,
+        "elapsedSeconds": 5.264591217041016
+      },
+      "opticalCaptures": {
+        "size": 512,
+        "layers": 12,
+        "levels": 10,
+        "bytes": 16777200,
+        "format": "RGBA8 RGBM",
+        "encodingRange": 16,
+        "objects": [
+          1,
+          7
+        ],
+        "provisional": false,
+        "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+        "source": "Actual opaque-geometry browser captures at the optical centers, including the optical mounts; analytic glass itself is absent from the opaque pass; box-filtered mips. Scene-local fallback for off-screen refraction/reflection, not a photograph or scan."
+      },
+      "geometrySource": "Dimensioned optomechanics, closed-thickness compressor airfoils, supported bearings, cut material specimens, coherent fractured geology, hierarchical procedural pine, refractory crucible and calibrated central instrument. All assets generated by the included code; no scans or image-derived geometry.",
+      "triangles": 1047596,
+      "vertices": 583488,
+      "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+      "geometryBytes": 28908832,
+      "lightingTransfer": null,
+      "passes": {
+        "opaque": 1,
+        "compositeAndUI": 1
+      },
+      "bufferLimits": {
+        "width": 16384,
+        "height": 16384
+      },
+      "targetFPS": 60,
+      "targetFrameMs": 16.666666666666668,
+      "frame": 10,
+      "submittedFrames": 10,
+      "completedFrames": 9,
+      "drawFPS": 3.0410542321338063,
+      "completedFPS": 3.0413625304139122,
+      "frameIntervalP50Ms": 320.70000000018626,
+      "frameIntervalP95Ms": 4722.5,
+      "frameIntervalP99Ms": 4722.5,
+      "cpuSubmitMeanMs": 0.5799999999813735,
+      "gpuTimerAvailable": false,
+      "gpuFrameMs": null,
+      "gpuSamples": 0,
+      "pendingTimingQueries": 0,
+      "timerQueriesGateRendering": false,
+      "maxFramesInFlight": 2,
+      "pendingCompletionFences": 1,
+      "fenceCompletionWallMs": 341.09999999962747,
+      "peakFenceCompletionWallMs": 4713.799999999814,
+      "inputEvents": 0,
+      "inputToSubmitMs": null,
+      "chapter": 2,
+      "playing": false,
+      "diagnosticsVisible": false,
+      "error": "",
+      "limitations": [
+        "Assets have been reconstructed, but remain authored procedural assets, not photographs or scans.",
+        "Static illumination and reflection captures; cached glass cannot track moving occluded geometry.",
+        "No MSAA, depth-of-field or path-traced refinement in this live build.",
+        "GPU memory figures are format-sized estimates, not driver memory measurements.",
+        "Physical Adreno performance and stability have not been verified by the build environment."
+      ]
+    }
+  },
+  "measurements": {
+    "portraitSoftwareCaptures": [
+      {
+        "chapter": 0,
+        "completedCaptureWallMs": 15826.257833000454
+      },
+      {
+        "chapter": 2,
+        "completedCaptureWallMs": 17228.900764999707
+      },
+      {
+        "chapter": 4,
+        "completedCaptureWallMs": 20014.67650699942
+      }
+    ]
+  }
+}

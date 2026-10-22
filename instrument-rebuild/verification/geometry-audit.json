@@ -1,0 +1,58 @@
+{
+  "build": "cybr-instrument-rebuild-2026-10-22",
+  "geometrySHA256": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+  "vertices": 583488,
+  "triangles": 1047596,
+  "checks": [
+    {
+      "name": "Geometry payload header and index range",
+      "pass_": true
+    },
+    {
+      "name": "No nonfinite vertex coordinates",
+      "pass_": true
+    },
+    {
+      "name": "Quantized normals remain normalized",
+      "pass_": true,
+      "minimum": 0.9999749688647915,
+      "maximum": 1.0000248474971745
+    },
+    {
+      "name": "Geometry hash matches metadata",
+      "pass_": true
+    },
+    {
+      "name": "studio/irradiance.json uses final geometry",
+      "pass_": true,
+      "recorded": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+      "actual": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5"
+    },
+    {
+      "name": "studio/probes.json uses final geometry",
+      "pass_": true,
+      "recorded": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+      "actual": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5"
+    },
+    {
+      "name": "studio/optical-probes.json uses final geometry",
+      "pass_": true,
+      "recorded": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5",
+      "actual": "a38a0977b29172e0e71534b44addd4863460a5615ca3350060c0f5d5262d74b5"
+    },
+    {
+      "name": "Every exposed crust top faces outward",
+      "pass_": true,
+      "topTriangles": 1002,
+      "inwardTriangles": 0
+    },
+    {
+      "name": "Closed airfoil group has outward signed volume",
+      "pass_": true,
+      "signedVolume": 0.06716363023322669
+    }
+  ],
+  "passed": 9,
+  "total": 9,
+  "scope": "Geometry integrity and bake provenance, not a manufacturing or photorealism certification."
+}

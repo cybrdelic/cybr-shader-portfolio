@@ -1,0 +1,26 @@
+{
+  "title": "CYBR / The Computational Instrument",
+  "revision": "reconstruction-2026-10-21",
+  "source_bytes": 76598,
+  "source_lines": 1511,
+  "source_sha256": "e9a9601f50dd737249085c0374da772289cbb2a82cb31b16f0693e005f305c9f",
+  "html_bytes": 107256,
+  "chapters": [
+    "Assembly",
+    "Light",
+    "Geometry",
+    "Scenes",
+    "Elements",
+    "Materials",
+    "Forest",
+    "About"
+  ],
+  "external_assets": 0,
+  "modules": [
+    "header.glsl",
+    "scene.glsl",
+    "transport.glsl",
+    "interface.glsl",
+    "main.glsl"
+  ]
+}

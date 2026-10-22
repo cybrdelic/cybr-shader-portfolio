@@ -1,0 +1,720 @@
+{
+  "nativeResolution": [
+    1920,
+    1200
+  ],
+  "time": 1.5,
+  "newHTMLSHA256": "f4cfeefd225cc97bdb78a1b918d079339da17bbf08287cbd93cc3371fb1e865d",
+  "photographicAssets": false,
+  "imagePostprocessing": false,
+  "captures": [
+    {
+      "file": "new-0.png",
+      "chapter": 0,
+      "camera": {
+        "origin": [
+          1.35,
+          6.6,
+          12.4
+        ],
+        "forward": [
+          -0.09891394690918273,
+          -0.4059135302791646,
+          -0.9085429197584192
+        ],
+        "right": [
+          0.9941257252535586,
+          0,
+          -0.1082314297655084
+        ],
+        "up": [
+          -0.04393260174327897,
+          0.9139114869265546,
+          -0.40352908267900683
+        ],
+        "focus": 13.648226991078364,
+        "lens": [
+          0.032,
+          0.105,
+          1.72
+        ]
+      },
+      "sha256": "4b1401b7e679e6a81dff976753b0e5fd522fd3a073826c6416af27ab0fd20d07",
+      "GLerror": 0
+    },
+    {
+      "file": "new-1.png",
+      "chapter": 1,
+      "camera": {
+        "origin": [
+          -4.267820323027551,
+          2.95,
+          5.792081637058735
+        ],
+        "forward": [
+          0.6243827615406681,
+          -0.3246172270321178,
+          -0.710471549750465
+        ],
+        "right": [
+          0.7511497080393545,
+          -0.0,
+          0.6601318929671495
+        ],
+        "up": [
+          0.21429018457045887,
+          0.9458454714772271,
+          -0.24383613530972018
+        ],
+        "focus": 4.3127717305695645,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "8df59b70b2079e4b0a1a540f92569c8b107da23572dacf1dc67a20a272991de6",
+      "GLerror": 0
+    },
+    {
+      "file": "new-2.png",
+      "chapter": 2,
+      "camera": {
+        "origin": [
+          2.968782217350893,
+          3.6000000000000005,
+          6.542081637058735
+        ],
+        "forward": [
+          -0.2900259621311277,
+          -0.5347799056395536,
+          -0.7936594948805589
+        ],
+        "right": [
+          0.9392515739346171,
+          0,
+          -0.3432294871676159
+        ],
+        "up": [
+          -0.18355223276021002,
+          0.8449913919822795,
+          -0.5022928680805567
+        ],
+        "focus": 4.805715347375456,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "5761ffd78a7dd2a92c8b1fbbb7db1ef1b98e11895f2ebab0ee8207505518d75a",
+      "GLerror": 0
+    },
+    {
+      "file": "new-3.png",
+      "chapter": 3,
+      "camera": {
+        "origin": [
+          7.449999999999999,
+          3.7,
+          1.5499999999999998
+        ],
+        "forward": [
+          -0.8291491908817823,
+          -0.4724222134093877,
+          -0.2988793595038983
+        ],
+        "right": [
+          0.3391067954065767,
+          0,
+          -0.940747884031148
+        ],
+        "up": [
+          -0.4444301976341929,
+          0.8813723686827123,
+          -0.16020158286813935
+        ],
+        "focus": 5.186038950875706,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "04494e3b3d3b81a0d0385fc3207cd6ae6223abcbc746ecad0b5ab7d46fdd690c",
+      "GLerror": 0
+    },
+    {
+      "file": "new-4.png",
+      "chapter": 4,
+      "camera": {
+        "origin": [
+          4.181217782649107,
+          3.6500000000000004,
+          -5.842081637058736
+        ],
+        "forward": [
+          -0.5417126492723733,
+          -0.5362631797033113,
+          0.6472783077724765
+        ],
+        "right": [
+          -0.7668712421823688,
+          0,
+          -0.6418009799880882
+        ],
+        "up": [
+          -0.3441742342651134,
+          0.8440508290941333,
+          0.4112448107557452
+        ],
+        "focus": 4.811070566932062,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "403e14c06254e85c87bc649163421bf551c44371572ee2ca1efde26ee62d368f",
+      "GLerror": 0
+    },
+    {
+      "file": "new-5.png",
+      "chapter": 5,
+      "camera": {
+        "origin": [
+          -2.665673326026339,
+          2.95,
+          -6.717081637058735
+        ],
+        "forward": [
+          0.24288213891655208,
+          -0.38970765394303003,
+          0.8883333895861061
+        ],
+        "right": [
+          -0.9645956515515876,
+          0,
+          0.26373325351151367
+        ],
+        "up": [
+          0.10277886749273438,
+          0.920938621439138,
+          0.37591030836981765
+        ],
+        "focus": 4.4905456238635395,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "360381c81b65831ed4ad1265d1f3ae156ff5a211d3f6b1cd5f36898f801bc651",
+      "GLerror": 0
+    },
+    {
+      "file": "new-6.png",
+      "chapter": 6,
+      "camera": {
+        "origin": [
+          -9.049999999999999,
+          3.25,
+          -0.6999999999999998
+        ],
+        "forward": [
+          0.9620508673647526,
+          -0.24785039294820752,
+          0.11414162833141134
+        ],
+        "right": [
+          -0.1178177398782897,
+          0,
+          0.993035236117013
+        ],
+        "up": [
+          0.2461241734830177,
+          0.968798318906169,
+          0.0292011731251038
+        ],
+        "focus": 6.132731854565304,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "7c442ed1d5b9f0f0f9a6dfbf39f93e81c5a30b7704fd8fe38ee646bb07e99a5b",
+      "GLerror": 0
+    },
+    {
+      "file": "before-0.png",
+      "chapter": 0,
+      "camera": {
+        "origin": [
+          1.35,
+          6.6,
+          12.4
+        ],
+        "forward": [
+          -0.09891394690918273,
+          -0.4059135302791646,
+          -0.9085429197584192
+        ],
+        "right": [
+          0.9941257252535586,
+          0,
+          -0.1082314297655084
+        ],
+        "up": [
+          -0.04393260174327897,
+          0.9139114869265546,
+          -0.40352908267900683
+        ],
+        "focus": 13.648226991078364,
+        "lens": [
+          0.032,
+          0.105,
+          1.72
+        ]
+      },
+      "sha256": "9c4a20b4e32dfaf942b26f3b537589105783039640e3f62c7356c2f87d085cb7",
+      "GLerror": 0
+    },
+    {
+      "file": "before-2.png",
+      "chapter": 2,
+      "camera": {
+        "origin": [
+          2.968782217350893,
+          3.6000000000000005,
+          6.542081637058735
+        ],
+        "forward": [
+          -0.2900259621311277,
+          -0.5347799056395536,
+          -0.7936594948805589
+        ],
+        "right": [
+          0.9392515739346171,
+          0,
+          -0.3432294871676159
+        ],
+        "up": [
+          -0.18355223276021002,
+          0.8449913919822795,
+          -0.5022928680805567
+        ],
+        "focus": 4.805715347375456,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "744cfe88610023093e71233648e9eea3f24223977191ac8601eca18272754a65",
+      "GLerror": 0
+    },
+    {
+      "file": "before-3.png",
+      "chapter": 3,
+      "camera": {
+        "origin": [
+          7.449999999999999,
+          3.7,
+          1.5499999999999998
+        ],
+        "forward": [
+          -0.8291491908817823,
+          -0.4724222134093877,
+          -0.2988793595038983
+        ],
+        "right": [
+          0.3391067954065767,
+          0,
+          -0.940747884031148
+        ],
+        "up": [
+          -0.4444301976341929,
+          0.8813723686827123,
+          -0.16020158286813935
+        ],
+        "focus": 5.186038950875706,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "f8e81bb9b48d9924b85a1c11d8acd415b1c652ef4467f57add37899840293974",
+      "GLerror": 0
+    },
+    {
+      "file": "before-6.png",
+      "chapter": 6,
+      "camera": {
+        "origin": [
+          -9.049999999999999,
+          3.25,
+          -0.6999999999999998
+        ],
+        "forward": [
+          0.9620508673647526,
+          -0.24785039294820752,
+          0.11414162833141134
+        ],
+        "right": [
+          -0.1178177398782897,
+          0,
+          0.993035236117013
+        ],
+        "up": [
+          0.2461241734830177,
+          0.968798318906169,
+          0.0292011731251038
+        ],
+        "focus": 6.132731854565304,
+        "lens": [
+          0.10400000000000001,
+          0.105,
+          1.82
+        ]
+      },
+      "sha256": "d3b9c379eef518265df8d993063a5199ff027bfd5633956e0dd83f9214e22f75",
+      "GLerror": 0
+    }
+  ],
+  "newReport": {
+    "build": "cybr-procedural-workshop-2026-10-22",
+    "reportCapturedAt": "2026-10-22T14:46:43.286Z",
+    "reportPurpose": "Fully procedural asset and appearance revision, with fractured slate, asymmetric foliage, closed impeller blades, dimensioned optics and restrained material finishes. No scans, photos, image-generated textures or downloaded models. Physical Adreno performance is not verified.",
+    "api": "webgl2",
+    "ready": true,
+    "lost": false,
+    "contextLosses": 0,
+    "lastContextLoss": null,
+    "allocationStage": "ready",
+    "startupMs": 3325.4000000003725,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+    "protocol": "about:",
+    "embedded": false,
+    "viewport": [
+      1920,
+      1200
+    ],
+    "cssResolution": [
+      1920,
+      1200
+    ],
+    "devicePixelRatio": 1,
+    "resolution": [
+      1920,
+      1200
+    ],
+    "nativeResolution": [
+      1920,
+      1200
+    ],
+    "resolutionReason": "native",
+    "renderScale": 1,
+    "adaptiveResolution": false,
+    "softwareRenderer": true,
+    "gpu": {
+      "vendor": "Google Inc. (Mesa)",
+      "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+    },
+    "renderer": "Two-pass raster: finite position-aware reflection panels, freshly baked illumination, procedural material processes, solid cached optics; optional memory-bounded coverage resolve",
+    "singleFragmentShader": false,
+    "pathTracerCompiled": false,
+    "bvhUploaded": false,
+    "progressiveStudio": {
+      "enabled": false,
+      "allocatedBytes": 0
+    },
+    "secondaryRays": {
+      "enabled": false,
+      "hierarchy": null
+    },
+    "reconstruction": false,
+    "photographicFocus": false,
+    "antialiasing": {
+      "type": "Native spatial edge resolve and filtered specular",
+      "samples": 0,
+      "supported": [
+        4
+      ],
+      "coverageBudgetBytes": 268435456,
+      "allocationPolicy": "Extra coverage only below 1.8M pixels and within 256 MiB estimated application resources. Dense native phone buffers keep their original two attachments."
+    },
+    "linearHDR": true,
+    "memory": {
+      "applicationGpuBytes": 206891076,
+      "parts": {
+        "mesh": 33088344,
+        "vertexIrradiance": 3985452,
+        "environment": 16777200,
+        "reflectionCaptures": 29360016,
+        "surfaceArrays": 89478464,
+        "noiseLattice": 262144,
+        "flameVolumes": 6291456,
+        "sceneColor": 18432000,
+        "sceneDepth": 9216000,
+        "coverageColor": 0,
+        "coverageDepth": 0
+      },
+      "budgetBytes": 335544320,
+      "renderTargetCount": 2,
+      "coverageRenderbuffers": 0,
+      "coverageSamples": 0,
+      "decodedCpuCachesRetained": false,
+      "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+    },
+    "surfaceMaps": {
+      "size": 1024,
+      "layers": 8,
+      "names": [
+        "abrasive-machining",
+        "micro-enamel",
+        "growth-ring-walnut",
+        "cleavage-mica-quartz",
+        "cellular-bark",
+        "veined-marble",
+        "porous-basalt",
+        "veined-leaf-variants"
+      ],
+      "format": "RGBA8",
+      "colorSpace": "linear albedo; roughness in alpha",
+      "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+      "source": "Deterministic process-based surface fields; linear albedo, roughness, height-derived normals. No scans or photographs."
+    },
+    "flameVolume": {
+      "width": 256,
+      "height": 256,
+      "frames": 48,
+      "grid": [
+        32,
+        64,
+        32
+      ],
+      "format": "RG8",
+      "bytes": 6291456,
+      "seconds": 7.92,
+      "simulationSteps": 326,
+      "timeStep": 0.055,
+      "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+      "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+    },
+    "freshLightingBake": true,
+    "geometrySource": "Entirely procedural: cleavage-plane schist, rooted asymmetric broadleaf tree, closed airfoil impeller, spherical bearing balls, dimensioned mechanical housings. No scans, photographs, generated imagery, or imported models.",
+    "triangles": 1207464,
+    "vertices": 664242,
+    "geometrySHA256": "086cb5ef44f955b5f68b49825a4130fe518465cfd0f4c6b48613f55fe1016470",
+    "geometryBytes": 33088360,
+    "lightingTransfer": null,
+    "passes": {
+      "opaque": 1,
+      "compositeAndUI": 1
+    },
+    "bufferLimits": {
+      "width": 16384,
+      "height": 16384
+    },
+    "targetFPS": 60,
+    "targetFrameMs": 16.666666666666668,
+    "frame": 8,
+    "submittedFrames": 8,
+    "completedFrames": 7,
+    "drawFPS": null,
+    "completedFPS": 0.6406970784212077,
+    "frameIntervalP50Ms": 1560.8999999999069,
+    "frameIntervalP95Ms": 4562.300000000187,
+    "frameIntervalP99Ms": 4562.300000000187,
+    "cpuSubmitMeanMs": 1.125,
+    "gpuTimerAvailable": true,
+    "gpuFrameMs": 4496.548196,
+    "gpuSamples": 1,
+    "pendingTimingQueries": 0,
+    "timerQueriesGateRendering": false,
+    "maxFramesInFlight": 2,
+    "pendingCompletionFences": 1,
+    "fenceCompletionWallMs": 1552.5,
+    "peakFenceCompletionWallMs": 4505.200000000186,
+    "inputEvents": 0,
+    "inputToSubmitMs": null,
+    "chapter": 6,
+    "playing": false,
+    "diagnosticsVisible": false,
+    "error": "",
+    "limitations": [
+      "Assets have been reconstructed, but remain authored procedural assets, not photographs or scans.",
+      "Static illumination and reflection captures; cached glass cannot track moving occluded geometry.",
+      "No depth-of-field or path-traced refinement. Coverage MSAA is memory-bounded and not enabled on dense phone buffers.",
+      "GPU memory figures are format-sized estimates, not driver memory measurements.",
+      "Physical Adreno performance and stability have not been verified by the build environment."
+    ]
+  },
+  "beforeReport": {
+    "build": "cybr-asset-rebuild-2026-10-22",
+    "reportCapturedAt": "2026-10-22T14:47:04.356Z",
+    "reportPurpose": "Asset reconstruction: new grown tree, fractured stone, veined leaves, buoyant-flow flame and supported mechanical construction. Native-resolution mobile raster path; not physical-device certified.",
+    "api": "webgl2",
+    "ready": true,
+    "lost": false,
+    "contextLosses": 0,
+    "lastContextLoss": null,
+    "allocationStage": "ready",
+    "startupMs": 3075.399999999907,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/144.0.0.0 Safari/537.36",
+    "protocol": "about:",
+    "embedded": false,
+    "viewport": [
+      1920,
+      1200
+    ],
+    "cssResolution": [
+      1920,
+      1200
+    ],
+    "devicePixelRatio": 1,
+    "resolution": [
+      1920,
+      1200
+    ],
+    "nativeResolution": [
+      1920,
+      1200
+    ],
+    "resolutionReason": "native",
+    "renderScale": 1,
+    "adaptiveResolution": false,
+    "softwareRenderer": true,
+    "gpu": {
+      "vendor": "Google Inc. (Mesa)",
+      "renderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)"
+    },
+    "renderer": "Two-pass raster: static baked surface illumination, local reflection captures, analytic glass with cached transmission, fused display/UI",
+    "singleFragmentShader": false,
+    "pathTracerCompiled": false,
+    "bvhUploaded": false,
+    "progressiveStudio": {
+      "enabled": false,
+      "allocatedBytes": 0
+    },
+    "secondaryRays": {
+      "enabled": false,
+      "hierarchy": null
+    },
+    "reconstruction": false,
+    "photographicFocus": false,
+    "antialiasing": {
+      "type": "Native pixel buffer with conservative local edge resolve, analytic text filtering and specular variance; no MSAA buffers",
+      "samples": 0
+    },
+    "linearHDR": true,
+    "memory": {
+      "applicationGpuBytes": 202138208,
+      "parts": {
+        "mesh": 28847348,
+        "vertexIrradiance": 3473580,
+        "environment": 16777200,
+        "reflectionCaptures": 29360016,
+        "surfaceArrays": 89478464,
+        "noiseLattice": 262144,
+        "flameVolumes": 6291456,
+        "sceneColor": 18432000,
+        "sceneDepth": 9216000
+      },
+      "budgetBytes": 335544320,
+      "renderTargetCount": 2,
+      "decodedCpuCachesRetained": false,
+      "excludes": "Browser presentation buffers, driver alignment/metadata, shaders, transient upload copies and HTML/JS memory. This is an allocation-size estimate, not measured VRAM."
+    },
+    "surfaceMaps": {
+      "size": 1024,
+      "layers": 8,
+      "names": [
+        "directional-metal",
+        "enamel-microfinish",
+        "cut-walnut",
+        "mineral-fracture-stone",
+        "fissured-bark",
+        "mineral-marble",
+        "porous-basalt",
+        "nine-veined-leaves"
+      ],
+      "format": "RGBA8",
+      "colorSpace": "linear albedo; roughness in alpha",
+      "normalEncoding": "tangent XYZ mapped 0..1; AO in alpha",
+      "source": "Authored deterministic grain, fracture, bark-plate and leaf-venation maps. Not photographed or scanned."
+    },
+    "flameVolume": {
+      "width": 256,
+      "height": 256,
+      "frames": 48,
+      "grid": [
+        32,
+        64,
+        32
+      ],
+      "format": "RG8",
+      "bytes": 6291456,
+      "seconds": 7.92,
+      "simulationSteps": 326,
+      "timeStep": 0.055,
+      "source": "Offline buoyancy/advection/pressure-projection flow, heat and fuel; simplified combustion. Six-volume crossfade closes the presentation loop. Not a validated fire solver.",
+      "presentation": "Volume stretched vertically into the exhibit and translated to the burner; turbulent sub-grid shading is artistic, not resolved combustion."
+    },
+    "freshLightingBake": true,
+    "geometrySource": "Rebuilt grown tree with fused roots/branch joints and individual veined leaves; non-convex mineral specimen; supported stator/rotor construction and simplified enamel housings. Organic meshes are extracted offline from authored implicit volumes, not photographs or scans.",
+    "triangles": 1053109,
+    "vertices": 578930,
+    "geometrySHA256": "a444b771a77f89dd347515513b806d4c659dfb4b7bcb64501c4ac94084fd5467",
+    "geometryBytes": 28847364,
+    "lightingTransfer": null,
+    "passes": {
+      "opaque": 1,
+      "compositeAndUI": 1
+    },
+    "bufferLimits": {
+      "width": 16384,
+      "height": 16384
+    },
+    "targetFPS": 60,
+    "targetFrameMs": 16.666666666666668,
+    "frame": 5,
+    "submittedFrames": 5,
+    "completedFrames": 4,
+    "drawFPS": null,
+    "completedFPS": 0.7649938800488506,
+    "frameIntervalP50Ms": 1321.4000000003725,
+    "frameIntervalP95Ms": 4958.999999999627,
+    "frameIntervalP99Ms": 4958.999999999627,
+    "cpuSubmitMeanMs": 0.8200000000186265,
+    "gpuTimerAvailable": true,
+    "gpuFrameMs": 4886.622383,
+    "gpuSamples": 1,
+    "pendingTimingQueries": 0,
+    "timerQueriesGateRendering": false,
+    "maxFramesInFlight": 2,
+    "pendingCompletionFences": 1,
+    "fenceCompletionWallMs": 1299,
+    "peakFenceCompletionWallMs": 4898.899999999907,
+    "inputEvents": 0,
+    "inputToSubmitMs": null,
+    "chapter": 6,
+    "playing": false,
+    "diagnosticsVisible": false,
+    "error": "",
+    "limitations": [
+      "Assets have been reconstructed, but remain authored procedural assets, not photographs or scans.",
+      "Static illumination and reflection captures; cached glass cannot track moving occluded geometry.",
+      "No MSAA, depth-of-field or path-traced refinement in this live build.",
+      "GPU memory figures are format-sized estimates, not driver memory measurements.",
+      "Physical Adreno performance and stability have not been verified by the build environment."
+    ]
+  },
+  "errors": []
+}
