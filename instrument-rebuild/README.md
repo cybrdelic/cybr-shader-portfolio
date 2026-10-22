@@ -153,10 +153,10 @@ Actual rendering quality is evidenced by canvas captures, not by a test count.
 ## Build and regenerate
 
 The included compressed data are enough for `python build.py`; only Python's
-standard library is needed to reconstruct the exact standalone HTML.
+standard library is needed to reconstruct the standalone HTML. Compression library versions can change the HTML hash; cache content hashes are checked separately.
 
 For complete regeneration, use Python with NumPy, SciPy, scikit-image, trimesh,
-Pillow and Playwright, plus Chromium, Xvfb, a C++17 compiler and OpenMP:
+Pillow and Playwright, plus Playwright Chromium and a C++17 compiler. OpenMP is optional; CMake uses serial loops when unavailable. The commands below are the original POSIX regeneration example; use the root CMake instructions for compiler portability:
 
 ```sh
 export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4
@@ -188,10 +188,7 @@ The material generator starts with the supplied texture arrays and replaces its
 authored layers. The compact noise lattice is deterministic included data.
 Compiler and floating-point differences can alter bake hashes; the final audit
 requires all caches to agree with the geometry produced in that regeneration.
-Browser executable and display numbers are configurable in the Python scripts.
+Browser discovery is portable: set CYBR_BROWSER_PATH or install Playwright Chromium. Headless operation does not use Xvfb. See the root README for CMake and platform setup.
 
 `verification/` contains actual captures, geometry/bake audit and browser checks.
-The separately distributed comparison uses the same chapter, camera, timestamp
-and pixel dimensions in the old and new browser builds. Layout labels are not
-part of the render; no image-generation output or offline beauty render replaces
-the interactive scene in those comparisons.
+The included exhibit review sheet shows different views of this revision. It is not a matched before/after comparison. No image-generation output or offline beauty render replaces the interactive scene in these captures.

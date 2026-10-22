@@ -1,3 +1,4 @@
+from browser_runtime import start_display, launch_browser
 """Real WebGL readbacks and allocation instrumentation. No hardware-emulation FPS claims."""
 from pathlib import Path
 import os,time,subprocess,json,base64,traceback,hashlib,io
@@ -23,10 +24,10 @@ TRACKER=r'''(()=>{
  wrap('deleteTexture',a=>T.textures.delete(a[0]));wrap('deleteBuffer',a=>T.buffers.delete(a[0]));wrap('createProgram',()=>T.programs++);wrap('createRenderbuffer',()=>T.renderbuffers++);wrap('drawArrays',()=>T.draws++);wrap('drawElements',()=>T.draws++);
  T.snapshot=()=>({textureBytes:[...T.textures.values()].reduce((a,b)=>a+[...b.values()].reduce((c,d)=>c+d,0),0),bufferBytes:[...T.buffers.values()].reduce((a,b)=>a+b,0),programs:T.programs,renderbuffers:T.renderbuffers,formats:[...new Set(T.formats)],draws:T.draws});
 })()'''
-x=subprocess.Popen(['Xvfb',':158','-screen','0','2200x3000x24','-nolisten','tcp'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.environ['DISPLAY']=':158';time.sleep(.3)
+x=start_display()
 try:
  with sync_playwright() as pw:
-  def browser():return pw.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--use-gl=angle','--use-angle=gl','--ignore-gpu-blocklist'])
+  def browser():return launch_browser(pw)
   def start(b,name,width,height,dpr=1,mobile=False,no_float=False,no_timer=False):
    ctx=b.new_context(viewport={'width':width,'height':height},device_scale_factor=dpr,reduced_motion='reduce',has_touch=mobile,is_mobile=mobile,accept_downloads=True);p=ctx.new_page();p.set_default_timeout(120000)
    p.on('pageerror',lambda e:errors.append({'scope':name,'error':str(e)}));p.on('request',lambda r:requests.append(r.url) if r.url.startswith(('http://','https://')) else None)
@@ -81,7 +82,7 @@ try:
 except BaseException as exc:errors.append({'testHarness':str(exc),'traceback':traceback.format_exc()});print(traceback.format_exc(),flush=True)
 finally:
  x.terminate();check('No uncaught browser/harness errors',not errors,errors=errors);check('No external runtime asset requests',not requests,requests=requests)
- result={'build':'cybr-instrument-rebuild-2026-10-22','htmlSHA256':hashlib.sha256((R/'dist/index.html').read_bytes()).hexdigest(),'physicalAndroidTested':False,'sixtyFPSVerified':False,'visualRedesign':True,'visualAcceptance':'Human visual judgment; no numerical photorealism certificate','environment':'Chromium ANGLE/Mesa software renderer. Real native-size pixel readbacks, emulated touch. Not an Adreno performance measurement. Capture wall times include PNG serialization and readback, not GPU execution time.','checks':checks,'passed':sum(c['pass'] for c in checks),'total':len(checks),'errors':errors,'reports':reports,'measurements':measurements}
+ result={'build':'cybr-instrument-rebuild-2026-10-22','htmlSHA256':hashlib.sha256((R/'dist/index.html').read_bytes()).hexdigest(),'physicalAndroidTested':False,'sixtyFPSVerified':False,'visualRedesign':True,'visualAcceptance':'Human visual judgment; no numerical photorealism certificate','environment':'Portable Chromium; actual renderer identity is recorded in reports. Real native-size pixel readbacks, emulated touch. Not an Adreno performance measurement. Capture wall times include PNG serialization and readback, not GPU execution time.','checks':checks,'passed':sum(c['pass'] for c in checks),'total':len(checks),'errors':errors,'reports':reports,'measurements':measurements}
  (O/'test-report.json').write_text(json.dumps(result,indent=2));print('RESULT',result['passed'],'/',result['total'],flush=True)
 
 if result["passed"] != result["total"]: raise SystemExit(1)

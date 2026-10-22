@@ -1,0 +1,14 @@
+*.py text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.glsl text eol=lf
+*.frag text eol=lf
+*.vert text eol=lf
+*.cpp text eol=lf
+*.gz -text
+*.part -text
+*.png -text
+*.jpg -text
+*.gif -text
+*.mp4 -text

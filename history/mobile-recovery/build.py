@@ -2,8 +2,8 @@
 from pathlib import Path
 import base64, gzip, hashlib, json
 ROOT = Path(__file__).resolve().parent
-html = (ROOT / 'host.html').read_text()
-shaders = {p.name: p.read_text() for p in sorted((ROOT / 'shaders').iterdir())}
+html = (ROOT / 'host.html').read_text(encoding='utf-8')
+shaders = {p.name: p.read_text(encoding='utf-8') for p in sorted((ROOT / 'shaders').iterdir())}
 assert len(shaders) == 4
 for shader in shaders.values():
     assert 'u_bvh_nodes' not in shader and 'traceIncidentRadiance' not in shader
@@ -14,7 +14,7 @@ values = {
 for key, path in [
     ('GEOMETRY_INFO', 'geometry/packed.json'), ('ENV_INFO', 'studio/environment.json'),
     ('PROBE_INFO', 'studio/probes.json'), ('IRR_INFO', 'studio/irradiance.json'), ('SURFACE_INFO', 'materials/maps.json')]:
-    values[key] = (ROOT/path).read_text()
+    values[key] = (ROOT/path).read_text(encoding='utf-8')
 for key, path in [
     ('GEOMETRY_GZIP', 'geometry/mesh.bin.gz'), ('ENV_GZIP', 'studio/environment.bin.gz'),
     ('PROBE_GZIP', 'studio/probes.bin.gz'), ('IRR_GZIP', 'studio/irradiance.bin.gz'),

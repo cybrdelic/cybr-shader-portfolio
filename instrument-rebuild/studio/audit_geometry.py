@@ -1,8 +1,9 @@
 """Audit source-derived geometry and bake provenance before distributing HTML."""
 from pathlib import Path
-import struct,json,hashlib,numpy as np
+import struct,json,hashlib,gzip,numpy as np
 R=Path(__file__).resolve().parent.parent
-raw=(R/'geometry/mesh.bin').read_bytes();magic,nv,ni,stride=struct.unpack('<4sIII',raw[:16])
+raw_path=R/'geometry/mesh.bin'
+raw=raw_path.read_bytes() if raw_path.exists() else gzip.decompress((R/'geometry/mesh.bin.gz').read_bytes());magic,nv,ni,stride=struct.unpack('<4sIII',raw[:16])
 dt=np.dtype([('p','<f4',(3,)),('n','<i2',(3,)),('m','u1',(4,)),('pad','u1',(2,)),('uv','<i2',(2,))])
 v=np.frombuffer(raw,dt,nv,16);f=np.frombuffer(raw,'<u4',ni,16+nv*stride).reshape(-1,3)
 meta=json.loads((R/'geometry/packed.json').read_text());checks=[]

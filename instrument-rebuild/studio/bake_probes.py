@@ -1,3 +1,4 @@
+from browser_runtime import start_display, launch_browser
 """Offline capture and GGX integration of scene-local reflection probes.
 The normal browser renderer only samples this cached lighting data. It does not
 capture cubemaps or perform a full scene trace per frame. No external assets.
@@ -15,11 +16,11 @@ exec((R/'studio/optical_environment.py').read_text().split("if __name__=='__main
 env,directions,unit,radical=[ns[k] for k in ['env','directions','unit','radical']]
 
 def capture():
- x=subprocess.Popen(['Xvfb',':153','-screen','0','800x800x24','-nolisten','tcp'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.environ['DISPLAY']=':153';time.sleep(.2)
+ x=start_display()
  cubes=[]
  try:
   with sync_playwright() as pw:
-   browser=pw.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--use-gl=angle','--use-angle=gl','--ignore-gpu-blocklist'])
+   browser=launch_browser(pw)
    page=browser.new_page(viewport={'width':S,'height':S},device_scale_factor=1,reduced_motion='reduce')
    load_html(page,R/'dist/index.html')
    page.wait_for_function('window.CYBR && (CYBR.report.frame>0 || CYBR.report.error)',timeout=120000)

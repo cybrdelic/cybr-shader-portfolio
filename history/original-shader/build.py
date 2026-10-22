@@ -14,13 +14,13 @@ def build():
         path = ROOT / 'src' / name
         if not path.is_file():
             raise SystemExit(f'Missing source module: {name}')
-        pieces.append(f'\n// ---------------- {name} ----------------\n' + path.read_text().rstrip() + '\n')
+        pieces.append(f'\n// ---------------- {name} ----------------\n' + path.read_text(encoding='utf-8').rstrip() + '\n')
     shader = '\n'.join(pieces).lstrip()
     if re.search(r'\bsampler(?:2D|Cube|3D)\b', shader):
         raise SystemExit('A texture sampler unexpectedly entered the asset-free source.')
     if '__FRAGMENT_SOURCE__' in shader:
         raise SystemExit('Unresolved fragment marker in shader.')
-    template = (ROOT / 'host.html').read_text()
+    template = (ROOT / 'host.html').read_text(encoding='utf-8')
     if template.count('__FRAGMENT_SOURCE__') != 1:
         raise SystemExit('The host must contain exactly one fragment source marker.')
     # Host embeds a String.raw template. Escape only syntax that could terminate it.

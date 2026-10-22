@@ -106,7 +106,15 @@ def restore():
                     raise ValueError('Restored cache integrity failure: ' + str(target.relative_to(ROOT)))
             # Linking is atomic and never replaces an existing destination.
             try:
-                os.link(temporary, target)
+                try:
+                    os.link(temporary, target)
+                except OSError as error:
+                    if os.name != 'nt' or getattr(error, 'winerror', None) not in (1, 50):
+                        raise
+                    # Windows rename is atomic and refuses an existing target,
+                    # including a concurrent publisher. POSIX rename is not a
+                    # fallback because it could replace caller-owned data.
+                    os.rename(temporary, target)
                 restored += 1
             except FileExistsError:
                 if target.is_symlink() or not target.is_file() or signature(target) != wanted:
