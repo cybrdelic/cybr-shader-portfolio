@@ -1,0 +1,34 @@
+{
+  "shader-portability-unit": {
+    "exit_code": 0,
+    "duration_seconds": 18.062
+  },
+  "shader-restore-fixed": {
+    "exit_code": 0,
+    "duration_seconds": 22.562
+  },
+  "shader-build-final": {
+    "exit_code": 0,
+    "duration_seconds": 23.266
+  },
+  "shader-geometry-audit": {
+    "exit_code": 0,
+    "duration_seconds": 28.984
+  },
+  "shader-native-build-fixed": {
+    "exit_code": 0,
+    "duration_seconds": 21.703
+  },
+  "shader-ctest-final": {
+    "exit_code": 0,
+    "duration_seconds": 12.531
+  },
+  "shader-browser-final-fixed": {
+    "exit_code": 0,
+    "duration_seconds": 159.719
+  },
+  "media_sha256": {
+    "desktop.png": "78935c22ffa34488fce3a218751702aa3ed76b1ed4cbed983a5039e04949e2be",
+    "touch-layout.png": "e5fcb71340135bb1b2ffc2f6b17794dd8f6ef951681e7b1ff08b0c63af2efc0a"
+  }
+}

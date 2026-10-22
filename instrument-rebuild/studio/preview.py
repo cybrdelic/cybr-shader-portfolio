@@ -1,13 +1,14 @@
+from browser_runtime import start_display, launch_browser
 """Capture the actual WebGL canvas for visual review; no image substitutions."""
 from pathlib import Path
 import os,subprocess,time,json,base64,sys
 from playwright.sync_api import sync_playwright
 from browser_loading import load_html
 R=Path(__file__).resolve().parent.parent;O=R/'verification';O.mkdir(exist_ok=True)
-x=subprocess.Popen(['Xvfb',':161','-screen','0','1920x1440x24','-nolisten','tcp'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.environ['DISPLAY']=':161';time.sleep(.4)
+x=start_display()
 try:
  with sync_playwright() as pw:
-  b=pw.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--use-gl=angle','--use-angle=gl','--ignore-gpu-blocklist'])
+  b=launch_browser(pw)
   p=b.new_page(viewport={'width':1280,'height':800},device_scale_factor=1,reduced_motion='reduce')
   p.on('pageerror',lambda e:print('PAGE ERROR',e,flush=True));p.on('console',lambda e:print('CONSOLE',e.type,e.text[:350],flush=True) if e.type=='error' else None)
   p.set_default_timeout(180000);load_html(p,R/'dist/index.html')

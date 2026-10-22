@@ -1,3 +1,4 @@
+from browser_runtime import start_display, launch_browser
 """Matched actual browser captures; dimensions/camera/time recorded, no post-shading."""
 from pathlib import Path
 import os,time,subprocess,json,base64,sys,hashlib
@@ -8,11 +9,11 @@ kind=sys.argv[1] if len(sys.argv)>1 else 'new'
 source=R/'dist/index.html' if kind=='new' else Path('/mnt/data/CYBR-Portfolio-Asset-Rebuild.html')
 out=R/'verification'/('full-resolution' if kind=='new' else 'matched-before');out.mkdir(exist_ok=True)
 chapters=list(range(8)) if kind=='new' else [0,2,3,4,5,6]
-x=subprocess.Popen(['Xvfb',':165','-screen','0','2600x1700x24','-nolisten','tcp'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.environ['DISPLAY']=':165';time.sleep(.3)
+x=start_display()
 errors=[];meta=[]
 try:
  with sync_playwright() as pw:
-  b=pw.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--use-gl=angle','--use-angle=gl','--ignore-gpu-blocklist'])
+  b=launch_browser(pw)
   p=b.new_page(viewport={'width':2560,'height':1600},device_scale_factor=1,reduced_motion='reduce');p.set_default_timeout(180000)
   p.on('pageerror',lambda e:errors.append(str(e)));load_html(p,source)
   p.wait_for_function('window.CYBR&&(CYBR.report.frame>0||CYBR.report.error)',timeout=180000);assert p.evaluate('CYBR.report.ready'),p.evaluate('CYBR.report')

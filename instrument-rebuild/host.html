@@ -13,6 +13,10 @@
 #render-quality button{min-height:44px;padding:8px 12px;background:none;border:0;color:#bbc3c0;font-size:12px;touch-action:manipulation}
 #render-quality button[aria-pressed=true]{color:#eed1a2;background:#ffffff10}
 #sample-count{position:fixed;left:16px;bottom:calc(132px + env(safe-area-inset-bottom,0px));font:10px/1.4 system-ui;color:#b8c0bc;background:#11191dcc;padding:3px 5px;z-index:16;pointer-events:none;max-width:55vw}
+@media(max-width:600px) and (min-height:600px){
+ #visible-diagnostics,#render-quality{top:calc(94px + env(safe-area-inset-top,0px));bottom:auto}
+ #sample-count{top:calc(142px + env(safe-area-inset-top,0px));bottom:auto;max-width:calc(100vw - 32px)}
+}
 </style></head><body>
 <canvas id="portfolio" tabindex="0" aria-label="Interactive CYBR portfolio. Swipe or scroll through eight chapters. Drag horizontally to orbit. Arrow keys select chapters."></canvas>
 <section id="status" aria-live="polite"><h1>CYBR / INSTRUMENTS</h1><h2 id="status-message">Loading the instrument.</h2><p id="status-note">Native-resolution live rendering. Drag or scroll to navigate. Path tracing and its large memory allocations are not included in this asset rebuild.</p><div id="progress"><span></span></div><pre id="status-detail" hidden></pre><button id="retry" hidden>Retry</button></section>

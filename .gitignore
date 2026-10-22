@@ -35,3 +35,6 @@ instrument-rebuild/studio/bake_irradiance
 # Reference material retained locally, not in this publication allowlist.
 /instrument-rebuild/reference/ARX-6.glsl
 /instrument-rebuild/reference/ARX-6-reference.webp
+
+output/
+__pycache__/

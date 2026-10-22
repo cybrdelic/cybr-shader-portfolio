@@ -1,3 +1,4 @@
+from browser_runtime import start_display, launch_browser
 """Render two high-detail scene-local optics caches from generated geometry.
 RGBM stores linear radiance in RGBA8, avoiding an expanded floating-point cache.
 These are offline renders, not photographs or externally sourced assets.
@@ -10,11 +11,11 @@ from browser_loading import load_html
 R=Path(__file__).resolve().parent.parent;N=512
 ns={'__file__':str(R/'studio/optical_environment.py')}
 exec((R/'studio/optical_environment.py').read_text().split("if __name__=='__main__':")[0],ns)
-x=subprocess.Popen(['Xvfb',':163','-screen','0','1000x1000x24','-nolisten','tcp'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.environ['DISPLAY']=':163';time.sleep(.3)
+x=start_display()
 faces=[]
 try:
  with sync_playwright() as pw:
-  b=pw.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--use-gl=angle','--use-angle=gl','--ignore-gpu-blocklist'])
+  b=launch_browser(pw)
   p=b.new_page(viewport={'width':N,'height':N},reduced_motion='reduce');p.set_default_timeout(180000);load_html(p,R/'dist/index.html')
   p.wait_for_function('window.CYBR&&(CYBR.report.frame>0||CYBR.report.error)',timeout=180000);assert p.evaluate('CYBR.report.ready'),p.evaluate('CYBR.report')
   p.evaluate('CYBR.pause()')
